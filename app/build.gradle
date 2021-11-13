@@ -1,8 +1,6 @@
-apply plugin: "com.android.application"
-apply from: rootProject.file("gradle/scripts/module-template.gradle")
+apply from: rootProject.file("gradle/scripts/application.gradle")
 
-android {
-    defaultConfig {
-        applicationId "com.gadget"
-    }
+dependencies {
+    implementation project(":module-base")
+    implementation project(":module-base:module-base-core")
 }

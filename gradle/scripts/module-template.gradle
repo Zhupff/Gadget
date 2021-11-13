@@ -32,6 +32,7 @@ dependencies {
     implementation KOTLIN_STDLIB
     implementation MATERIAL
     implementation CONSTRAINT_LAYOUT
+    implementation VIEW_PAGER2
     implementation AUTO_SERVICE_ANNOTATION
     kapt AUTO_SERVICE
 }

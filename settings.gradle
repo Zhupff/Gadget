@@ -1,2 +1,4 @@
 rootProject.name = "Gadget"
 include ":app"
+include ":module-base", ":module-base:module-base-core"
+include ":lib-annotation", ":lib-annotation:lib-annotation-processor"

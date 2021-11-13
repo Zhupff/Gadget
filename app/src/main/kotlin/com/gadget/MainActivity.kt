@@ -1,11 +1,15 @@
 package com.gadget
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import com.gadget.databinding.MainActivityBinding
+import com.gadget.modulebase.activity.SimpleActivity
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : SimpleActivity<MainActivityBinding>() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.main_activity)
+        binding
     }
+
+    override fun getLayoutRes(): Int = R.layout.main_activity
 }
