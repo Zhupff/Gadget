@@ -5,7 +5,8 @@
     <application
         android:label="@string/app_name"
         android:icon="@drawable/logo"
-        android:theme="@style/Theme.AppCompat.NoActionBar">
+        android:theme="@style/BaseTheme"
+        android:name=".modulebase.application.GadgetApplication">
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

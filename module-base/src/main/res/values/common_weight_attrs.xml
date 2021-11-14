@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="allCornerRadius" format="dimension"/>
+    <attr name="tlCornerRadius" format="dimension"/>
+    <attr name="trCornerRadius" format="dimension"/>
+    <attr name="blCornerRadius" format="dimension"/>
+    <attr name="brCornerRadius" format="dimension"/>
+    <attr name="fitStatusBar" format="boolean"/>
+    <attr name="fitNavigationBar" format="boolean"/>
+
+    <declare-styleable name="CommonView">
+        <attr name="allCornerRadius"/>
+        <attr name="tlCornerRadius"/>
+        <attr name="trCornerRadius"/>
+        <attr name="brCornerRadius"/>
+        <attr name="blCornerRadius"/>
+    </declare-styleable>
+
+    <declare-styleable name="CommonConstraintLayout">
+        <attr name="allCornerRadius"/>
+        <attr name="tlCornerRadius"/>
+        <attr name="trCornerRadius"/>
+        <attr name="brCornerRadius"/>
+        <attr name="blCornerRadius"/>
+        <attr name="fitStatusBar"/>
+        <attr name="fitNavigationBar"/>
+    </declare-styleable>
+
+    <declare-styleable name="CommonFrameLayout">
+        <attr name="allCornerRadius"/>
+        <attr name="tlCornerRadius"/>
+        <attr name="trCornerRadius"/>
+        <attr name="brCornerRadius"/>
+        <attr name="blCornerRadius"/>
+        <attr name="fitStatusBar"/>
+        <attr name="fitNavigationBar"/>
+    </declare-styleable>
+
+    <declare-styleable name="CommonLinearLayout">
+        <attr name="allCornerRadius"/>
+        <attr name="tlCornerRadius"/>
+        <attr name="trCornerRadius"/>
+        <attr name="brCornerRadius"/>
+        <attr name="blCornerRadius"/>
+        <attr name="fitStatusBar"/>
+        <attr name="fitNavigationBar"/>
+    </declare-styleable>
+
+    <declare-styleable name="CommonRelativeLayout">
+        <attr name="allCornerRadius"/>
+        <attr name="tlCornerRadius"/>
+        <attr name="trCornerRadius"/>
+        <attr name="brCornerRadius"/>
+        <attr name="blCornerRadius"/>
+        <attr name="fitStatusBar"/>
+        <attr name="fitNavigationBar"/>
+    </declare-styleable>
+
+    <declare-styleable name="CommonTextView">
+        <attr name="allCornerRadius"/>
+        <attr name="tlCornerRadius"/>
+        <attr name="trCornerRadius"/>
+        <attr name="brCornerRadius"/>
+        <attr name="blCornerRadius"/>
+    </declare-styleable>
+
+    <declare-styleable name="CommonImageView">
+        <attr name="allCornerRadius"/>
+        <attr name="tlCornerRadius"/>
+        <attr name="trCornerRadius"/>
+        <attr name="brCornerRadius"/>
+        <attr name="blCornerRadius"/>
+    </declare-styleable>
+</resources>
