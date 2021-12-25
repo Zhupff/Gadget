@@ -1,9 +1,0 @@
-apply plugin: "kotlin"
-
-dependencies {
-    implementation KOTLIN_STDLIB
-    implementation AUTO_SERVICE_ANNOTATION
-}
-
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8

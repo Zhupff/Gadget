@@ -16,9 +16,8 @@ android {
     }
 
     sourceSets {
-        main.java.srcDirs += "src/main/kotlin"
-        debug.java.srcDirs += "src/debug/kotlin"
-        release.java.srcDirs += "src/release/kotlin"
+        debug.java.srcDirs += "src/debug/java"
+        release.java.srcDirs += "src/release/java"
     }
 
     buildFeatures {
