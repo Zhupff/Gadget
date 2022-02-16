@@ -13,4 +13,6 @@ interface ApplicationApi {
     fun setApplication(application: Application)
 
     fun getApplication(): Application
+
+    fun getPackageName(): String
 }

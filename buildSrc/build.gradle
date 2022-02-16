@@ -1,0 +1,35 @@
+apply plugin: "java-library"
+apply plugin: "groovy"
+apply plugin: "kotlin"
+
+buildscript {
+    ext.gradleProperties = new Properties()
+    gradleProperties.load(file("../gradle.properties").newDataInputStream())
+
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath gradleProperties["BUILD_GRADLE"]
+        classpath gradleProperties["KOTLIN_GRADLE"]
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+dependencies {
+    implementation gradleApi()
+    implementation gradleProperties["BUILD_GRADLE"]
+    implementation gradleProperties["KOTLIN_GRADLE"]
+    implementation gradleProperties["KOTLIN_STDLIB"]
+    implementation gradleProperties["KOTLIN_POET"]
+}
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8

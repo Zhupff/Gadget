@@ -18,4 +18,6 @@ class ApplicationApiImpl : ApplicationApi {
     }
 
     override fun getApplication(): Application = applicationRef.get()
+
+    override fun getPackageName(): String = getApplication().packageName
 }

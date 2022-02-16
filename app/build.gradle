@@ -4,3 +4,7 @@ dependencies {
     implementation project(":module-base")
     implementation project(":module-base:module-base-core")
 }
+
+skinresource.SR.compose {
+    register(0, "默认", "sr0_")
+}
