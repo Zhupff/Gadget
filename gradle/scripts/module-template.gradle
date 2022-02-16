@@ -6,8 +6,8 @@ android {
     buildToolsVersion "30.0.0"
 
     defaultConfig {
-        minSdkVersion 22
-        targetSdkVersion 27
+        minSdkVersion 24
+        targetSdkVersion 30
     }
 
     compileOptions {
@@ -22,6 +22,16 @@ android {
 
     buildFeatures {
         dataBinding true
+        compose true
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    composeOptions {
+        kotlinCompilerVersion "1.5.10"
+        kotlinCompilerExtensionVersion "1.0.0"
     }
 }
 
@@ -32,6 +42,16 @@ dependencies {
     implementation MATERIAL
     implementation CONSTRAINT_LAYOUT
     implementation VIEW_PAGER2
+    implementation COMPOSE_UI
+    implementation COMPOSE_UI_TOOLING
+    implementation COMPOSE_FOUNDATION
+    implementation COMPOSE_MATERIAL
+    implementation COMPOSE_MATERIAL_ICON_CORE
+    implementation COMPOSE_MATERIAL_ICON_EXTEND
+    implementation COMPOSE_ACTIVITY
+    implementation COMPOSE_VIEW_MODEL
+    implementation COMPOSE_LIVE_DATA
+    implementation COMPOSE_ANIMATION
     implementation AUTO_SERVICE_ANNOTATION
     kapt AUTO_SERVICE
 }

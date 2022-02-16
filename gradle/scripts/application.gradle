@@ -3,7 +3,7 @@ apply from: rootProject.file("gradle/scripts/module-template.gradle")
 
 android {
     defaultConfig {
-        applicationId "com.gadget"
+        applicationId "the.gadget"
         versionCode 1
         versionName "1.0"
     }

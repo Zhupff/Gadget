@@ -10,22 +10,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <the.gadget.modulebase.weight.common.CommonFrameLayout
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:background="#0F0"
-            app:allCornerRadius="40dp">
-            <the.gadget.modulebase.weight.common.CommonTextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#00F"
-                android:text="TextView"
-                app:allCornerRadius="45dp"/>
-        </the.gadget.modulebase.weight.common.CommonFrameLayout>
+            android:src="@drawable/logo"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

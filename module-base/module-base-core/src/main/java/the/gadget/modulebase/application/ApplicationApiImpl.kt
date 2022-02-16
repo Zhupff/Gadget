@@ -2,24 +2,20 @@ package the.gadget.modulebase.application
 
 import android.app.Application
 import com.google.auto.service.AutoService
-import java.util.concurrent.atomic.AtomicBoolean
+import java.util.concurrent.atomic.AtomicReference
 
 @AutoService(ApplicationApi::class)
 class ApplicationApiImpl : ApplicationApi {
 
-    private lateinit var application: Application
-
-    private val hasSetApplication = AtomicBoolean(false)
+    private val applicationRef: AtomicReference<Application> = AtomicReference()
 
     override fun setApplication(application: Application) {
-        if (hasSetApplication.compareAndSet(false, true)) {
-            this.application = application
+        if (applicationRef.get() == null) {
+            applicationRef.set(application)
         } else {
-            throw IllegalStateException("Already has set application")
+            throw IllegalStateException("Already has set application!")
         }
     }
 
-    override fun getApplication(): Application = this.application
+    override fun getApplication(): Application = applicationRef.get()
 }
-
-val APP: ApplicationApiImpl by lazy { ApplicationApi.instance as ApplicationApiImpl }
