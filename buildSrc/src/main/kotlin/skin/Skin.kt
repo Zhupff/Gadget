@@ -1,8 +1,8 @@
-package skinresource
+package skin
 
 import groovy.lang.Closure
 
-object SR {
+object Skin {
 
     private val composeDelegate = Compose()
 

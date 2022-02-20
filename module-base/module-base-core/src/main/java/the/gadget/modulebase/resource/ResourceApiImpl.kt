@@ -4,6 +4,9 @@ import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import android.util.DisplayMetrics
 import android.util.TypedValue
+import androidx.annotation.ColorRes
+import androidx.annotation.DimenRes
+import androidx.annotation.DrawableRes
 import com.google.auto.service.AutoService
 import the.gadget.modulebase.application.ApplicationApi
 
@@ -14,11 +17,11 @@ class ResourceApiImpl : ResourceApi {
 
     override fun getDisplayMetrics(): DisplayMetrics = getResources().displayMetrics
 
-    override fun getColorInt(res: Int): Int = getResources().getColor(res)
+    override fun getColorInt(@ColorRes id: Int): Int = getResources().getColor(id)
 
-    override fun getDrawable(res: Int): Drawable = getResources().getDrawable(res)
+    override fun getDrawable(@DrawableRes id: Int): Drawable = getResources().getDrawable(id)
 
-    override fun getDimension(res: Int): Float = getResources().getDimension(res)
+    override fun getDimension(@DimenRes id: Int): Float = getResources().getDimension(id)
 
     override fun dp2px(dp: Float): Float = getDisplayMetrics().density * dp
 

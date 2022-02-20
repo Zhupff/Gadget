@@ -1,4 +1,4 @@
-package skinresource
+package skin
 
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.LibraryExtension
@@ -19,7 +19,7 @@ import java.lang.RuntimeException
 import java.util.concurrent.atomic.AtomicBoolean
 import javax.lang.model.element.Modifier
 
-class SRPlugin : Plugin<Project> {
+class SkinPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         println("${javaClass.simpleName}(${hashCode()}) apply on ${project}!")
         when {
@@ -41,7 +41,7 @@ class SRPlugin : Plugin<Project> {
 
     private fun registerGenerateTask(project: Project, variants: DomainObjectSet<out BaseVariant>) {
         variants.all { variant ->
-            val outputDir = project.buildDir.resolve("generated/source/sres/${variant.dirName}")
+            val outputDir = project.buildDir.resolve("generated/source/skin/${variant.dirName}")
             val packageName = XmlSlurper(false, false)
                 .parse(variant.sourceSets.map { it.manifestFile }.first())
                 .getProperty("@package")
@@ -90,8 +90,8 @@ open class GenerateTask : DefaultTask() {
 
     @TaskAction
     fun action() {
-        val defaultSkinInfo = SR.allSkinInfo.firstOrNull() ?: return
-        val allSkinPrefix = SR.allSkinInfo.map { it.prefix }
+        val defaultSkinInfo = Skin.allSkinInfo.firstOrNull() ?: return
+        val allSkinPrefix = Skin.allSkinInfo.map { it.prefix }
         val valueMap = mutableMapOf<String, MutableList<Array<String>>>()
         resFile!!.singleFile.forEachLine { line ->
             val values = line.split(' ')
@@ -109,7 +109,7 @@ open class GenerateTask : DefaultTask() {
         }
         if (isAppModule == true) {
             valueMap.forEach { (prefix, values) ->
-                SIGenerator(packageName!!, SR.allSkinInfo.find { it.prefix == prefix }!!, values)
+                SIGenerator(packageName!!, Skin.allSkinInfo.find { it.prefix == prefix }!!, values)
                     .build().writeTo(outputDir)
             }
         }
@@ -118,7 +118,7 @@ open class GenerateTask : DefaultTask() {
 
 class SRGenerator(
     private val packageName: String,
-    private val defaultInfo: SR.SkinInfo,
+    private val defaultInfo: Skin.SkinInfo,
     private val values: List<Array<String>>
 ) {
 
@@ -172,7 +172,7 @@ class SRGenerator(
 
 class SIGenerator(
     private val packageName: String,
-    private val info: SR.SkinInfo,
+    private val info: Skin.SkinInfo,
     private val values: List<Array<String>>
 ) {
 
@@ -211,8 +211,8 @@ class SIGenerator(
 
 private val SUPPORTED_TYPES = setOf("anim", "array", "attr", "bool", "color", "dimen",
     "drawable", "id", "integer", "layout", "menu", "plurals", "string", "style", "styleable")
-private val SKIN_RESOURCE: ClassName; get() = ClassName.get("the.gadget.modulebase.skinresource", "SkinResource")
-private val SKIN_INFO: ClassName; get() = ClassName.get("the.gadget.modulebase.skinresource", "SkinInfo")
+private val SKIN_RESOURCE: ClassName; get() = ClassName.get("the.gadget.modulebase.skin", "SkinResource")
+private val SKIN_INFO: ClassName; get() = ClassName.get("the.gadget.modulebase.skin", "SkinInfo")
 private val BASE_OBSERVABLE: ClassName; get() = ClassName.get("androidx.databinding", "BaseObservable")
 private val AUTO_SERVICE: ClassName; get() = ClassName.get("com.google.auto.service", "AutoService")
 

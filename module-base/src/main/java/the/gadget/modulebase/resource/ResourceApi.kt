@@ -22,11 +22,11 @@ interface ResourceApi {
     fun getDisplayMetrics(): DisplayMetrics
 
     @ColorInt
-    fun getColorInt(@ColorRes res: Int): Int
+    fun getColorInt(@ColorRes id: Int): Int
 
-    fun getDrawable(@DrawableRes res: Int): Drawable
+    fun getDrawable(@DrawableRes id: Int): Drawable
 
-    fun getDimension(@DimenRes res: Int): Float
+    fun getDimension(@DimenRes id: Int): Float
 
     fun dp2px(dp: Float): Float
 

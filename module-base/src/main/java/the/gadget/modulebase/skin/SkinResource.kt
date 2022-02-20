@@ -1,4 +1,4 @@
-package the.gadget.modulebase.skinresource
+package the.gadget.modulebase.skin
 
 abstract class SkinResource {
     open fun notifyChange() {}

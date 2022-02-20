@@ -1,4 +1,4 @@
-package the.gadget.modulebase.skinresource
+package the.gadget.modulebase.skin
 
 import android.content.res.AssetManager
 import android.content.res.Resources

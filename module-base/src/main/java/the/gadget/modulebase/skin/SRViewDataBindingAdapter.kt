@@ -1,4 +1,4 @@
-package the.gadget.modulebase.skinresource
+package the.gadget.modulebase.skin
 
 import android.view.View
 import android.widget.ImageView

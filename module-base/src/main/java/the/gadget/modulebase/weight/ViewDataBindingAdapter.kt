@@ -9,8 +9,8 @@ object ViewDataBindingAdapter {
 
     @JvmStatic
     @BindingAdapter("drawableRes")
-    fun drawableRes(view: ImageView, @DrawableRes res: Int) {
-        view.setImageResource(res)
+    fun drawableRes(view: ImageView, @DrawableRes id: Int) {
+        view.setImageResource(id)
     }
 
     @JvmStatic
