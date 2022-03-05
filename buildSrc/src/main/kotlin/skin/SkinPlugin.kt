@@ -181,11 +181,11 @@ class SIGenerator(
         values.forEach { (type, name, value) ->
             typeFields.getOrPut(type) { mutableListOf() }.add(Pair(name, value))
         }
-        val typeSpec = TypeSpec.classBuilder("${info.prefix.toUpperCase()}SI")
+        val typeSpec = TypeSpec.classBuilder("${info.prefix.toUpperCase()}SP")
             .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
-            .superclass(SKIN_INFO)
+            .superclass(SKIN_PACKAGE)
             .addAnnotation(AnnotationSpec.builder(AUTO_SERVICE)
-                .addMember("value", "\$T.class", SKIN_INFO)
+                .addMember("value", "\$T.class", SKIN_PACKAGE)
                 .build())
             .addMethod(MethodSpec.methodBuilder("initInfo")
                 .addAnnotation(Override::class.java)
@@ -212,7 +212,7 @@ class SIGenerator(
 private val SUPPORTED_TYPES = setOf("anim", "array", "attr", "bool", "color", "dimen",
     "drawable", "id", "integer", "layout", "menu", "plurals", "string", "style", "styleable")
 private val SKIN_RESOURCE: ClassName; get() = ClassName.get("the.gadget.modulebase.skin", "SkinResource")
-private val SKIN_INFO: ClassName; get() = ClassName.get("the.gadget.modulebase.skin", "SkinInfo")
+private val SKIN_PACKAGE: ClassName; get() = ClassName.get("the.gadget.modulebase.skin", "SkinPackage")
 private val BASE_OBSERVABLE: ClassName; get() = ClassName.get("androidx.databinding", "BaseObservable")
 private val AUTO_SERVICE: ClassName; get() = ClassName.get("com.google.auto.service", "AutoService")
 

@@ -15,5 +15,6 @@ dependencies {
 }
 
 skin.Skin.compose {
-    register(0, "默认", "sr0_")
+    register(0, "sr0", "sr0_")
+    register(1, "sr1", "sr1_")
 }

@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="sr0_theme_color">#FFFFA000</color>
+    <color name="sr0_theme_color">#FF00A0FF</color>
+
+    <color name="sr0_background_color_l1">#FFFFFFFF</color>
+    <color name="sr0_background_color_l2">#FFF5F5F5</color>
+    <color name="sr0_background_color_l3">#FFCCCCCC</color>
+
+    <color name="sr0_text_color_l1">#FF000000</color>
+    <color name="sr0_text_color_l2">#FF555555</color>
+    <color name="sr0_text_color_l3">#FF888888</color>
+    <color name="sr0_text_color_l4">#FFAAAAAA</color>
 </resources>

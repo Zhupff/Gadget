@@ -6,9 +6,9 @@ import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.databinding.BindingAdapter
 
-object SRViewDataBindingAdapter {
+object SkinViewDataBindingAdapter {
 
-    private val api: SRApi; get() = SRApi.instance
+    private val api: SkinApi; get() = SkinApi.instance
 
     @JvmStatic
     @BindingAdapter("srBackgroundColor")

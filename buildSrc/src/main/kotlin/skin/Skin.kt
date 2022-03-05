@@ -6,7 +6,7 @@ object Skin {
 
     private val composeDelegate = Compose()
 
-    internal val allSkinInfo: List<SkinInfo>; get() = composeDelegate.allSResInfo
+    internal val allSkinInfo: List<SkinInfo>; get() = composeDelegate.allSkinInfo
 
     @JvmStatic
     fun compose(closure: Closure<*>) {
@@ -16,12 +16,12 @@ object Skin {
     data class SkinInfo(val id: Int, val name: String, val prefix: String)
 
     private class Compose {
-        val allSResInfo = mutableListOf<SkinInfo>()
+        val allSkinInfo = mutableListOf<SkinInfo>()
         fun register(id: Int, name: String, prefix: String) {
-            allSResInfo.add(SkinInfo(id, name, prefix))
+            allSkinInfo.add(SkinInfo(id, name, prefix))
         }
         fun delegate(closure: Closure<*>) {
-            allSResInfo.clear()
+            allSkinInfo.clear()
             closure.delegate = this
             closure.call()
         }

@@ -4,7 +4,7 @@ import android.util.Log
 import com.google.auto.service.AutoService
 
 @AutoService(LogcatApi::class)
-class LogcatImpl : LogcatApi {
+class LogcatApiImpl : LogcatApi {
 
     override fun v(tag: String, any: Any?) { log(Log.VERBOSE, tag, any.toString()) }
     override fun d(tag: String, any: Any?) { log(Log.DEBUG, tag, any.toString()) }

@@ -5,7 +5,7 @@ import android.content.res.Resources
 import org.json.JSONObject
 import the.gadget.modulebase.logcat.logW
 
-abstract class SkinInfo {
+abstract class SkinPackage {
 
     val id: Int by lazy { info.getInt("id") }
 
