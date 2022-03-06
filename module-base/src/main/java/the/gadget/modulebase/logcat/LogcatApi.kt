@@ -1,14 +1,12 @@
 package the.gadget.modulebase.logcat
 
 import android.util.Log
-import java.util.*
+import the.gadget.modulebase.api.apiInstance
 
 interface LogcatApi {
     companion object {
         @JvmStatic
-        val instance: LogcatApi by lazy {
-            ServiceLoader.load(LogcatApi::class.java).first()
-        }
+        val instance: LogcatApi by lazy { apiInstance(LogcatApi::class.java) }
     }
 
     fun v(tag: String, any: Any?)

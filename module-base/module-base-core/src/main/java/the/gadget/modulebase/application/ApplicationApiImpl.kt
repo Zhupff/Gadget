@@ -22,5 +22,7 @@ class ApplicationApiImpl : ApplicationApi {
 
     override fun getPackageName(): String = getApplication().packageName
 
+    override fun getClassLoader(): ClassLoader = getApplication().classLoader
+
     override fun isDebug(): Boolean = BuildConfig.DEBUG
 }

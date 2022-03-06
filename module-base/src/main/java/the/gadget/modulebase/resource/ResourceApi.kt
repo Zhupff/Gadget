@@ -7,14 +7,12 @@ import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
 import androidx.annotation.DrawableRes
-import java.util.*
+import the.gadget.modulebase.api.apiInstance
 
 interface ResourceApi {
     companion object {
         @JvmStatic
-        val instance: ResourceApi by lazy {
-            ServiceLoader.load(ResourceApi::class.java).first()
-        }
+        val instance: ResourceApi by lazy { apiInstance(ResourceApi::class.java) }
     }
 
     fun getResources(): Resources

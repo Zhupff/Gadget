@@ -16,5 +16,7 @@ interface ApplicationApi {
 
     fun getPackageName(): String
 
+    fun getClassLoader(): ClassLoader
+
     fun isDebug(): Boolean
 }

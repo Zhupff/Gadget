@@ -1,14 +1,12 @@
 package the.gadget.modulebase.weight
 
 import android.view.View
-import java.util.*
+import the.gadget.modulebase.api.apiInstance
 
 interface ViewApi {
     companion object {
         @JvmStatic
-        val instance: ViewApi by lazy {
-            ServiceLoader.load(ViewApi::class.java).first()
-        }
+        val instance: ViewApi by lazy { apiInstance(ViewApi::class.java) }
     }
 
     fun beVisibleOrGone(view: View?, bool: Boolean)

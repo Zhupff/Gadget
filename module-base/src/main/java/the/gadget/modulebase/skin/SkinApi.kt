@@ -5,14 +5,12 @@ import android.graphics.drawable.Drawable
 import androidx.annotation.MainThread
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.LiveData
-import java.util.*
+import the.gadget.modulebase.api.apiInstance
 
 interface SkinApi {
     companion object {
         @JvmStatic
-        val instance: SkinApi by lazy {
-            ServiceLoader.load(SkinApi::class.java).first()
-        }
+        val instance: SkinApi by lazy { apiInstance(SkinApi::class.java) }
     }
 
     fun getAllSkinPackage(): LiveData<List<SkinPackage>>

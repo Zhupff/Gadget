@@ -1,11 +1,9 @@
 package the.gadget.modulehome
 
-import java.util.*
+import the.gadget.modulebase.api.apiInstanceOrNull
 
 interface ModuleHomeApi {
     companion object {
-        val instance: ModuleHomeApi? by lazy {
-            ServiceLoader.load(ModuleHomeApi::class.java).firstOrNull()
-        }
+        val instance: ModuleHomeApi? by lazy { apiInstanceOrNull(ModuleHomeApi::class.java) }
     }
 }

@@ -1,11 +1,9 @@
 package the.gadget.moduleskin
 
-import java.util.*
+import the.gadget.modulebase.api.apiInstanceOrNull
 
 interface ModuleSkinApi {
     companion object {
-        val instance: ModuleSkinApi? by lazy {
-            ServiceLoader.load(ModuleSkinApi::class.java).firstOrNull()
-        }
+        val instance: ModuleSkinApi? by lazy { apiInstanceOrNull(ModuleSkinApi::class.java) }
     }
 }

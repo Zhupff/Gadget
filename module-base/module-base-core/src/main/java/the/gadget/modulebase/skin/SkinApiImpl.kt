@@ -32,8 +32,9 @@ class SkinApiImpl : SkinApi {
     private val packageName: String = ApplicationApi.instance.getPackageName()
 
     init {
-        ServiceLoader.load(SkinResource::class.java).let { allSkinResource.addAll(it) }
-        ServiceLoader.load(SkinPackage::class.java)
+        ServiceLoader.load(SkinResource::class.java, ApplicationApi.instance.getClassLoader())
+            .let { allSkinResource.addAll(it) }
+        ServiceLoader.load(SkinPackage::class.java, ApplicationApi.instance.getClassLoader())
             .sortedBy { it.id }
             .onEach { it.initResources(applicationResources, null) }
             .let {
