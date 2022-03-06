@@ -2,6 +2,7 @@ package the.gadget.modulebase.application
 
 import android.app.Application
 import com.google.auto.service.AutoService
+import the.gadget.modulebasecore.BuildConfig
 import java.util.concurrent.atomic.AtomicReference
 
 @AutoService(ApplicationApi::class)
@@ -20,4 +21,6 @@ class ApplicationApiImpl : ApplicationApi {
     override fun getApplication(): Application = applicationRef.get()
 
     override fun getPackageName(): String = getApplication().packageName
+
+    override fun isDebug(): Boolean = BuildConfig.DEBUG
 }

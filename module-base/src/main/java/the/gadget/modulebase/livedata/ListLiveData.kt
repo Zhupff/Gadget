@@ -8,29 +8,35 @@ abstract class ListLiveData<T> : LiveData<List<T>>() {
 
     protected open val data: MutableList<T> = mutableListOf()
 
+    fun size(): Int = data.size
+
     fun add(item: T) = apply { data.add(item) }
 
-    fun addAll(items: Collection<T>) = apply { data.addAll(items) }
+    fun addAll(allItem: Collection<T>) = apply { data.addAll(allItem) }
 
     fun remove(item: T) = apply { data.remove(item) }
 
     fun clear() = apply { data.clear() }
 
+    fun first(): T = data.first()
+
+    fun firstOrNull(): T? = data.firstOrNull()
+
+    fun last(): T = data.first()
+
+    fun lastOrNull(): T? = data.lastOrNull()
+
+    fun lastIndex(): Int = data.lastIndex
+
+    operator fun get(index: Int): T = data[index]
+
     override fun getValue(): MutableList<T> = data
-
-    fun setValue() {
-        setValue(data)
-    }
-
-    fun postValue() {
-        postValue(data)
-    }
 
     fun commit() {
         if (ThreadApi.instance.isOnMainThread()) {
-            setValue()
+            setValue(data)
         } else {
-            postValue()
+            postValue(data)
         }
     }
 }

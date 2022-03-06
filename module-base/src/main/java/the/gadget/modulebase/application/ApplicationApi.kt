@@ -15,4 +15,6 @@ interface ApplicationApi {
     fun getApplication(): Application
 
     fun getPackageName(): String
+
+    fun isDebug(): Boolean
 }

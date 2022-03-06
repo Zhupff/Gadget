@@ -3,12 +3,14 @@ package the.gadget
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import the.gadget.modulebase.activity.BaseActivity
+import the.gadget.modulebase.skin.SkinApi
 import the.gadget.modulebase.skin.srColor
+import the.gadget.modulebase.skin.srDrawablePainter
 
 class MainActivity : BaseActivity() {
 
@@ -20,8 +22,11 @@ class MainActivity : BaseActivity() {
                 modifier = Modifier.fillMaxSize()
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.logo),
-                    contentDescription = null
+                    painter = srDrawablePainter(id = R.drawable.logo),
+                    contentDescription = null,
+                    modifier = Modifier.clickable {
+                        SkinApi.instance.changeSkinRandomly()
+                    }
                 )
             }
         }

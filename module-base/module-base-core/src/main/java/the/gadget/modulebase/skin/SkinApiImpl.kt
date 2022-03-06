@@ -3,6 +3,7 @@ package the.gadget.modulebase.skin
 import android.content.res.ColorStateList
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
+import androidx.annotation.MainThread
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -51,6 +52,7 @@ class SkinApiImpl : SkinApi {
     @Composable
     override fun getSelectedStateSkinPackage(): SkinPackage = selectedStateSkinPackage.value
 
+    @MainThread
     override fun changeSkin(skinPackage: SkinPackage) {
         logD("changeSkin(${skinPackage})")
         if (selectedSkinPackage.get().id == skinPackage.id) return
@@ -58,6 +60,21 @@ class SkinApiImpl : SkinApi {
         selectedStateSkinPackage.value = selectedSkinPackage.get()
         allSkinResource.forEach { it.notifyChange() }
         allSkinPackage.commit()
+    }
+
+    @MainThread
+    override fun changeSkinRandomly() {
+        if (allSkinPackage.size() <= 1) {
+            logD("changeSkinRandomly failed cause there is only one skin-package.")
+        } else {
+            val skinPackage = allSkinPackage[(0 until allSkinPackage.size()).random()]
+            if (selectedSkinPackage.get().id == skinPackage.id) {
+                changeSkinRandomly()
+            } else {
+                logD("changeSkinRandomly(${skinPackage})")
+                changeSkin(skinPackage)
+            }
+        }
     }
 
     override fun loadSkinPackage(filePath: String, className: String): SkinPackage? {
