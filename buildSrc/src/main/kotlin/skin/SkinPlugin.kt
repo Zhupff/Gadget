@@ -7,6 +7,8 @@ import com.android.build.gradle.internal.res.GenerateLibraryRFileTask
 import com.android.build.gradle.internal.res.LinkApplicationAndroidResourcesTask
 import com.squareup.javapoet.*
 import groovy.xml.XmlSlurper
+import isApp
+import isLib
 import org.gradle.api.DefaultTask
 import org.gradle.api.DomainObjectSet
 import org.gradle.api.Plugin
@@ -41,7 +43,7 @@ class SkinPlugin : Plugin<Project> {
 
     private fun registerGenerateTask(project: Project, variants: DomainObjectSet<out BaseVariant>) {
         variants.all { variant ->
-            val outputDir = project.buildDir.resolve("generated/source/skin/${variant.dirName}")
+            val outputDir = project.buildDir.resolve("generated/source/gadget/${variant.dirName}")
             val packageName = XmlSlurper(false, false)
                 .parse(variant.sourceSets.map { it.manifestFile }.first())
                 .getProperty("@package")
@@ -57,7 +59,7 @@ class SkinPlugin : Plugin<Project> {
                             else -> throw RuntimeException()
                         }
                     ).builtBy(task)
-                    project.tasks.create("SRGenerateTask${variant.name.capitalize()}", GenerateTask::class.java) {
+                    project.tasks.create("SkinPluginGenerateTask${variant.name.capitalize()}", SkinPluginGenerateTask::class.java) {
                         it.outputDir = outputDir
                         it.resFile = file
                         it.packageName = packageName
@@ -73,7 +75,7 @@ class SkinPlugin : Plugin<Project> {
 
 
 @CacheableTask
-open class GenerateTask : DefaultTask() {
+open class SkinPluginGenerateTask : DefaultTask() {
 
     @get:OutputDirectory
     var outputDir: File? = null
@@ -216,8 +218,6 @@ private val SKIN_PACKAGE: ClassName; get() = ClassName.get("the.gadget.modulebas
 private val BASE_OBSERVABLE: ClassName; get() = ClassName.get("androidx.databinding", "BaseObservable")
 private val AUTO_SERVICE: ClassName; get() = ClassName.get("com.google.auto.service", "AutoService")
 
-private fun Project.isApp(): Boolean = plugins.hasPlugin("com.android.application")
-private fun Project.isLib(): Boolean = plugins.hasPlugin("com.android.library")
 private fun String.startsWithAny(prefixes: Collection<String>?): String? {
     prefixes?.forEach { if (startsWith(it)) return it }
     return null

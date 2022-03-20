@@ -1,5 +1,6 @@
 apply plugin: "kotlin-android"
 apply plugin: "kotlin-kapt"
+apply plugin: module.ModulePlugin
 
 android {
     compileSdkVersion 30
@@ -54,4 +55,7 @@ dependencies {
     implementation COMPOSE_ANIMATION
     implementation AUTO_SERVICE_ANNOTATION
     kapt AUTO_SERVICE
+
+    implementation project(":lib-annotation")
+    kapt project(":lib-annotation:lib-annotation-processor")
 }

@@ -1,0 +1,10 @@
+apply plugin: "kotlin"
+
+dependencies {
+    implementation KOTLIN_STDLIB
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
