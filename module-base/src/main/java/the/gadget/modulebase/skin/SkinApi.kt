@@ -26,7 +26,7 @@ interface SkinApi {
     @MainThread
     fun changeSkinRandomly()
 
-    fun loadSkinPackage(filePath: String, className: String): SkinPackage?
+    fun loadSkinPackage(filePath: String): SkinPackage?
 
     fun addSkinPackage(skinPackage: SkinPackage)
 

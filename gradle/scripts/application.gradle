@@ -1,12 +1,12 @@
 apply plugin: "com.android.application"
 apply from: rootProject.file("gradle/scripts/module-template.gradle")
-apply plugin: skin.SkinPlugin
+apply plugin: skin.SkinResourcePlugin
 
 android {
     defaultConfig {
-        applicationId "the.gadget"
-        versionCode 1
-        versionName "1.0"
+        applicationId APPLICATION_ID
+        versionCode APPLICATION_VERSION as int
+        versionName APPLICATION_VERSION
     }
 }
 

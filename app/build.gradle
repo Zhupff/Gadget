@@ -11,10 +11,4 @@ dependencies {
     // 接口实现模块按需依赖
     implementation project(":module-home:module-home-core")
     implementation project(":module-skin:module-skin-core")
-    implementation project(":module-skin:sr1")
-}
-
-skin.Skin.compose {
-    register(0, "sr0", "sr0_")
-    register(1, "sr1", "sr1_")
 }

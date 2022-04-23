@@ -1,47 +1,59 @@
 package skin
 
+import android.databinding.tool.ext.toCamelCase
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.api.BaseVariant
 import com.android.build.gradle.internal.res.GenerateLibraryRFileTask
 import com.android.build.gradle.internal.res.LinkApplicationAndroidResourcesTask
+import com.android.utils.FileUtils
 import com.squareup.javapoet.*
 import groovy.xml.XmlSlurper
 import isApp
 import isLib
+import logI
 import org.gradle.api.DefaultTask
 import org.gradle.api.DomainObjectSet
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.file.FileCollection
 import org.gradle.api.tasks.*
-import org.json.JSONObject
 import java.io.File
 import java.lang.RuntimeException
 import java.util.concurrent.atomic.AtomicBoolean
 import javax.lang.model.element.Modifier
 
-class SkinPlugin : Plugin<Project> {
+open class SkinPlugin : Plugin<Project> {
     override fun apply(project: Project) {
-        println("${javaClass.simpleName}(${hashCode()}) apply on ${project}!")
         when {
             project.isApp() -> {
                 project.extensions.getByType(AppExtension::class.java).let {
-                    registerGenerateTask(project, it.applicationVariants)
+                    registerTask(project, it.applicationVariants)
                 }
             }
             project.isLib() -> {
                 project.extensions.getByType(LibraryExtension::class.java).let {
-                    registerGenerateTask(project, it.libraryVariants)
+                    registerTask(project, it.libraryVariants)
                 }
-            }
-            else -> {
-                throw IllegalStateException("${javaClass.simpleName} can only apply on project with com.android.application or com.android.library!")
             }
         }
     }
 
-    private fun registerGenerateTask(project: Project, variants: DomainObjectSet<out BaseVariant>) {
+    open fun registerTask(project: Project, variants: DomainObjectSet<out BaseVariant>) {
+        logI("$project apply ${javaClass.simpleName}.")
+    }
+}
+
+class SkinResourcePlugin : SkinPlugin() {
+    override fun apply(project: Project) {
+        super.apply(project)
+        if (project.isApp()) {
+            project.extensions.getByType(AppExtension::class.java).sourceSets.getByName("main").assets.srcDir(project.buildDir.resolve(SKIN_ASSETS))
+        }
+    }
+
+    override fun registerTask(project: Project, variants: DomainObjectSet<out BaseVariant>) {
+        super.registerTask(project, variants)
         variants.all { variant ->
             val outputDir = project.buildDir.resolve("generated/source/gadget/${variant.dirName}")
             val packageName = XmlSlurper(false, false)
@@ -59,13 +71,14 @@ class SkinPlugin : Plugin<Project> {
                             else -> throw RuntimeException()
                         }
                     ).builtBy(task)
-                    project.tasks.create("SkinPluginGenerateTask${variant.name.capitalize()}", SkinPluginGenerateTask::class.java) {
+                    project.tasks.create("${SkinResourceTask::class.java.simpleName}${variant.name.toCamelCase()}", SkinResourceTask::class.java) {
                         it.outputDir = outputDir
-                        it.resFile = file
+                        it.rFile = file
                         it.packageName = packageName
-                        it.isAppModule = project.isApp()
-                    }.also {
-                        variant.registerJavaGeneratingTask(it, outputDir)
+                    }.also { variant.registerJavaGeneratingTask(it, outputDir) }
+                    if (project.isApp()) {
+                        project.tasks.create("${SkinPackageTask::class.java.simpleName}Anchor${variant.name.toCamelCase()}")
+                            .also { variant.preBuildProvider.get().dependsOn(it) }
                     }
                 }
             }
@@ -73,152 +86,134 @@ class SkinPlugin : Plugin<Project> {
     }
 }
 
+class SkinPackagePlugin : SkinPlugin() {
+    override fun registerTask(project: Project, variants: DomainObjectSet<out BaseVariant>) {
+        super.registerTask(project, variants)
+        variants.all { variant ->
+            val task = project.tasks.register("${SkinPackageTask::class.java.simpleName}${variant.name.toCamelCase()}", SkinPackageTask::class.java).get()
+            project.rootProject.project(":app").tasks.named("${SkinPackageTask::class.java.simpleName}Anchor${variant.name.toCamelCase()}") {
+                task.dependsOn("packageRelease")
+                it.dependsOn(task)
+            }
+        }
+    }
+}
 
 @CacheableTask
-open class SkinPluginGenerateTask : DefaultTask() {
-
-    @get:OutputDirectory
-    var outputDir: File? = null
+open class SkinResourceTask : DefaultTask() {
+    @get:Input
+    lateinit var packageName: String
 
     @get:InputFiles
     @get:PathSensitive(PathSensitivity.NONE)
-    var resFile: FileCollection? = null
+    lateinit var rFile: FileCollection
 
-    @get:Input
-    var packageName: String? = null
-
-    @get:Input
-    var isAppModule: Boolean? = null
+    @get:OutputDirectory
+    lateinit var outputDir: File
 
     @TaskAction
     fun action() {
-        val defaultSkinInfo = Skin.allSkinInfo.firstOrNull() ?: return
-        val allSkinPrefix = Skin.allSkinInfo.map { it.prefix }
-        val valueMap = mutableMapOf<String, MutableList<Array<String>>>()
-        resFile!!.singleFile.forEachLine { line ->
+        logI("~~~~~~~~~~~~~~~~ action start ~~~~~~~~~~~~~~~~")
+        val skinValues = mutableListOf<Pair<String, String>>()
+        rFile.singleFile.forEachLine { line ->
             val values = line.split(' ')
-            if (values.size == 4 && values[0] == "int" && values[1] in SUPPORTED_TYPES) {
-                val prefix = values[2].startsWithAny(allSkinPrefix)
-                if (!prefix.isNullOrEmpty()) {
-                    valueMap.getOrPut(prefix) { mutableListOf() }
-                        .add(arrayOf(values[1], values[2].removePrefix(prefix), values[3]))
-                }
+            if (values.size == 4 &&
+                values[0] == "int" &&
+                values[1] in SUPPORTED_TYPES &&
+                values[2].startsWith(SKIN_PREFIX)) {
+                skinValues.add(values[1] to values[2].removePrefix(SKIN_PREFIX))
             }
         }
-        if (valueMap.isNullOrEmpty()) return
-        if (!valueMap[defaultSkinInfo.prefix].isNullOrEmpty()) {
-            SRGenerator(packageName!!, defaultSkinInfo, valueMap[defaultSkinInfo.prefix]!!).build().writeTo(outputDir)
+        if (!skinValues.isNullOrEmpty()) {
+            SRBuilder(packageName, skinValues).build().writeTo(outputDir)
         }
-        if (isAppModule == true) {
-            valueMap.forEach { (prefix, values) ->
-                SIGenerator(packageName!!, Skin.allSkinInfo.find { it.prefix == prefix }!!, values)
-                    .build().writeTo(outputDir)
-            }
-        }
+        logI("~~~~~~~~~~~~~~~~ action over ~~~~~~~~~~~~~~~~")
     }
 }
 
-class SRGenerator(
-    private val packageName: String,
-    private val defaultInfo: Skin.SkinInfo,
-    private val values: List<Array<String>>
-) {
+@CacheableTask
+open class SkinPackageTask : DefaultTask() {
+    @get:InputDirectory
+    @get:PathSensitive(PathSensitivity.NONE)
+    val srcDir = project.projectDir.resolve("src")
 
+    @OutputFile
+    val outputFile = project.rootProject.project(":app").buildDir.resolve("${SKIN_ASSETS}/${project.name}.skin")
+
+    @TaskAction
+    fun action() {
+        logI("~~~~~~~~~~~~~~~~ action start ~~~~~~~~~~~~~~~~")
+        project.buildDir.resolve("outputs/apk/release").listFiles()
+            ?.find { it.name.endsWith(".apk") }
+            ?.let { FileUtils.copyFile(it, outputFile) }
+        logI("~~~~~~~~~~~~~~~~ action over ~~~~~~~~~~~~~~~~")
+    }
+}
+
+private class SRBuilder(
+    private val packageName: String,
+    private val skinValues: List<Pair<String, String>>
+) {
     fun build(): JavaFile {
-        val typeSpecs = mutableMapOf<String, TypeSpec.Builder>()
-        values.forEach { (type, name, _) ->
-            typeSpecs.getOrPut(type) {
-                TypeSpec.classBuilder(type.capitalize())
+        val types = mutableMapOf<String, TypeSpec.Builder>()
+        skinValues.forEach { (type, name) ->
+            types.getOrPut(type) {
+                TypeSpec.classBuilder(type.toCamelCase())
                     .superclass(BASE_OBSERVABLE)
                     .addModifiers(Modifier.PUBLIC, Modifier.STATIC, Modifier.FINAL)
-            }.addField(FieldSpec.builder(Int::class.javaPrimitiveType, name)
-                .addModifiers(Modifier.PUBLIC)
-                .initializer("R.${type}.${defaultInfo.prefix}${name}")
-                .build())
+            }.addField(
+                FieldSpec.builder(Int::class.javaPrimitiveType, name)
+                    .addModifiers(Modifier.PUBLIC)
+                    .initializer("R.${type}.${SKIN_PREFIX}${name}")
+                    .build()
+            )
         }
-
-        val typeSpec = TypeSpec.classBuilder("SR")
+        val SR = TypeSpec.classBuilder("SR")
             .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
             .superclass(SKIN_RESOURCE)
-            .addAnnotation(AnnotationSpec.builder(AUTO_SERVICE)
-                .addMember("value", "\$T.class", SKIN_RESOURCE)
-                .build())
+            .addAnnotation(
+                AnnotationSpec.builder(AUTO_SERVICE)
+                    .addMember("value", "\$T.class", SKIN_RESOURCE)
+                    .build()
+            )
             .also {
-                typeSpecs.forEach { (type, spec) ->
-                    val typeName = ClassName.get("", type.capitalize())
-                    it.addType(spec.build())
-                        .addField(FieldSpec.builder(typeName, type, Modifier.PUBLIC, Modifier.STATIC, Modifier.FINAL)
-                            .initializer("new ${typeName.simpleName()}()")
-                            .build())
-                        .addMethod(MethodSpec.methodBuilder("get${typeName.simpleName()}")
-                            .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
-                            .returns(typeName)
-                            .addStatement("return $type")
-                            .build())
+                types.forEach { (type, typeSpec) ->
+                    val typeName = ClassName.get("", type.toCamelCase())
+                    it.addType(typeSpec.build())
+                        .addField(
+                            FieldSpec.builder(typeName, type, Modifier.PUBLIC, Modifier.STATIC, Modifier.FINAL)
+                                .initializer("new ${typeName.simpleName()}()")
+                                .build()
+                        )
+                        .addMethod(
+                            MethodSpec.methodBuilder("get${typeName.simpleName()}")
+                                .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
+                                .returns(typeName)
+                                .addStatement("return $type")
+                                .build()
+                        )
                 }
             }
-            .addMethod(MethodSpec.methodBuilder("notifyChange")
-                .addAnnotation(Override::class.java)
-                .addModifiers(Modifier.PUBLIC)
-                .also {
-                    typeSpecs.forEach { (type, _) ->
-                        it.addStatement("${type}.notifyChange()")
+            .addMethod(
+                MethodSpec.methodBuilder("notifyChange")
+                    .addAnnotation(Override::class.java)
+                    .addModifiers(Modifier.PUBLIC)
+                    .also {
+                        types.forEach { (type, _) ->
+                            it.addStatement("${type}.notifyChange()")
+                        }
                     }
-                }
-                .build())
+                    .build()
+            )
             .build()
-
-        return JavaFile.builder(packageName, typeSpec).build()
+        return JavaFile.builder(packageName, SR).build()
     }
 }
 
-class SIGenerator(
-    private val packageName: String,
-    private val info: Skin.SkinInfo,
-    private val values: List<Array<String>>
-) {
-
-    fun build(): JavaFile {
-        val typeFields = mutableMapOf<String, MutableList<Pair<String, String>>>()
-        values.forEach { (type, name, value) ->
-            typeFields.getOrPut(type) { mutableListOf() }.add(Pair(name, value))
-        }
-        val typeSpec = TypeSpec.classBuilder("${info.prefix.toUpperCase()}SP")
-            .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
-            .superclass(SKIN_PACKAGE)
-            .addAnnotation(AnnotationSpec.builder(AUTO_SERVICE)
-                .addMember("value", "\$T.class", SKIN_PACKAGE)
-                .build())
-            .addMethod(MethodSpec.methodBuilder("initInfo")
-                .addAnnotation(Override::class.java)
-                .addModifiers(Modifier.PROTECTED)
-                .returns(JSONObject::class.java)
-                .addStatement("JSONObject json = new JSONObject()")
-                .beginControlFlow("try")
-                .addStatement("json.put(\"id\", ${info.id})")
-                .addStatement("json.put(\"name\", \"${info.name}\")")
-                .addStatement("json.put(\"prefix\", \"${info.prefix}\")")
-                .nextControlFlow("catch(\$T e)", Exception::class.java)
-                .addStatement("e.printStackTrace()")
-                .addStatement("return new JSONObject()")
-                .endControlFlow()
-                .addStatement("return json")
-                .build())
-            .build()
-        return JavaFile.builder(packageName, typeSpec).build()
-    }
-}
-
-
-
+private const val SKIN_ASSETS = "skin-assets"
+private const val SKIN_PREFIX = "skin_"
 private val SUPPORTED_TYPES = setOf("anim", "array", "attr", "bool", "color", "dimen",
     "drawable", "id", "integer", "layout", "menu", "plurals", "string", "style", "styleable")
 private val SKIN_RESOURCE: ClassName; get() = ClassName.get("the.gadget.modulebase.skin", "SkinResource")
-private val SKIN_PACKAGE: ClassName; get() = ClassName.get("the.gadget.modulebase.skin", "SkinPackage")
 private val BASE_OBSERVABLE: ClassName; get() = ClassName.get("androidx.databinding", "BaseObservable")
 private val AUTO_SERVICE: ClassName; get() = ClassName.get("com.google.auto.service", "AutoService")
-
-private fun String.startsWithAny(prefixes: Collection<String>?): String? {
-    prefixes?.forEach { if (startsWith(it)) return it }
-    return null
-}

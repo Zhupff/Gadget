@@ -11,6 +11,7 @@ import com.squareup.javapoet.TypeSpec
 import groovy.xml.XmlSlurper
 import isApp
 import isLib
+import logI
 import org.gradle.api.DefaultTask
 import org.gradle.api.DomainObjectSet
 import org.gradle.api.Plugin
@@ -24,7 +25,7 @@ import javax.lang.model.element.Modifier
 
 class ModulePlugin : Plugin<Project> {
     override fun apply(project: Project) {
-        println("${javaClass.simpleName}(${hashCode()}) apply on ${project}!")
+        logI("$project apply ${javaClass.simpleName}.")
         when {
             project.isApp() -> {
                 project.extensions.getByType(AppExtension::class.java).let {
@@ -49,7 +50,7 @@ class ModulePlugin : Plugin<Project> {
                 .parse(variant.sourceSets.map { it.manifestFile }.first())
                 .getProperty("@package")
                 .toString()
-            project.tasks.create("ModulePluginGenerateTask${variant.name.capitalize()}", ModulePluginGenerateTask::class.java) {
+            project.tasks.create("${ModulePluginGenerateTask::class.java.simpleName}${variant.name.toCamelCase()}", ModulePluginGenerateTask::class.java) {
                 it.outputDir = outputDir
                 it.packageName = packageName
                 it.moduleName = project.name

@@ -1,5 +1,6 @@
 package the.gadget.modulebase.skin
 
+import android.content.res.AssetManager
 import android.content.res.ColorStateList
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
@@ -9,13 +10,13 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import com.google.auto.service.AutoService
-import dalvik.system.DexClassLoader
 import the.gadget.modulebase.application.ApplicationApi
+import the.gadget.modulebase.common.FileApi
 import the.gadget.modulebase.livedata.ArrayListLiveData
-import the.gadget.modulebase.logcat.logD
+import the.gadget.modulebase.logcat.logE
+import the.gadget.modulebase.logcat.logI
 import the.gadget.modulebase.logcat.logW
 import the.gadget.modulebase.resource.ResourceApi
-import java.io.File
 import java.util.*
 import java.util.concurrent.atomic.AtomicReference
 
@@ -28,20 +29,23 @@ class SkinApiImpl : SkinApi {
     private val selectedSkinPackage: AtomicReference<SkinPackage>
     private val selectedStateSkinPackage: MutableState<SkinPackage>
 
-    private val applicationResources: Resources = ResourceApi.instance.getResources()
-    private val packageName: String = ApplicationApi.instance.getPackageName()
+    private val applicationResources: Resources by lazy { ResourceApi.instance.getResources() }
+    private val packageName: String by lazy { ApplicationApi.instance.getPackageName() }
 
     init {
         ServiceLoader.load(SkinResource::class.java, ApplicationApi.instance.getClassLoader())
             .let { allSkinResource.addAll(it) }
-        ServiceLoader.load(SkinPackage::class.java, ApplicationApi.instance.getClassLoader())
-            .sortedBy { it.id }
-            .onEach { it.initResources(applicationResources, null) }
-            .let {
-                defaultSkinPackage = it.first()
-                selectedSkinPackage = AtomicReference(defaultSkinPackage)
-                selectedStateSkinPackage = mutableStateOf(defaultSkinPackage)
-                allSkinPackage.addAll(it).commit()
+        defaultSkinPackage = SkinPackage(applicationResources)
+        selectedSkinPackage = AtomicReference(defaultSkinPackage)
+        selectedStateSkinPackage = mutableStateOf(defaultSkinPackage)
+        allSkinPackage.add(defaultSkinPackage).commit()
+        applicationResources.assets.list("")
+            ?.filter { it.endsWith(".skin") }
+            ?.forEach { assetName ->
+                val assetInputStream = applicationResources.assets.open(assetName)
+                val cacheFile = FileApi.CACHE_DIR.resolve(assetName)
+                FileApi.instance.copy(assetInputStream, cacheFile)
+                loadSkinPackage(cacheFile.path)?.let { addSkinPackage(it) }
             }
     }
 
@@ -55,7 +59,7 @@ class SkinApiImpl : SkinApi {
 
     @MainThread
     override fun changeSkin(skinPackage: SkinPackage) {
-        logD("changeSkin(${skinPackage})")
+        logI("changeSkin(${skinPackage})")
         if (selectedSkinPackage.get().id == skinPackage.id) return
         selectedSkinPackage.set(skinPackage)
         selectedStateSkinPackage.value = selectedSkinPackage.get()
@@ -66,34 +70,28 @@ class SkinApiImpl : SkinApi {
     @MainThread
     override fun changeSkinRandomly() {
         if (allSkinPackage.size() <= 1) {
-            logD("changeSkinRandomly failed cause there is only one skin-package.")
+            logI("changeSkinRandomly failed cause there is only one skin-package.")
         } else {
             val skinPackage = allSkinPackage[(0 until allSkinPackage.size()).random()]
             if (selectedSkinPackage.get().id == skinPackage.id) {
                 changeSkinRandomly()
             } else {
-                logD("changeSkinRandomly(${skinPackage})")
+                logI("changeSkinRandomly(${skinPackage})")
                 changeSkin(skinPackage)
             }
         }
     }
 
-    override fun loadSkinPackage(filePath: String, className: String): SkinPackage? {
+    override fun loadSkinPackage(filePath: String): SkinPackage? {
+        logI("loadSkinPackage(${filePath})")
         try {
-            val file = File(filePath)
-            if (file.exists()) {
-                val dexClassLoader = DexClassLoader(file.absolutePath,
-                    ApplicationApi.instance.getApplication().cacheDir.absolutePath, null,
-                    ApplicationApi.instance.getApplication().classLoader)
-                val cls = dexClassLoader.loadClass(className)
-                val instance = cls.newInstance()
-                if (instance is SkinPackage) {
-                    instance.initResources(applicationResources, file.absolutePath)
-                    return instance
-                }
-            }
+            val assetManager = AssetManager::class.java.newInstance()
+            val addAssetPath = AssetManager::class.java.getDeclaredMethod("addAssetPath", String::class.java)
+            addAssetPath.invoke(assetManager, filePath)
+            val resources = Resources(assetManager, applicationResources.displayMetrics, applicationResources.configuration)
+            return SkinPackage(resources)
         } catch (e: Exception) {
-            logW(e)
+            logW("loadSkinPackage(${filePath}) failed.").logE(e)
         }
         return null
     }
@@ -111,11 +109,10 @@ class SkinApiImpl : SkinApi {
         }
         return try {
             val name = defaultSkinPackage.resources.getResourceEntryName(id)
-                .replaceFirst(defaultSkinPackage.prefix, skinPackage.prefix)
             val type = defaultSkinPackage.resources.getResourceTypeName(id)
             skinPackage.resources.getIdentifier(name, type, packageName)
         } catch (e: Exception) {
-            e.printStackTrace()
+            logW("getIdentity(${skinPackage}, ${id}) failed").logE(e)
             0
         }
     }

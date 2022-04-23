@@ -3,17 +3,26 @@ apply plugin: "kotlin-kapt"
 apply plugin: module.ModulePlugin
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.0"
+    compileSdkVersion COMPILE_SDK_VERSION as int
 
     defaultConfig {
-        minSdkVersion 24
-        targetSdkVersion 30
+        minSdkVersion MIN_SDK_VERSION as int
     }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildTypes {
+//        debug {
+//            shrinkResources false
+//            minifyEnabled true
+//        }
+        release {
+            shrinkResources false
+            minifyEnabled true
+        }
     }
 
     sourceSets {

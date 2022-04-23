@@ -1,0 +1,22 @@
+apply plugin: "com.android.application"
+apply plugin: skin.SkinPackagePlugin
+
+android {
+    compileSdkVersion COMPILE_SDK_VERSION as int
+
+    defaultConfig {
+        minSdkVersion MIN_SDK_VERSION as int
+        applicationId APPLICATION_ID
+    }
+
+    buildTypes {
+        debug {
+            shrinkResources false
+            minifyEnabled true
+        }
+        release {
+            shrinkResources false
+            minifyEnabled true
+        }
+    }
+}

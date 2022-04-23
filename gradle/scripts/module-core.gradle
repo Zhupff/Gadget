@@ -1,6 +1,6 @@
 apply plugin: "com.android.library"
 apply from: rootProject.file("gradle/scripts/module-template.gradle")
-apply plugin: skin.SkinPlugin
+apply plugin: skin.SkinResourcePlugin
 
 dependencies {
 }
