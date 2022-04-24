@@ -3,7 +3,7 @@
     package="the.gadget.modulehomecore">
 
     <application>
-        <activity android:name="the.gadget.modulehome.HomeActivity"
+        <activity android:name="the.gadget.modulehome.activity.HomeActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboard|keyboardHidden|screenSize"/>
