@@ -4,6 +4,7 @@ import android.content.res.AssetManager
 import android.content.res.ColorStateList
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
+import android.view.View
 import androidx.annotation.MainThread
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -17,8 +18,10 @@ import the.gadget.modulebase.logcat.logE
 import the.gadget.modulebase.logcat.logI
 import the.gadget.modulebase.logcat.logW
 import the.gadget.modulebase.resource.ResourceApi
+import the.gadget.modulebase.weight.listener.ViewOnAttachStateChangeListener
 import java.util.*
 import java.util.concurrent.atomic.AtomicReference
+import kotlin.collections.HashMap
 
 @AutoService(SkinApi::class)
 class SkinApiImpl : SkinApi {
@@ -28,6 +31,7 @@ class SkinApiImpl : SkinApi {
     private val defaultSkinPackage: SkinPackage
     private val selectedSkinPackage: AtomicReference<SkinPackage>
     private val selectedStateSkinPackage: MutableState<SkinPackage>
+    private val skinViewCaches: HashMap<View, SkinView> = HashMap()
 
     private val applicationResources: Resources by lazy { ResourceApi.instance.getResources() }
     private val packageName: String by lazy { ApplicationApi.instance.getPackageName() }
@@ -64,6 +68,7 @@ class SkinApiImpl : SkinApi {
         selectedSkinPackage.set(skinPackage)
         selectedStateSkinPackage.value = selectedSkinPackage.get()
         allSkinResource.forEach { it.notifyChange() }
+        skinViewCaches.forEach { (_, skinView) -> skinView.notifyChange() }
         allSkinPackage.commit()
     }
 
@@ -102,6 +107,22 @@ class SkinApiImpl : SkinApi {
             allSkinPackage.commit()
         }
     }
+
+
+    @MainThread
+    override fun attachView(view: View): SkinView = skinViewCaches.getOrPut(view) {
+        view.addOnAttachStateChangeListener(object : ViewOnAttachStateChangeListener() {
+            override fun onViewDetachedFromWindow(v: View?) {
+                super.onViewDetachedFromWindow(v)
+                detachView(view)
+            }
+        })
+        SkinView(view)
+    }
+
+    @MainThread
+    override fun detachView(view: View) { skinViewCaches.remove(view) }
+
 
     override fun getIdentify(skinPackage: SkinPackage, id: Int): Int {
         if (skinPackage == defaultSkinPackage) {

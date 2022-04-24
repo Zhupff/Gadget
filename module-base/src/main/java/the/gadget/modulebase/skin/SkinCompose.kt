@@ -15,18 +15,18 @@ import kotlin.math.roundToInt
 private val api: SkinApi by lazy { SkinApi.instance }
 
 @Composable
-fun srColor(@ColorRes id: Int, skinPackage: SkinPackage = api.getSelectedStateSkinPackage()): Color {
+fun skinColor(@ColorRes id: Int, skinPackage: SkinPackage = api.getSelectedStateSkinPackage()): Color {
     return Color(api.getColorInt(skinPackage, id))
 }
 
 @Composable
-fun srDrawablePainter(@DrawableRes id: Int, skinPackage: SkinPackage = api.getSelectedStateSkinPackage()): Painter {
-    return SRDrawablePainter(api.getDrawable(skinPackage, id)
+fun skinDrawablePainter(@DrawableRes id: Int, skinPackage: SkinPackage = api.getSelectedStateSkinPackage()): Painter {
+    return SkinDrawablePainter(api.getDrawable(skinPackage, id)
         ?: throw IllegalArgumentException("DrawableRes $id in skin-package(${skinPackage}) is invalid."))
 }
 
 
-private class SRDrawablePainter(val drawable: Drawable) : Painter() {
+private class SkinDrawablePainter(val drawable: Drawable) : Painter() {
     override val intrinsicSize: Size = Size(drawable.intrinsicWidth.toFloat(), drawable.intrinsicHeight.toFloat())
 
     override fun DrawScope.onDraw() {

@@ -2,6 +2,7 @@ package the.gadget.modulebase.skin
 
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
+import android.view.View
 import androidx.annotation.MainThread
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.LiveData
@@ -29,6 +30,12 @@ interface SkinApi {
     fun loadSkinPackage(filePath: String): SkinPackage?
 
     fun addSkinPackage(skinPackage: SkinPackage)
+
+
+    @MainThread
+    fun attachView(view: View): SkinView
+    @MainThread
+    fun detachView(view: View)
 
 
     fun getIdentify(skinPackage: SkinPackage, id: Int): Int

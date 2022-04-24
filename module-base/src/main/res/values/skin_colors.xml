@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="skin_theme_color">#FF00A0FF</color>
+    <color name="skin_theme_color">#FFFFA000</color>
 
     <color name="skin_background_color_l1">#FFFFFFFF</color>
     <color name="skin_background_color_l2">#FFF5F5F5</color>

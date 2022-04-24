@@ -7,10 +7,11 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import the.gadget.modulebase.activity.BaseActivity
-import the.gadget.modulebase.skin.SkinApi
-import the.gadget.modulebase.skin.srColor
-import the.gadget.modulebase.skin.srDrawablePainter
+import the.gadget.modulebase.skin.*
+import the.gadget.modulebase.thread.ThreadApi
+import the.gadget.modulehome.ModuleHomeApi
 
 class MainActivity : BaseActivity() {
 
@@ -18,17 +19,21 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             Surface(
-                color = srColor(id = SR.color.background_color_l1),
+                color = skinColor(id = SR.color.background_color_l1),
                 modifier = Modifier.fillMaxSize()
             ) {
                 Image(
-                    painter = srDrawablePainter(id = R.drawable.logo),
+                    painter = painterResource(id = R.drawable.logo),
                     contentDescription = null,
                     modifier = Modifier.clickable {
                         SkinApi.instance.changeSkinRandomly()
                     }
                 )
             }
+        }
+
+        ThreadApi.instance.runOnMainThreadDelay(1000) {
+            ModuleHomeApi.instance?.toHomeActivity(this)
         }
     }
 }

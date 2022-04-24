@@ -2,4 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="the.gadget.modulehomecore">
 
+    <application>
+        <activity android:name="the.gadget.modulehome.HomeActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboard|keyboardHidden|screenSize"/>
+    </application>
 </manifest>

@@ -11,14 +11,14 @@ object SkinViewDataBindingAdapter {
     private val api: SkinApi; get() = SkinApi.instance
 
     @JvmStatic
-    @BindingAdapter("srBackgroundColor")
-    fun srBackgroundColor(view: View, @ColorRes id: Int) {
+    @BindingAdapter("skinBackgroundColor")
+    fun skinBackgroundColor(view: View, @ColorRes id: Int) {
         view.setBackgroundColor(api.getColorInt(id))
     }
 
     @JvmStatic
-    @BindingAdapter("srTextColor")
-    fun srTextColor(view: TextView, @ColorRes id: Int) {
+    @BindingAdapter("skinTextColor")
+    fun skinTextColor(view: TextView, @ColorRes id: Int) {
         val colorStateList = api.getColorStateList(id)
         if (colorStateList != null) {
             view.setTextColor(colorStateList)
@@ -28,8 +28,8 @@ object SkinViewDataBindingAdapter {
     }
 
     @JvmStatic
-    @BindingAdapter("srColorFilter")
-    fun srColorFilter(view: ImageView, @ColorRes id: Int) {
+    @BindingAdapter("skinColorFilter")
+    fun skinColorFilter(view: ImageView, @ColorRes id: Int) {
         view.setColorFilter(api.getColorInt(id))
     }
 }
