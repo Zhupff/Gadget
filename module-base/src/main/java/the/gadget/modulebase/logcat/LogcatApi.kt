@@ -24,6 +24,8 @@ interface LogcatApi {
 
 val Logcat: LogcatApi by lazy { LogcatApi.instance }
 
+val Any?.hashTag: String; get() = "${this?.javaClass?.simpleName}(${hashCode()})"
+
 fun String.logV(any: Any?) = apply { Logcat.v(this, any) }
 fun String.logD(any: Any?) = apply { Logcat.d(this, any) }
 fun String.logI(any: Any?) = apply { Logcat.i(this, any) }
@@ -36,34 +38,20 @@ fun String.logI(msg: String, vararg any: Any?) = apply { Logcat.i(this, msg, *an
 fun String.logW(msg: String, vararg any: Any?) = apply { Logcat.w(this, msg, *any) }
 fun String.logE(msg: String, vararg any: Any?) = apply { Logcat.e(this, msg, *any) }
 
-fun Class<*>.logV(any: Any?) = apply { this.simpleName.logV(any) }
-fun Class<*>.logD(any: Any?) = apply { this.simpleName.logD(any) }
-fun Class<*>.logI(any: Any?) = apply { this.simpleName.logI(any) }
-fun Class<*>.logW(any: Any?) = apply { this.simpleName.logW(any) }
-fun Class<*>.logE(any: Any?) = apply { this.simpleName.logE(any) }
+fun Any?.logV(any: Any?) = apply { hashTag.logV(any) }
+fun Any?.logD(any: Any?) = apply { hashTag.logD(any) }
+fun Any?.logI(any: Any?) = apply { hashTag.logI(any) }
+fun Any?.logW(any: Any?) = apply { hashTag.logW(any) }
+fun Any?.logE(any: Any?) = apply { hashTag.logE(any) }
 
-fun Class<*>.logV(msg: String, vararg any: Any?) = apply { this.simpleName.logV(msg, *any) }
-fun Class<*>.logD(msg: String, vararg any: Any?) = apply { this.simpleName.logD(msg, *any) }
-fun Class<*>.logI(msg: String, vararg any: Any?) = apply { this.simpleName.logI(msg, *any) }
-fun Class<*>.logW(msg: String, vararg any: Any?) = apply { this.simpleName.logW(msg, *any) }
-fun Class<*>.logE(msg: String, vararg any: Any?) = apply { this.simpleName.logE(msg, *any) }
-
-fun Any?.logV(any: Any?) = apply { "${this?.javaClass?.simpleName}(${hashCode()})".logV(any) }
-fun Any?.logD(any: Any?) = apply { "${this?.javaClass?.simpleName}(${hashCode()})".logD(any) }
-fun Any?.logI(any: Any?) = apply { "${this?.javaClass?.simpleName}(${hashCode()})".logI(any) }
-fun Any?.logW(any: Any?) = apply { "${this?.javaClass?.simpleName}(${hashCode()})".logW(any) }
-fun Any?.logE(any: Any?) = apply { "${this?.javaClass?.simpleName}(${hashCode()})".logE(any) }
-
-fun Any?.logV(msg: String, vararg any: Any?) = apply { "${this?.javaClass?.simpleName}(${hashCode()})".logV(msg, *any) }
-fun Any?.logD(msg: String, vararg any: Any?) = apply { "${this?.javaClass?.simpleName}(${hashCode()})".logD(msg, *any) }
-fun Any?.logI(msg: String, vararg any: Any?) = apply { "${this?.javaClass?.simpleName}(${hashCode()})".logI(msg, *any) }
-fun Any?.logW(msg: String, vararg any: Any?) = apply { "${this?.javaClass?.simpleName}(${hashCode()})".logW(msg, *any) }
-fun Any?.logE(msg: String, vararg any: Any?) = apply { "${this?.javaClass?.simpleName}(${hashCode()})".logE(msg, *any) }
+fun Any?.logV(msg: String, vararg any: Any?) = apply { hashTag.logV(msg, *any) }
+fun Any?.logD(msg: String, vararg any: Any?) = apply { hashTag.logD(msg, *any) }
+fun Any?.logI(msg: String, vararg any: Any?) = apply { hashTag.logI(msg, *any) }
+fun Any?.logW(msg: String, vararg any: Any?) = apply { hashTag.logW(msg, *any) }
+fun Any?.logE(msg: String, vararg any: Any?) = apply { hashTag.logE(msg, *any) }
 
 
-fun String.logW(throwable: Throwable?) = apply { logW(Log.getStackTraceString(throwable)) }
-fun String.logE(throwable: Throwable?) = apply { logE(Log.getStackTraceString(throwable)) }
-fun Class<*>.logW(throwable: Throwable?) = apply { logW(Log.getStackTraceString(throwable)) }
-fun Class<*>.logE(throwable: Throwable?) = apply { logE(Log.getStackTraceString(throwable)) }
-fun Any?.logW(throwable: Throwable?) = apply { logW(Log.getStackTraceString(throwable)) }
-fun Any?.logE(throwable: Throwable?) = apply { logE(Log.getStackTraceString(throwable)) }
+fun String.logW(throwable: Throwable?)   = apply { logW(Log.getStackTraceString(throwable)) }
+fun String.logE(throwable: Throwable?)   = apply { logE(Log.getStackTraceString(throwable)) }
+fun Any?.logW(throwable: Throwable?)     = apply { logW(Log.getStackTraceString(throwable)) }
+fun Any?.logE(throwable: Throwable?)     = apply { logE(Log.getStackTraceString(throwable)) }
