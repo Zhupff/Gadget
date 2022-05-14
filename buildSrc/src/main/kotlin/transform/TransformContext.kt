@@ -1,9 +1,10 @@
 package transform
 
 import com.android.build.api.transform.TransformInvocation
+import org.gradle.api.Project
 import java.io.File
 
-class TransformContext(transformInvocation: TransformInvocation) {
+class TransformContext(project: Project, transformInvocation: TransformInvocation) {
 
     val variantName: String = transformInvocation.context.variantName
 
@@ -12,6 +13,8 @@ class TransformContext(transformInvocation: TransformInvocation) {
     val isRelease: Boolean = variantName.contains("release", ignoreCase = true)
 
     val isIncremental: Boolean = transformInvocation.isIncremental
+
+    val buildDir: File = project.buildDir
 
     val tempDir: File = transformInvocation.context.temporaryDir
 }

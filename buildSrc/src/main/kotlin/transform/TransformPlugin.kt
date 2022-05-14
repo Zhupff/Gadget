@@ -16,6 +16,8 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import java.io.File
 import java.io.FileOutputStream
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 import java.util.jar.JarFile
 import java.util.jar.JarOutputStream
 import java.util.zip.ZipEntry
@@ -24,10 +26,19 @@ class TransformPlugin : Plugin<Project>, Transform() {
 
     private val transformers: List<Transformer> = listOf()
 
+    private lateinit var project: Project
+
     private lateinit var context: TransformContext
+
+    private val executor: ExecutorService by lazy { Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors()) }
 
     override fun apply(project: Project) {
         logI("$project apply ${javaClass.simpleName}.")
+        this.project = project
+        if (transformers.isEmpty()) {
+            logI("No transformer for transform.")
+            return
+        }
         when {
             project.isApp() -> {
                 project.extensions.findByType(AppExtension::class.java)?.registerTransform(this)
@@ -49,16 +60,25 @@ class TransformPlugin : Plugin<Project>, Transform() {
     override fun transform(transformInvocation: TransformInvocation?) {
         super.transform(transformInvocation)
         transformInvocation ?: return
-        context = TransformContext(transformInvocation)
-        if (context.isIncremental) {
-            transformInvocation.outputProvider.deleteAll()
+        context = TransformContext(project, transformInvocation)
+        transformInvocation.outputProvider?.let { output ->
+            if (!context.isIncremental) { output.deleteAll() }
+            beforeTransform(context)
+//            transformInvocation.inputs.forEach { input ->
+//                input.directoryInputs.forEach { handleDirInput(it, output) }
+//                input.jarInputs.forEach { handleJarInput(it, output) }
+//            }
+            transformInvocation.inputs
+                .flatMap { it.directoryInputs + it.jarInputs }
+                .map { executor.submit {
+                    when (it) {
+                        is DirectoryInput -> handleDirInput(it, output)
+                        is JarInput -> handleJarInput(it, output)
+                    }
+                } }
+                .mapNotNull { it.get() }
+            afterTransform(context)
         }
-        beforeTransform(context)
-        transformInvocation.inputs.forEach { input ->
-            input.directoryInputs.forEach { handleDirInput(it, transformInvocation.outputProvider) }
-            input.jarInputs.forEach { handleJarInput(it, transformInvocation.outputProvider) }
-        }
-        afterTransform(context)
     }
 
     private var beforeTransformTimestamp: Long = 0L
@@ -78,7 +98,7 @@ class TransformPlugin : Plugin<Project>, Transform() {
     }
 
     private fun handleDirInput(input: DirectoryInput, output: TransformOutputProvider) {
-        logI("handleDirInput, input=${input.name}")
+        logI("handleDirInput, input=[${input.name}=${input.file.name}]")
         val desDir = output.getContentLocation(input.name, input.contentTypes, input.scopes, Format.DIRECTORY)
         val desDirPath = desDir.absolutePath
         val srcDirPath = input.file.absolutePath
@@ -113,8 +133,7 @@ class TransformPlugin : Plugin<Project>, Transform() {
             input.file.walk()
                 .filter { it.isClassFile }
                 .forEach {
-                    val className = it.absolutePath.removePrefix(srcDirPath).asClassName
-                    val bytes = handleDirClass(className, it.readBytes())
+                    val bytes = handleDirClass(it.absolutePath.removePrefix(srcDirPath).asClassName, it.readBytes())
                     it.writeBytes(bytes)
                 }
             FileUtils.copyDirectory(input.file, desDir)
@@ -122,9 +141,17 @@ class TransformPlugin : Plugin<Project>, Transform() {
     }
 
     private fun handleJarInput(input: JarInput, output: TransformOutputProvider) {
-        logI("handleJarInput, input=${input.name}${if (context.isIncremental) ", status=${input.status}" else ""}")
-        if (context.isIncremental && input.status == Status.REMOVED) {
-            FileUtils.deleteIfExists(input.file)
+        if (context.isIncremental) {
+            logI("handleJarInput, input=[${input.name}=${input.file.name}], status=${input.status}")
+            when (input.status) {
+                Status.NOTCHANGED -> return
+                Status.REMOVED -> {
+                    FileUtils.deleteIfExists(input.file)
+                    return
+                }
+            }
+        } else {
+            logI("handleJarInput, input=[${input.name}=${input.file.name}]")
         }
         val tempFile = File("${context.tempDir.absolutePath}${File.separator}${input.name}_temp.jar")
         FileUtils.deleteIfExists(tempFile)
