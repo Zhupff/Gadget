@@ -10,5 +10,6 @@ dependencies {
 
     // 接口实现模块按需依赖
     implementation project(":module-home:module-home-core")
+    implementation project(":module-elysium:module-elysium-core")
     implementation project(":module-skin:module-skin-core")
 }

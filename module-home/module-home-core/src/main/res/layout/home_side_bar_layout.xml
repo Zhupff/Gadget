@@ -11,8 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:fitStatusBar="true"
-        skinBackgroundColor="@{SR.color.background_color_l1}"
-        tools:background="@color/skin_background_color_l1">
+        skinBackgroundColor="@{SR.color.background_color}"
+        tools:background="@color/skin_background_color">
 
     </the.gadget.modulebase.weight.common.CommonConstraintLayout>
 </layout>

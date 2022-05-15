@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="skin_theme_color">#FFFFA000</color>
+    <color name="skin_theme_color_light">#FFFFD050</color>
+    <color name="skin_theme_color_dark">#FFC67100</color>
 
-    <color name="skin_background_color_l1">#FF2D2D2D</color>
-    <color name="skin_background_color_l2">#FF222222</color>
-    <color name="skin_background_color_l3">#FF111111</color>
+    <color name="skin_background_color">#FF222222</color>
+    <color name="skin_background_color_light">#FF333333</color>
+    <color name="skin_background_color_dark">#FF000000</color>
 
     <color name="skin_text_color_l1">#FFFFFFFF</color>
-    <color name="skin_text_color_l2">#B2FFFFFF</color>
-    <color name="skin_text_color_l3">#78FFFFFF</color>
-    <color name="skin_text_color_l4">#33FFFFFF</color>
+    <color name="skin_text_color_l2">#FFBDBDBD</color>
+    <color name="skin_text_color_l3">#FF757575</color>
+
+    <color name="skin_alert_color"></color>
 </resources>

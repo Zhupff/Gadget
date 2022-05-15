@@ -19,7 +19,7 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             Surface(
-                color = skinColor(id = SR.color.background_color_l1),
+                color = skinColor(id = SR.color.background_color),
                 modifier = Modifier.fillMaxSize()
             ) {
                 Image(
@@ -27,6 +27,7 @@ class MainActivity : BaseActivity() {
                     contentDescription = null,
                     modifier = Modifier.clickable {
                         SkinApi.instance.changeSkinRandomly()
+                        ModuleHomeApi.instance?.toHomeActivity(this)
                     }
                 )
             }

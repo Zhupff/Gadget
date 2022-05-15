@@ -10,6 +10,7 @@ object ViewDataBindingAdapter {
     @JvmStatic
     @BindingAdapter("drawableRes")
     fun drawableRes(view: ImageView, @DrawableRes id: Int) {
+        if (id == 0) return
         view.setImageResource(id)
     }
 

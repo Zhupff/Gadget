@@ -12,3 +12,5 @@ class ModuleHomeApiImpl : ModuleHomeApi {
         context.startActivity(Intent(context, HomeActivity::class.java))
     }
 }
+
+internal val moduleHomeApi: ModuleHomeApiImpl by lazy { ModuleHomeApi.instance as ModuleHomeApiImpl }

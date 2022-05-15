@@ -15,10 +15,25 @@
         <the.gadget.modulebase.weight.common.CommonConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:fitStatusBar="true"
-            app:fitNavigationBar="true"
-            skinBackgroundColor="@{SR.color.background_color_l1}"
-            tools:background="@color/skin_background_color_l1">
+            skinBackgroundColor="@{SR.color.background_color}"
+            tools:background="@color/skin_background_color">
+
+            <the.gadget.modulehome.weight.HomeTopBarLayout
+                android:id="@+id/home_top_bar_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <the.gadget.modulehome.weight.HomeNavigationBarLayout
+                android:id="@+id/home_navigation_bar_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
         </the.gadget.modulebase.weight.common.CommonConstraintLayout>
 
         <the.gadget.modulehome.weight.HomeSideBarLayout
