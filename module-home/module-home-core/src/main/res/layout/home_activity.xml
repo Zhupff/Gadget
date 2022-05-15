@@ -19,15 +19,24 @@
             tools:background="@color/skin_background_color">
 
             <the.gadget.modulehome.weight.HomeTopBarLayout
-                android:id="@+id/home_top_bar_layout"
+                android:id="@+id/top_bar_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
 
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/app_fragment_pager"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/top_bar_layout"
+                app:layout_constraintBottom_toTopOf="@id/navigation_bar_layout"/>
+
             <the.gadget.modulehome.weight.HomeNavigationBarLayout
-                android:id="@+id/home_navigation_bar_layout"
+                android:id="@+id/navigation_bar_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"

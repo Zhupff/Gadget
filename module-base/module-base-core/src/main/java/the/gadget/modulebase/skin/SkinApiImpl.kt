@@ -11,6 +11,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import com.google.auto.service.AutoService
+import the.gadget.modulebase.api.autoServiceInstances
 import the.gadget.modulebase.application.ApplicationApi
 import the.gadget.modulebase.common.FileApi
 import the.gadget.modulebase.livedata.ArrayListLiveData
@@ -19,7 +20,6 @@ import the.gadget.modulebase.logcat.logI
 import the.gadget.modulebase.logcat.logW
 import the.gadget.modulebase.resource.ResourceApi
 import the.gadget.modulebase.weight.listener.ViewOnAttachStateChangeListener
-import java.util.*
 import java.util.concurrent.atomic.AtomicReference
 import kotlin.collections.HashMap
 
@@ -37,8 +37,7 @@ class SkinApiImpl : SkinApi {
     private val packageName: String by lazy { ApplicationApi.instance.getPackageName() }
 
     init {
-        ServiceLoader.load(SkinResource::class.java, ApplicationApi.instance.getClassLoader())
-            .let { allSkinResource.addAll(it) }
+        autoServiceInstances(SkinResource::class.java).toList().let { allSkinResource.addAll(it) }
         defaultSkinPackage = SkinPackage(applicationResources)
         selectedSkinPackage = AtomicReference(defaultSkinPackage)
         selectedStateSkinPackage = mutableStateOf(defaultSkinPackage)

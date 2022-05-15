@@ -50,3 +50,6 @@ open class CopyOnWriteArrayListLiveData<T>(items: Collection<T> = emptyList()) :
 
     override val data: CopyOnWriteArrayList<T> = CopyOnWriteArrayList(items)
 }
+
+
+fun <T> List<T>.toArrayListLiveData(): ArrayListLiveData<T> = ArrayListLiveData(this)

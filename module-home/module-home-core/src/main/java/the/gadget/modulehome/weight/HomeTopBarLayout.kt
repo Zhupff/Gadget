@@ -5,7 +5,10 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import the.gadget.modulebase.interfaces.ILayoutRes
+import the.gadget.modulehome.HomeApp
+import the.gadget.modulehome.moduleHomeApi
 import the.gadget.modulehomecore.R
 import the.gadget.modulehomecore.databinding.HomeTopBarLayoutBinding
 
@@ -16,5 +19,19 @@ class HomeTopBarLayout @JvmOverloads constructor(
     val binding: HomeTopBarLayoutBinding = DataBindingUtil
         .inflate(LayoutInflater.from(context), getLayoutRes(), this, true)
 
+    private val allHomeAppsObserver: Observer<List<HomeApp>> = Observer { allHomeApps ->
+        binding.app = allHomeApps?.find { it.selected }
+    }
+
     override fun getLayoutRes(): Int = R.layout.home_top_bar_layout
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        moduleHomeApi.getAllHomeApps().observeForever(allHomeAppsObserver)
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        moduleHomeApi.getAllHomeApps().removeObserver(allHomeAppsObserver)
+    }
 }

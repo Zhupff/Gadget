@@ -7,7 +7,7 @@
         <import type="the.gadget.modulehomecore.SR"/>
         <variable
             name="app"
-            type="the.gadget.modulehome.ModuleHomeApi.HomeApp" />
+            type="the.gadget.modulehome.HomeApp" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
