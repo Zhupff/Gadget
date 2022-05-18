@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="the.gadget.modulehomecore.SR"/>
+        <import type="the.gadget.modulehomecore.R"/>
     </data>
 
     <the.gadget.modulebase.weight.common.CommonConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:fitStatusBar="true"
-        skinBackgroundColor="@{SR.color.background_color}"
+        skinBackgroundColor="@{R.color.skin_background_color}"
         tools:background="@color/skin_background_color">
 
     </the.gadget.modulebase.weight.common.CommonConstraintLayout>

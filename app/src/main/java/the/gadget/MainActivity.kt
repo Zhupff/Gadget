@@ -19,7 +19,7 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             Surface(
-                color = skinColor(id = SR.color.background_color),
+                color = skinColor(id = R.color.skin_background_color),
                 modifier = Modifier.fillMaxSize()
             ) {
                 Image(

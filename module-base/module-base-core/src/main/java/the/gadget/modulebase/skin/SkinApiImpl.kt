@@ -113,14 +113,14 @@ class SkinApiImpl : SkinApi {
         view.addOnAttachStateChangeListener(object : ViewOnAttachStateChangeListener() {
             override fun onViewDetachedFromWindow(v: View?) {
                 super.onViewDetachedFromWindow(v)
-                detachView(view)
+                detachView(v!!)
             }
         })
         SkinView(view)
     }
 
     @MainThread
-    override fun detachView(view: View) { skinViewCaches.remove(view) }
+    override fun detachView(view: View) { skinViewCaches.remove(view)?.release() }
 
 
     override fun getIdentify(skinPackage: SkinPackage, id: Int): Int {

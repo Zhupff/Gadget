@@ -7,6 +7,8 @@ import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.WindowInsets
 import android.widget.LinearLayout
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import the.gadget.modulebase.R
 
 open class CommonLinearLayout @JvmOverloads constructor(
@@ -79,8 +81,9 @@ open class CommonLinearLayout @JvmOverloads constructor(
     }
 
     override fun onApplyWindowInsets(insets: WindowInsets?): WindowInsets {
-        statusBarHeight = insets?.systemWindowInsetTop ?: 0
-        navigationBarHeight = insets?.systemWindowInsetBottom ?: 0
+        val compatInsets = ViewCompat.getRootWindowInsets(this)?.getInsets(WindowInsetsCompat.Type.systemBars())
+        statusBarHeight = compatInsets?.top ?: 0
+        navigationBarHeight = compatInsets?.bottom ?: 0
         fitSystemBar(fitStatusBar, fitNavigationBar)
         return super.onApplyWindowInsets(insets)
     }

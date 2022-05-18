@@ -4,6 +4,7 @@
 
     <application>
         <activity android:name="the.gadget.modulehome.activity.HomeActivity"
+            android:theme="@style/BaseTheme"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboard|keyboardHidden|screenSize"/>

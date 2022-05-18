@@ -1,6 +1,6 @@
 apply plugin: "com.android.application"
 apply from: rootProject.file("gradle/scripts/module-template.gradle")
-apply plugin: skin.SkinResourcePlugin
+apply plugin: skin.SkinPlugin
 apply plugin: transform.TransformPlugin
 
 android {
