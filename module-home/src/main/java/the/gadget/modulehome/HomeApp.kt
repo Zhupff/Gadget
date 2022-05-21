@@ -2,12 +2,17 @@ package the.gadget.modulehome
 
 import androidx.annotation.DrawableRes
 import the.gadget.modulebase.fragment.BaseFragment
+import the.gadget.modulebase.weight.recyclerview.RecyclerItemDiffer
 
-abstract class HomeApp(val id: String, val name: String, @DrawableRes val icon: Int) {
+abstract class HomeApp(val id: String, val name: String, @DrawableRes val icon: Int) : RecyclerItemDiffer {
 
     var selected: Boolean = false
 
     abstract fun newFragment(): BaseFragment
+
+    final override fun getItemSnapshot(): String = id
+
+    final override fun getContentSnapshot(): String = selected.toString()
 
     final override fun equals(other: Any?): Boolean =
         if (other is HomeApp) other.id == id && other.name == name else false
