@@ -24,7 +24,6 @@ import the.gadget.modulebase.logcat.logE
 import the.gadget.modulebase.logcat.logI
 import the.gadget.modulebase.logcat.logW
 import the.gadget.modulebase.resource.ResourceApi
-import the.gadget.modulebase.R
 
 @AutoService(SkinApi::class)
 class SkinApiImpl : SkinApi {
