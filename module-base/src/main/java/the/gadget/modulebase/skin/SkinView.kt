@@ -7,12 +7,41 @@ import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.MainThread
+import androidx.lifecycle.Observer
+import the.gadget.modulebase.R
+import the.gadget.modulebase.weight.listener.ViewOnAttachStateChangeListener
 
-class SkinView(val view: View) {
+class SkinView(val view: View) : Observer<SkinPackage> {
+    companion object {
+        fun get(view: View): SkinView? = view.getTag(R.id.skin_view_tag) as? SkinView
+    }
 
     private val actions = mutableMapOf<String, Runnable>()
 
     private var isAlive = true
+
+    init {
+        SkinApi.instance.getSelectedSkinPackageLiveData().observeForever(this)
+        view.addOnAttachStateChangeListener(object : ViewOnAttachStateChangeListener() {
+            override fun onViewDetachedFromWindow(v: View?) {
+                super.onViewDetachedFromWindow(v)
+                release()
+            }
+        })
+        view.setTag(R.id.skin_view_tag, this)
+    }
+
+    override fun onChanged(skinPackage: SkinPackage) {
+        actions.values.forEach { if (isAlive) it.run() }
+    }
+
+    @MainThread
+    fun release() {
+        isAlive = false
+        SkinApi.instance.getSelectedSkinPackageLiveData().removeObserver(this@SkinView)
+        view.setTag(R.id.skin_view_tag, null)
+    }
+
 
     @MainThread
     fun withSkinBackgroundColor(id: Int) = apply {
@@ -40,16 +69,6 @@ class SkinView(val view: View) {
         actions["withSkinDrawableRes"] = Runnable {
             skinDrawableRes(view as ImageView, id)
         }.also { if (isAlive) it.run() }
-    }
-
-    @MainThread
-    fun notifyChange() {
-        actions.values.forEach { if (isAlive) it.run() }
-    }
-
-    @MainThread
-    fun release() {
-        isAlive = false
     }
 
 

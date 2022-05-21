@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <item name="skin_view_tag" type="id"/>
+
     <color name="skin_theme_color">#FF8BC33C</color>
     <color name="skin_theme_color_light">#FFBEF66F</color>
     <color name="skin_theme_color_dark">#FF599500</color>

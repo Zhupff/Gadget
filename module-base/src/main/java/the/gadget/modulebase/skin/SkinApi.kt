@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable
 import android.view.View
 import androidx.annotation.MainThread
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.lifecycle.LiveData
 import the.gadget.modulebase.api.apiInstance
 
@@ -18,8 +19,10 @@ interface SkinApi {
 
     fun getSelectedSkinPackage(): SkinPackage
 
+    fun getSelectedSkinPackageLiveData(): LiveData<SkinPackage>
+
     @Composable
-    fun getSelectedStateSkinPackage(): SkinPackage
+    fun getSelectedSkinPackageState(): State<SkinPackage>
 
     @MainThread
     fun changeSkin(skinPackage: SkinPackage)

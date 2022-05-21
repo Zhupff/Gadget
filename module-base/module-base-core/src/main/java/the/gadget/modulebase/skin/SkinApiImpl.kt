@@ -8,10 +8,15 @@ import android.view.View
 import androidx.annotation.MainThread
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.google.auto.service.AutoService
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import the.gadget.modulebase.application.ApplicationApi
 import the.gadget.modulebase.common.FileApi
 import the.gadget.modulebase.livedata.ArrayListLiveData
@@ -19,53 +24,52 @@ import the.gadget.modulebase.logcat.logE
 import the.gadget.modulebase.logcat.logI
 import the.gadget.modulebase.logcat.logW
 import the.gadget.modulebase.resource.ResourceApi
-import the.gadget.modulebase.weight.listener.ViewOnAttachStateChangeListener
-import java.util.concurrent.atomic.AtomicReference
-import kotlin.collections.HashMap
+import the.gadget.modulebase.R
 
 @AutoService(SkinApi::class)
 class SkinApiImpl : SkinApi {
 
     private val allSkinPackage: ArrayListLiveData<SkinPackage> = ArrayListLiveData()
     private val defaultSkinPackage: SkinPackage
-    private val selectedSkinPackage: AtomicReference<SkinPackage>
-    private val selectedStateSkinPackage: MutableState<SkinPackage>
-    private val skinViewCaches: HashMap<View, SkinView> = HashMap()
+    private val selectedSkinPackage: MutableLiveData<SkinPackage>
+    private val selectedSkinPackageState: MutableState<SkinPackage>
 
     private val applicationResources: Resources by lazy { ResourceApi.instance.getResources() }
     private val packageName: String by lazy { ApplicationApi.instance.getPackageName() }
 
     init {
         defaultSkinPackage = SkinPackage(applicationResources)
-        selectedSkinPackage = AtomicReference(defaultSkinPackage)
-        selectedStateSkinPackage = mutableStateOf(defaultSkinPackage)
+        selectedSkinPackage = MutableLiveData(defaultSkinPackage)
+        selectedSkinPackageState = mutableStateOf(defaultSkinPackage)
         allSkinPackage.add(defaultSkinPackage).commit()
-        applicationResources.assets.list("")
-            ?.filter { it.endsWith(".skin") }
-            ?.forEach { assetName ->
-                val assetInputStream = applicationResources.assets.open(assetName)
-                val cacheFile = FileApi.CACHE_DIR.resolve(assetName)
-                FileApi.instance.copy(assetInputStream, cacheFile)
-                loadSkinPackage(cacheFile.path)?.let { addSkinPackage(it) }
-            }
+        CoroutineScope(Dispatchers.IO).launch {
+            applicationResources.assets.list("")
+                ?.filter { it.endsWith(".skin") }
+                ?.forEach { assetName ->
+                    val assetInputStream = applicationResources.assets.open(assetName)
+                    val cacheFile = FileApi.CACHE_DIR.resolve(assetName)
+                    FileApi.instance.copy(assetInputStream, cacheFile)
+                    loadSkinPackage(cacheFile.path)?.let { addSkinPackage(it) }
+                }
+        }
     }
 
 
     override fun getAllSkinPackage(): LiveData<List<SkinPackage>> = allSkinPackage
 
-    override fun getSelectedSkinPackage(): SkinPackage = selectedSkinPackage.get()
+    override fun getSelectedSkinPackage(): SkinPackage = selectedSkinPackage.value!!
+
+    override fun getSelectedSkinPackageLiveData(): LiveData<SkinPackage> = selectedSkinPackage
 
     @Composable
-    override fun getSelectedStateSkinPackage(): SkinPackage = selectedStateSkinPackage.value
+    override fun getSelectedSkinPackageState(): State<SkinPackage> = selectedSkinPackageState
 
     @MainThread
     override fun changeSkin(skinPackage: SkinPackage) {
         logI("changeSkin(${skinPackage})")
-        if (selectedSkinPackage.get().id == skinPackage.id) return
-        selectedSkinPackage.set(skinPackage)
-        selectedStateSkinPackage.value = selectedSkinPackage.get()
-        skinViewCaches.forEach { (_, skinView) -> skinView.notifyChange() }
-        allSkinPackage.commit()
+        if (selectedSkinPackage.value!!.id == skinPackage.id) return
+        selectedSkinPackage.value = skinPackage
+        selectedSkinPackageState.value = skinPackage
     }
 
     @MainThread
@@ -74,7 +78,7 @@ class SkinApiImpl : SkinApi {
             logI("changeSkinRandomly failed cause there is only one skin-package.")
         } else {
             val skinPackage = allSkinPackage[(0 until allSkinPackage.size()).random()]
-            if (selectedSkinPackage.get().id == skinPackage.id) {
+            if (selectedSkinPackage.value!!.id == skinPackage.id) {
                 changeSkinRandomly()
             } else {
                 logI("changeSkinRandomly(${skinPackage})")
@@ -106,18 +110,10 @@ class SkinApiImpl : SkinApi {
 
 
     @MainThread
-    override fun attachView(view: View): SkinView = skinViewCaches.getOrPut(view) {
-        view.addOnAttachStateChangeListener(object : ViewOnAttachStateChangeListener() {
-            override fun onViewDetachedFromWindow(v: View?) {
-                super.onViewDetachedFromWindow(v)
-                detachView(v!!)
-            }
-        })
-        SkinView(view)
-    }
+    override fun attachView(view: View): SkinView = SkinView.get(view) ?: SkinView(view)
 
     @MainThread
-    override fun detachView(view: View) { skinViewCaches.remove(view)?.release() }
+    override fun detachView(view: View) { (view.getTag(R.id.skin_view_tag) as? SkinView)?.release() }
 
 
     override fun getIdentify(skinPackage: SkinPackage, id: Int): Int {
@@ -135,7 +131,7 @@ class SkinApiImpl : SkinApi {
     }
 
     override fun getColorInt(id: Int): Int {
-        return getColorInt(selectedSkinPackage.get(), id)
+        return getColorInt(selectedSkinPackage.value!!, id)
     }
 
     override fun getColorInt(skinPackage: SkinPackage, id: Int): Int {
@@ -147,7 +143,7 @@ class SkinApiImpl : SkinApi {
         }
     }
 
-    override fun getColorStateList(id: Int): ColorStateList? = getColorStateList(selectedSkinPackage.get(), id)
+    override fun getColorStateList(id: Int): ColorStateList? = getColorStateList(selectedSkinPackage.value!!, id)
 
     override fun getColorStateList(skinPackage: SkinPackage, id: Int): ColorStateList? {
         val targetId = getIdentify(skinPackage, id)
@@ -163,7 +159,7 @@ class SkinApiImpl : SkinApi {
         }
     }
 
-    override fun getDrawable(id: Int): Drawable? = getDrawable(selectedSkinPackage.get(), id)
+    override fun getDrawable(id: Int): Drawable? = getDrawable(selectedSkinPackage.value!!, id)
 
     override fun getDrawable(skinPackage: SkinPackage, id: Int): Drawable? {
         val targetId = getIdentify(skinPackage, id)
