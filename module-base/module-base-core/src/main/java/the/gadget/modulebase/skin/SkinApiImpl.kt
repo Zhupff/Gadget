@@ -102,8 +102,7 @@ class SkinApiImpl : SkinApi {
 
     override fun addSkinPackage(skinPackage: SkinPackage) {
         if (allSkinPackage.value.find { it.id == skinPackage.id } == null) {
-            allSkinPackage.add(skinPackage).value.sortBy { it.id }
-            allSkinPackage.commit()
+            allSkinPackage.add(skinPackage).commit()
         }
     }
 
