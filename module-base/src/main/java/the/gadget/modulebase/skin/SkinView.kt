@@ -7,6 +7,7 @@ import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.MainThread
+import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.Observer
 import the.gadget.modulebase.R
 import the.gadget.modulebase.weight.listener.ViewOnAttachStateChangeListener
@@ -25,6 +26,7 @@ class SkinView(val view: View) : Observer<SkinPackage> {
         view.addOnAttachStateChangeListener(object : ViewOnAttachStateChangeListener() {
             override fun onViewDetachedFromWindow(v: View?) {
                 super.onViewDetachedFromWindow(v)
+                v?.removeOnAttachStateChangeListener(this)
                 release()
             }
         })
@@ -73,12 +75,12 @@ class SkinView(val view: View) : Observer<SkinPackage> {
 
 
     private fun skinBackgroundColor(view: View, @ColorInt id: Int) {
-        if (id == 0) return
+        if (id == ResourcesCompat.ID_NULL) return
         view.setBackgroundColor(SkinApi.instance.getColorInt(id))
     }
 
     private fun skinTextColor(view: TextView, @ColorRes id: Int) {
-        if (id == 0) return
+        if (id == ResourcesCompat.ID_NULL) return
         val colorStateList = SkinApi.instance.getColorStateList(id)
         if (colorStateList != null) {
             view.setTextColor(colorStateList)
@@ -88,12 +90,12 @@ class SkinView(val view: View) : Observer<SkinPackage> {
     }
 
     private fun skinColorFilter(view: ImageView, @ColorRes id: Int) {
-        if (id == 0) return
+        if (id == ResourcesCompat.ID_NULL) return
         view.setColorFilter(SkinApi.instance.getColorInt(id))
     }
 
     private fun skinDrawableRes(view: ImageView, @DrawableRes id: Int) {
-        if (id == 0) return
+        if (id == ResourcesCompat.ID_NULL) return
         view.setImageDrawable(SkinApi.instance.getDrawable(id))
     }
 }

@@ -41,8 +41,6 @@ interface SkinApi {
     fun detachView(view: View)
 
 
-    fun getIdentify(skinPackage: SkinPackage, id: Int): Int
-
     fun getColorInt(id: Int): Int
     fun getColorInt(skinPackage: SkinPackage, id: Int): Int
 

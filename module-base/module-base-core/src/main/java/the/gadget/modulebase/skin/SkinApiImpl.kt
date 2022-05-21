@@ -16,6 +16,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.auto.service.AutoService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import the.gadget.modulebase.application.ApplicationApi
 import the.gadget.modulebase.common.FileApi
@@ -41,14 +42,17 @@ class SkinApiImpl : SkinApi {
         selectedSkinPackage = MutableLiveData(defaultSkinPackage)
         selectedSkinPackageState = mutableStateOf(defaultSkinPackage)
         allSkinPackage.add(defaultSkinPackage).commit()
+
         CoroutineScope(Dispatchers.IO).launch {
             applicationResources.assets.list("")
                 ?.filter { it.endsWith(".skin") }
                 ?.forEach { assetName ->
-                    val assetInputStream = applicationResources.assets.open(assetName)
-                    val cacheFile = FileApi.CACHE_DIR.resolve(assetName)
-                    FileApi.instance.copy(assetInputStream, cacheFile)
-                    loadSkinPackage(cacheFile.path)?.let { addSkinPackage(it) }
+                    coroutineScope {
+                        val assetInputStream = applicationResources.assets.open(assetName)
+                        val cacheFile = FileApi.CACHE_DIR.resolve(assetName)
+                        FileApi.instance.copy(assetInputStream, cacheFile)
+                        loadSkinPackage(cacheFile.path)?.let { addSkinPackage(it) }
+                    }
                 }
         }
     }
@@ -114,7 +118,7 @@ class SkinApiImpl : SkinApi {
     override fun detachView(view: View) { SkinView.get(view)?.release() }
 
 
-    override fun getIdentify(skinPackage: SkinPackage, id: Int): Int {
+    private fun getIdentifier(skinPackage: SkinPackage, id: Int): Int {
         if (skinPackage == defaultSkinPackage) {
             return id
         }
@@ -123,7 +127,7 @@ class SkinApiImpl : SkinApi {
             val type = defaultSkinPackage.resources.getResourceTypeName(id)
             skinPackage.resources.getIdentifier(name, type, packageName)
         } catch (e: Exception) {
-            logW("getIdentity(${skinPackage}, ${id}) failed").logE(e)
+            logW("getIdentifier(${skinPackage}, ${id}) failed").logE(e)
             ResourcesCompat.ID_NULL
         }
     }
@@ -133,7 +137,7 @@ class SkinApiImpl : SkinApi {
     }
 
     override fun getColorInt(skinPackage: SkinPackage, id: Int): Int {
-        val targetId = getIdentify(skinPackage, id)
+        val targetId = getIdentifier(skinPackage, id)
         return if (targetId != ResourcesCompat.ID_NULL) {
             ResourcesCompat.getColor(skinPackage.resources, targetId, null)
         } else {
@@ -144,7 +148,7 @@ class SkinApiImpl : SkinApi {
     override fun getColorStateList(id: Int): ColorStateList? = getColorStateList(selectedSkinPackage.value!!, id)
 
     override fun getColorStateList(skinPackage: SkinPackage, id: Int): ColorStateList? {
-        val targetId = getIdentify(skinPackage, id)
+        val targetId = getIdentifier(skinPackage, id)
         return try {
             if (targetId != ResourcesCompat.ID_NULL) {
                 ResourcesCompat.getColorStateList(skinPackage.resources, targetId, null)
@@ -160,7 +164,7 @@ class SkinApiImpl : SkinApi {
     override fun getDrawable(id: Int): Drawable? = getDrawable(selectedSkinPackage.value!!, id)
 
     override fun getDrawable(skinPackage: SkinPackage, id: Int): Drawable? {
-        val targetId = getIdentify(skinPackage, id)
+        val targetId = getIdentifier(skinPackage, id)
         return try {
             if (targetId != ResourcesCompat.ID_NULL) {
                 ResourcesCompat.getDrawable(skinPackage.resources, targetId, null)
