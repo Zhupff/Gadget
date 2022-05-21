@@ -113,7 +113,7 @@ class SkinApiImpl : SkinApi {
     override fun attachView(view: View): SkinView = SkinView.get(view) ?: SkinView(view)
 
     @MainThread
-    override fun detachView(view: View) { (view.getTag(R.id.skin_view_tag) as? SkinView)?.release() }
+    override fun detachView(view: View) { SkinView.get(view)?.release() }
 
 
     override fun getIdentify(skinPackage: SkinPackage, id: Int): Int {
