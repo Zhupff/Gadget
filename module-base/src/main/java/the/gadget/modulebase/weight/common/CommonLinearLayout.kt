@@ -56,28 +56,20 @@ open class CommonLinearLayout @JvmOverloads constructor(
     }
 
     override fun draw(canvas: Canvas?) {
-        if (canvas == null) {
+        if (canvas != null && hasCorner()) {
+            cornerRect.set(0F, 0F, width.toFloat(), height.toFloat())
+            cornerPath.reset()
+            cornerPath.addRoundRect(cornerRect, floatArrayOf(
+                tlCornerRadius, tlCornerRadius, trCornerRadius, trCornerRadius,
+                brCornerRadius, brCornerRadius, blCornerRadius, blCornerRadius
+            ), Path.Direction.CW)
+            canvas.save()
+            canvas.clipPath(cornerPath)
             super.draw(canvas)
-            return
+            canvas.restore()
+        } else {
+            super.draw(canvas)
         }
-        cornerRect.set(0F, 0F, width.toFloat(), height.toFloat())
-        cornerPath.reset()
-        cornerPath.addRoundRect(cornerRect, floatArrayOf(
-            tlCornerRadius, tlCornerRadius, trCornerRadius, trCornerRadius,
-            brCornerRadius, brCornerRadius, blCornerRadius, blCornerRadius
-        ), Path.Direction.CW)
-        canvas.save()
-        canvas.clipPath(cornerPath)
-        super.draw(canvas)
-        canvas.restore()
-    }
-
-    fun setCornerRadius(tl: Float, tr: Float, bl: Float, br: Float) {
-        tlCornerRadius = tl
-        trCornerRadius = tr
-        blCornerRadius = bl
-        brCornerRadius = br
-        invalidate()
     }
 
     override fun onApplyWindowInsets(insets: WindowInsets?): WindowInsets {
@@ -86,6 +78,14 @@ open class CommonLinearLayout @JvmOverloads constructor(
         navigationBarHeight = compatInsets?.bottom ?: 0
         fitSystemBar(fitStatusBar, fitNavigationBar)
         return super.onApplyWindowInsets(insets)
+    }
+
+    fun setCornerRadius(tl: Float, tr: Float, bl: Float, br: Float) {
+        tlCornerRadius = tl
+        trCornerRadius = tr
+        blCornerRadius = bl
+        brCornerRadius = br
+        invalidate()
     }
 
     fun fitSystemBar(fitStatusBar: Boolean, fitNavigationBar: Boolean) {
@@ -97,4 +97,6 @@ open class CommonLinearLayout @JvmOverloads constructor(
             setPadding(0, targetPaddingTop, 0, targetPaddingBottom)
         }
     }
+
+    private fun hasCorner(): Boolean = tlCornerRadius > 0F || trCornerRadius > 0F || brCornerRadius > 0F || blCornerRadius > 0F
 }

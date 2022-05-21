@@ -42,20 +42,20 @@ open class CommonTextView @JvmOverloads constructor(
     }
 
     override fun draw(canvas: Canvas?) {
-        if (canvas == null) {
+        if (canvas != null && hasCorner()) {
+            cornerRect.set(0F, 0F, width.toFloat(), height.toFloat())
+            cornerPath.reset()
+            cornerPath.addRoundRect(cornerRect, floatArrayOf(
+                tlCornerRadius, tlCornerRadius, trCornerRadius, trCornerRadius,
+                brCornerRadius, brCornerRadius, blCornerRadius, blCornerRadius
+            ), Path.Direction.CW)
+            canvas.save()
+            canvas.clipPath(cornerPath)
             super.draw(canvas)
-            return
+            canvas.restore()
+        } else {
+            super.draw(canvas)
         }
-        cornerRect.set(0F, 0F, width.toFloat(), height.toFloat())
-        cornerPath.reset()
-        cornerPath.addRoundRect(cornerRect, floatArrayOf(
-            tlCornerRadius, tlCornerRadius, trCornerRadius, trCornerRadius,
-            brCornerRadius, brCornerRadius, blCornerRadius, blCornerRadius
-        ), Path.Direction.CW)
-        canvas.save()
-        canvas.clipPath(cornerPath)
-        super.draw(canvas)
-        canvas.restore()
     }
 
     fun setCornerRadius(tl: Float, tr: Float, bl: Float, br: Float) {
@@ -65,4 +65,6 @@ open class CommonTextView @JvmOverloads constructor(
         brCornerRadius = br
         invalidate()
     }
+
+    private fun hasCorner(): Boolean = tlCornerRadius > 0F || trCornerRadius > 0F || brCornerRadius > 0F || blCornerRadius > 0F
 }
