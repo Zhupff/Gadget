@@ -9,9 +9,9 @@ import androidx.annotation.MainThread
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.LiveData
 import com.google.auto.service.AutoService
-import the.gadget.modulebase.api.autoServiceInstances
 import the.gadget.modulebase.application.ApplicationApi
 import the.gadget.modulebase.common.FileApi
 import the.gadget.modulebase.livedata.ArrayListLiveData
@@ -26,7 +26,6 @@ import kotlin.collections.HashMap
 @AutoService(SkinApi::class)
 class SkinApiImpl : SkinApi {
 
-    private val allSkinResource: MutableList<SkinResource> = mutableListOf()
     private val allSkinPackage: ArrayListLiveData<SkinPackage> = ArrayListLiveData()
     private val defaultSkinPackage: SkinPackage
     private val selectedSkinPackage: AtomicReference<SkinPackage>
@@ -37,7 +36,6 @@ class SkinApiImpl : SkinApi {
     private val packageName: String by lazy { ApplicationApi.instance.getPackageName() }
 
     init {
-        autoServiceInstances(SkinResource::class.java).toList().let { allSkinResource.addAll(it) }
         defaultSkinPackage = SkinPackage(applicationResources)
         selectedSkinPackage = AtomicReference(defaultSkinPackage)
         selectedStateSkinPackage = mutableStateOf(defaultSkinPackage)
@@ -66,7 +64,6 @@ class SkinApiImpl : SkinApi {
         if (selectedSkinPackage.get().id == skinPackage.id) return
         selectedSkinPackage.set(skinPackage)
         selectedStateSkinPackage.value = selectedSkinPackage.get()
-        allSkinResource.forEach { it.notifyChange() }
         skinViewCaches.forEach { (_, skinView) -> skinView.notifyChange() }
         allSkinPackage.commit()
     }
@@ -133,7 +130,7 @@ class SkinApiImpl : SkinApi {
             skinPackage.resources.getIdentifier(name, type, packageName)
         } catch (e: Exception) {
             logW("getIdentity(${skinPackage}, ${id}) failed").logE(e)
-            0
+            ResourcesCompat.ID_NULL
         }
     }
 
@@ -143,10 +140,10 @@ class SkinApiImpl : SkinApi {
 
     override fun getColorInt(skinPackage: SkinPackage, id: Int): Int {
         val targetId = getIdentify(skinPackage, id)
-        return if (targetId != 0) {
-            skinPackage.resources.getColor(targetId)
+        return if (targetId != ResourcesCompat.ID_NULL) {
+            ResourcesCompat.getColor(skinPackage.resources, targetId, null)
         } else {
-            defaultSkinPackage.resources.getColor(id)
+            ResourcesCompat.getColor(defaultSkinPackage.resources, id, null)
         }
     }
 
@@ -155,10 +152,10 @@ class SkinApiImpl : SkinApi {
     override fun getColorStateList(skinPackage: SkinPackage, id: Int): ColorStateList? {
         val targetId = getIdentify(skinPackage, id)
         return try {
-            if (targetId != 0) {
-                skinPackage.resources.getColorStateList(targetId)
+            if (targetId != ResourcesCompat.ID_NULL) {
+                ResourcesCompat.getColorStateList(skinPackage.resources, targetId, null)
             } else {
-                defaultSkinPackage.resources.getColorStateList(id)
+                ResourcesCompat.getColorStateList(defaultSkinPackage.resources, id, null)
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -171,10 +168,10 @@ class SkinApiImpl : SkinApi {
     override fun getDrawable(skinPackage: SkinPackage, id: Int): Drawable? {
         val targetId = getIdentify(skinPackage, id)
         return try {
-            if (targetId != 0) {
-                skinPackage.resources.getDrawable(targetId)
+            if (targetId != ResourcesCompat.ID_NULL) {
+                ResourcesCompat.getDrawable(skinPackage.resources, targetId, null)
             } else {
-                defaultSkinPackage.resources.getDrawable(id)
+                ResourcesCompat.getDrawable(defaultSkinPackage.resources, id, null)
             }
         } catch (e: Exception) {
             e.printStackTrace()

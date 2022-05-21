@@ -2,5 +2,6 @@
 <resources>
     <style name="MainActivityTheme" parent="BaseTheme">
         <item name="android:windowFullscreen">true</item>
+        <item name="android:windowBackground">@drawable/splash</item>
     </style>
 </resources>
