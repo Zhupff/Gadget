@@ -33,8 +33,8 @@ object ViewDataBindingAdapter {
     }
 
     @JvmStatic
-    @BindingAdapter("selected")
-    fun selected(view: View, selected: Boolean) {
+    @BindingAdapter("isSelected")
+    fun isSelected(view: View, selected: Boolean) {
         view.isSelected = selected
     }
 }

@@ -19,5 +19,6 @@ abstract class DiffRecyclerViewAdapter<T : RecyclerItemDiffer, V : RecyclerViewH
         data.clear()
         data.addAll(newData)
         snapshot = newSnapshot
+        differ.dispatchUpdatesTo(this)
     }
 }

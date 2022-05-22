@@ -32,6 +32,7 @@ class HomeSideBarLayout @JvmOverloads constructor(
     init {
         binding.rvAppList.layoutManager = GridLayoutManager(context, 4, RecyclerView.VERTICAL, false)
         binding.rvAppList.adapter = AppListAdapter()
+        binding.rvAppList.itemAnimator = null
     }
 
     override fun getLayoutRes(): Int = R.layout.home_side_bar_layout
@@ -53,6 +54,7 @@ class HomeSideBarLayout @JvmOverloads constructor(
         override fun onBindViewHolder(holder: BindingRecyclerViewHolder<HomeAppListViewHolderBinding>, position: Int) {
             val app = data[position]
             holder.binding.app = app
+            holder.binding.root.setOnClickListener { moduleHomeApi.selectHomeApp(app) }
         }
     }
 }

@@ -19,6 +19,13 @@ class ModuleHomeApiImpl : ModuleHomeApi {
         .also { it.commit() }
     fun getAllHomeApps(): LiveData<List<HomeApp>> = allHomeApps
 
+    fun selectHomeApp(app: HomeApp) {
+        val selectedApp = allHomeApps.value.find { it.selected }
+        if (app == selectedApp) return
+        allHomeApps.value.forEach { it.selected = it == app }
+        allHomeApps.commit()
+    }
+
     override fun toHomeActivity(context: Context) {
         context.startActivity(Intent(context, HomeActivity::class.java))
     }
