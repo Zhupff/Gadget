@@ -76,6 +76,12 @@ class SkinApiImpl : SkinApi {
     }
 
     @MainThread
+    override fun changeSkin(id: String) {
+        val targetSkinPackage = allSkinPackage.value.find { it.id == id } ?: return
+        changeSkin(targetSkinPackage)
+    }
+
+    @MainThread
     override fun changeSkinRandomly() {
         if (allSkinPackage.size() <= 1) {
             logI("changeSkinRandomly failed cause there is only one skin-package.")

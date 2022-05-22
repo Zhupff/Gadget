@@ -35,7 +35,7 @@
                 android:layout_marginStart="@dimen/margin_max"
                 android:layout_marginTop="@dimen/margin_max"
                 android:layout_marginBottom="@dimen/margin_max"
-                android:background="@color/skin_theme_color_light"/>
+                skinBackgroundColor="@{R.color.skin_theme_color_light}"/>
 
             <TextView
                 android:id="@+id/tv_nickname"
