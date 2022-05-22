@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="the.gadget.moduleskincore">
+
+    <application>
+        <activity android:name="the.gadget.moduleskin.activity.SkinActivity"
+            android:theme="@style/BaseTheme"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboard|keyboardHidden|screenSize"/>
+    </application>
+
 </manifest>

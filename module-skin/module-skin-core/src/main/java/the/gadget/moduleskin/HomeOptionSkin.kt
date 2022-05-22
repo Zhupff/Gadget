@@ -44,8 +44,8 @@ class HomeOptionSkin : HomeOption(Option.Skin) {
             binding.themeOptionLayout.setOnClickListener { SkinApi.instance.changeSkin(SkinPackage.LIGHT_SKIN_ID) }
         } else {
             binding.tvSkinName.text = "个性装扮-${selectedSkin.name}"
-            binding.themeOptionLayout.setOnClickListener {  }
+            binding.themeOptionLayout.setOnClickListener { moduleSkinApi.toSkinActivity(binding.root.context) }
         }
-        binding.skinOptionLayout.setOnClickListener {  }
+        binding.skinOptionLayout.setOnClickListener { moduleSkinApi.toSkinActivity(binding.root.context) }
     }
 }
