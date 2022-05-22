@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="home_option_item_height">40dp</dimen>
+    <dimen name="home_option_item_icon_size">24dp</dimen>
+    <dimen name="home_option_item_text_size">@dimen/text_size_mid</dimen>
+    <dimen name="home_option_item_margin_start">@dimen/margin_mid</dimen>
+    <dimen name="home_option_item_margin_end">@dimen/margin_mid</dimen>
+</resources>

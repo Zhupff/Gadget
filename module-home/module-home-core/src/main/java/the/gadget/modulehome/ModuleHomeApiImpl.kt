@@ -26,6 +26,12 @@ class ModuleHomeApiImpl : ModuleHomeApi {
         allHomeApps.commit()
     }
 
+    private val allHomeOptions: ArrayListLiveData<HomeOption> = autoServiceInstances(HomeOption::class.java)
+        .sortedBy { it.option }
+        .toArrayListLiveData()
+        .also { it.commit() }
+    fun getAllHomeOptions(): LiveData<List<HomeOption>> = allHomeOptions
+
     override fun toHomeActivity(context: Context) {
         context.startActivity(Intent(context, HomeActivity::class.java))
     }

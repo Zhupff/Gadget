@@ -121,6 +121,40 @@
                             android:overScrollMode="never"/>
                     </the.gadget.modulebase.weight.common.CommonLinearLayout>
 
+                    <the.gadget.modulebase.weight.common.CommonLinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_max"
+                        android:layout_marginEnd="@dimen/margin_max"
+                        android:layout_marginTop="@dimen/margin_max"
+                        android:orientation="vertical"
+                        app:allCornerRadius="@dimen/corner_radius_max"
+                        skinBackgroundColor="@{R.color.skin_background_color_dark}"
+                        tools:layout_height="200dp"
+                        tools:background="@color/skin_background_color_dark">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/margin_max"
+                            android:layout_marginTop="@dimen/margin_min"
+                            android:layout_marginBottom="@dimen/margin_min"
+                            android:text="更多选项"
+                            android:textSize="@dimen/text_size_mid"
+                            skinTextColor="@{R.color.skin_text_color_l1}"
+                            tools:textColor="@color/skin_text_color_l1"/>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            skinBackgroundColor="@{R.color.skin_text_color_l1}"
+                            tools:background="@color/skin_text_color_l1"/>
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_option_list"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/margin_mid"
+                            android:overScrollMode="never"/>
+                    </the.gadget.modulebase.weight.common.CommonLinearLayout>
+
                 </LinearLayout>
 
             </androidx.core.widget.NestedScrollView>

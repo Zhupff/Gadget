@@ -2,5 +2,6 @@ apply from: rootProject.file("gradle/scripts/module-core.gradle")
 
 dependencies {
     implementation project(":module-skin")
+    implementation project(":module-home")
     implementation project(":module-base")
 }

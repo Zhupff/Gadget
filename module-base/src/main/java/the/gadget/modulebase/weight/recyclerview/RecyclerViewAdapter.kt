@@ -7,4 +7,10 @@ abstract class RecyclerViewAdapter<T, V: RecyclerViewHolder> : RecyclerView.Adap
     protected open val data: ArrayList<T> = ArrayList()
 
     override fun getItemCount(): Int = data.size
+
+    open fun update(newData: List<T>) {
+        data.clear()
+        data.addAll(newData)
+        notifyDataSetChanged()
+    }
 }
