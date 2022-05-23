@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <import type="the.gadget.moduleskincore.R"/>
@@ -24,7 +25,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_marginStart="@dimen/home_option_item_margin_start"
-                android:src="@drawable/ic_skin_light_mode"
+                tools:src="@drawable/ic_skin_light_mode"
                 skinColorFilter="@{R.color.skin_text_color_l1}"/>
 
             <TextView
@@ -35,7 +36,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_marginStart="@dimen/home_option_item_margin_start"
-                android:text="明亮模式"
+                tools:text="明亮模式"
                 skinTextColor="@{R.color.skin_text_color_l1}"/>
 
             <ImageView

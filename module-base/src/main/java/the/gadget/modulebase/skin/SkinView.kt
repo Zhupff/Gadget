@@ -9,6 +9,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.MainThread
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.Observer
+import androidx.lifecycle.findViewTreeLifecycleOwner
 import the.gadget.modulebase.R
 import the.gadget.modulebase.weight.listener.ViewOnAttachStateChangeListener
 
@@ -22,7 +23,9 @@ class SkinView(val view: View) : Observer<SkinPackage> {
     private var isAlive = true
 
     init {
-        SkinApi.instance.getSelectedSkinPackageLiveData().observeForever(this)
+        view.findViewTreeLifecycleOwner()?.let { lifecycleOwner ->
+            SkinApi.instance.getSelectedSkinPackageLiveData().observe(lifecycleOwner, this)
+        } ?: SkinApi.instance.getSelectedSkinPackageLiveData().observeForever(this)
         view.addOnAttachStateChangeListener(object : ViewOnAttachStateChangeListener() {
             override fun onViewDetachedFromWindow(v: View?) {
                 super.onViewDetachedFromWindow(v)

@@ -6,7 +6,7 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 
-class BindingRecyclerViewHolder<V : ViewDataBinding> : RecyclerViewHolder {
+open class BindingRecyclerViewHolder<V : ViewDataBinding> : RecyclerViewHolder {
 
     val binding: V
 

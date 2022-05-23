@@ -4,13 +4,12 @@ import androidx.recyclerview.widget.RecyclerView
 
 abstract class RecyclerViewAdapter<T, V: RecyclerViewHolder> : RecyclerView.Adapter<V>() {
 
-    protected open val data: ArrayList<T> = ArrayList()
+    protected open var data: List<T> = emptyList()
 
     override fun getItemCount(): Int = data.size
 
     open fun update(newData: List<T>) {
-        data.clear()
-        data.addAll(newData)
+        data = newData
         notifyDataSetChanged()
     }
 }

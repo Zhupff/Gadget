@@ -2,11 +2,11 @@ package the.gadget.modulehome.activity
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import the.gadget.modulebase.activity.BindingActivity
 import the.gadget.modulebase.fragment.BaseFragment
 import the.gadget.modulebase.fragment.isAlive
+import the.gadget.modulebase.weight.recyclerview.DiffFragmentStateAdapter
 import the.gadget.modulehome.HomeApp
 import the.gadget.modulehome.moduleHomeApi
 import the.gadget.modulehomecore.databinding.HomeActivityBinding
@@ -40,15 +40,14 @@ class HomeActivity : BindingActivity<HomeActivityBinding>() {
 
     override fun getLayoutRes(): Int = R.layout.home_activity
 
-    private class AppFragmentPagerAdapter(activity: HomeActivity, private val pager: ViewPager2) : FragmentStateAdapter(activity) {
+    private class AppFragmentPagerAdapter(activity: HomeActivity, private val pager: ViewPager2) : DiffFragmentStateAdapter<HomeApp>(activity) {
 
-        private val openedApps: MutableList<HomeApp> = arrayListOf()
         private val openedFragments: MutableMap<String, WeakReference<BaseFragment>> = mutableMapOf()
 
-        override fun getItemCount(): Int = openedApps.size
+        override fun getItemCount(): Int = snapshot.size
 
         override fun createFragment(position: Int): Fragment {
-            val app = openedApps[position]
+            val app = data[position]
             var fragment = openedFragments[app.id]?.get()
             if (!fragment.isAlive()) {
                 fragment = app.newFragment()
@@ -58,8 +57,9 @@ class HomeActivity : BindingActivity<HomeActivityBinding>() {
         }
 
         fun openApp(app: HomeApp) {
-            if (!openedApps.contains(app)) { openedApps.add(app) }
-            pager.setCurrentItem(openedApps.indexOf(app), false)
+            val newData = if (data.contains(app)) data else data + app
+            submit(newData)
+            pager.setCurrentItem(newData.indexOf(app), false)
         }
     }
 }

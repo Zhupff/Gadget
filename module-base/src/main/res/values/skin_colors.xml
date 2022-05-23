@@ -6,9 +6,9 @@
     <color name="skin_theme_color_light">#FFBEF66F</color>
     <color name="skin_theme_color_dark">#FF599500</color>
 
-    <color name="skin_background_color">#FFF5F5F5</color>
-    <color name="skin_background_color_light">#FFFFFFFF</color>
-    <color name="skin_background_color_dark">#FFCCCCCC</color>
+    <color name="skin_background_color">#FFEEEEEE</color>
+    <color name="skin_background_color_light">#FFCCCCCC</color>
+    <color name="skin_background_color_dark">#FFFFFFFF</color>
 
     <color name="skin_text_color_l1">#FF000000</color>
     <color name="skin_text_color_l2">#FF555555</color>

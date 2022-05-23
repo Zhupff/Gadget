@@ -1,7 +1,9 @@
 package the.gadget.modulebase.livedata
 
 import androidx.lifecycle.LiveData
-import the.gadget.modulebase.thread.ThreadApi
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.HashSet
 
@@ -30,11 +32,7 @@ abstract class SetLiveData<T> : LiveData<Set<T>>() {
     override fun getValue(): MutableSet<T> = data
 
     fun commit() {
-        if (ThreadApi.instance.isOnMainThread()) {
-            setValue(data)
-        } else {
-            postValue(data)
-        }
+        CoroutineScope(Dispatchers.Main).launch { setValue(data) }
     }
 }
 

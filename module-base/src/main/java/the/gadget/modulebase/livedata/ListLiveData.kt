@@ -1,7 +1,9 @@
 package the.gadget.modulebase.livedata
 
 import androidx.lifecycle.LiveData
-import the.gadget.modulebase.thread.ThreadApi
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.concurrent.CopyOnWriteArrayList
 
 abstract class ListLiveData<T> : LiveData<List<T>>() {
@@ -33,11 +35,7 @@ abstract class ListLiveData<T> : LiveData<List<T>>() {
     override fun getValue(): MutableList<T> = data
 
     fun commit() {
-        if (ThreadApi.instance.isOnMainThread()) {
-            setValue(data)
-        } else {
-            postValue(data)
-        }
+        CoroutineScope(Dispatchers.Main).launch { setValue(data) }
     }
 }
 
