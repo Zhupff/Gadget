@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.findViewTreeLifecycleOwner
 import com.google.auto.service.AutoService
+import the.gadget.modulebase.livedata.observeLifecycleOrForever
 import the.gadget.modulebase.skin.SkinApi
 import the.gadget.modulebase.skin.SkinPackage
 import the.gadget.modulebase.weight.listener.ViewOnAttachStateChangeListener
@@ -28,9 +29,7 @@ class HomeOptionSkin : HomeOption(Option.Skin) {
             itemView.addOnAttachStateChangeListener(object : ViewOnAttachStateChangeListener() {
                 private val observer = Observer<SkinPackage> { onBind() }
                 override fun onViewAttachedToWindow(v: View?) {
-                    v?.findViewTreeLifecycleOwner()?.let { lifecycleOwner ->
-                        SkinApi.instance.getSelectedSkinPackageLiveData().observe(lifecycleOwner, observer)
-                    } ?: SkinApi.instance.getSelectedSkinPackageLiveData().observeForever(observer)
+                    SkinApi.instance.getSelectedSkinPackageLiveData().observeLifecycleOrForever(v?.findViewTreeLifecycleOwner(), observer)
                 }
                 override fun onViewDetachedFromWindow(v: View?) {
                     SkinApi.instance.getSelectedSkinPackageLiveData().removeObserver(observer)

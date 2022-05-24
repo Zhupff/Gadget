@@ -11,6 +11,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.util.containsKey
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.auto.service.AutoService
@@ -128,6 +129,9 @@ class SkinApiImpl : SkinApi {
         if (skinPackage == defaultSkinPackage) {
             return id
         }
+        if (skinPackage.cache.containsKey(id)) {
+            return skinPackage.cache.get(id, ResourcesCompat.ID_NULL)
+        }
         return try {
             val name = defaultSkinPackage.resources.getResourceEntryName(id)
             val type = defaultSkinPackage.resources.getResourceTypeName(id)
@@ -135,7 +139,7 @@ class SkinApiImpl : SkinApi {
         } catch (e: Exception) {
             logW("getIdentifier(${skinPackage}, ${id}) failed").logE(e)
             ResourcesCompat.ID_NULL
-        }
+        }.also { skinPackage.cache.put(id, it) }
     }
 
     override fun getColorInt(id: Int): Int {

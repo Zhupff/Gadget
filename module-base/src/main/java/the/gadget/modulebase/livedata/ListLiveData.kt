@@ -34,9 +34,7 @@ abstract class ListLiveData<T> : LiveData<List<T>>() {
 
     override fun getValue(): MutableList<T> = data
 
-    fun commit() {
-        CoroutineScope(Dispatchers.Main).launch { setValue(data) }
-    }
+    fun commit() { CoroutineScope(Dispatchers.Main).launch { setValue(data) } }
 }
 
 open class ArrayListLiveData<T>(items: Collection<T> = emptyList()) : ListLiveData<T>() {

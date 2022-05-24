@@ -31,9 +31,7 @@ abstract class SetLiveData<T> : LiveData<Set<T>>() {
 
     override fun getValue(): MutableSet<T> = data
 
-    fun commit() {
-        CoroutineScope(Dispatchers.Main).launch { setValue(data) }
-    }
+    fun commit() { CoroutineScope(Dispatchers.Main).launch { setValue(data) } }
 }
 
 class HashSetLiveData<T>(items: Collection<T> = emptyList()) : SetLiveData<T>() {

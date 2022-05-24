@@ -1,6 +1,7 @@
 package the.gadget.modulebase.skin
 
 import android.content.res.Resources
+import android.util.SparseIntArray
 import org.json.JSONObject
 
 open class SkinPackage(val resources: Resources) {
@@ -17,6 +18,8 @@ open class SkinPackage(val resources: Resources) {
     val id: String by lazy { info.optString("id", LIGHT_SKIN_ID) }
 
     val name: String by lazy { info.optString("name", "明亮模式") }
+
+    val cache: SparseIntArray by lazy { SparseIntArray() }
 
     override fun toString(): String = info.toString()
 }
