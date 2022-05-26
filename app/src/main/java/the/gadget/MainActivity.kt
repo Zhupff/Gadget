@@ -7,8 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import the.gadget.modulebase.activity.BaseActivity
@@ -30,7 +29,7 @@ class MainActivity : BaseActivity() {
                 )
             }
         }
-        CoroutineScope(Dispatchers.Main).launch {
+        lifecycleScope.launch {
             delay(1000)
             ModuleHomeApi.instance?.toHomeActivity(this@MainActivity)
             this@MainActivity.finish()

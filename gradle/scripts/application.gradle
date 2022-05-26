@@ -9,6 +9,17 @@ android {
         versionCode APPLICATION_VERSION as int
         versionName APPLICATION_VERSION
     }
+
+    buildTypes {
+//        debug {
+//            shrinkResources true
+//            minifyEnabled true
+//        }
+        release {
+            shrinkResources true
+            minifyEnabled true
+        }
+    }
 }
 
 dependencies {
