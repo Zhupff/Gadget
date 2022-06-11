@@ -1,5 +1,6 @@
 package the.gadget
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -10,9 +11,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import the.gadget.modulebase.activity.BaseActivity
-import the.gadget.modulebase.skin.*
-import the.gadget.modulehome.ModuleHomeApi
+import the.gadget.activity.BaseActivity
+import the.gadget.component.home.activity.HomeActivity
+import the.gadget.theme.skinColor
 
 class MainActivity : BaseActivity() {
 
@@ -31,7 +32,7 @@ class MainActivity : BaseActivity() {
         }
         lifecycleScope.launch {
             delay(1000)
-            ModuleHomeApi.instance?.toHomeActivity(this@MainActivity)
+            startActivity(Intent(this@MainActivity, HomeActivity::class.java))
             this@MainActivity.finish()
         }
     }

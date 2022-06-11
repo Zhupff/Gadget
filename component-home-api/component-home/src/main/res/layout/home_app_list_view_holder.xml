@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="the.gadget.component.home.R"/>
+        <variable
+            name="app"
+            type="the.gadget.component.home.HomeApp" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_min"
+        tools:background="@color/skin_background_color_dark">
+
+        <the.gadget.weight.common.CommonImageView
+            android:id="@+id/iv_app_icon"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:allCornerRadius="@dimen/corner_radius_mid"
+            drawableRes="@{app.icon}"
+            isSelected="@{app.selected}"
+            skinColorFilter="@{app.selected ? R.color.skin_theme_color : R.color.skin_text_color_l1}"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/iv_app_icon"
+            app:layout_constraintEnd_toEndOf="@id/iv_app_icon"
+            app:layout_constraintTop_toBottomOf="@id/iv_app_icon"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:textSize="@dimen/text_size_min"
+            android:text="@{app.name}"
+            isSelected="@{app.selected}"
+            skinTextColor="@{app.selected ? R.color.skin_theme_color : R.color.skin_text_color_l1}"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="the.gadget.component.home.R"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        skinBackgroundColor="@{R.color.skin_background_color}"
+        tools:background="@color/skin_background_color">
+
+        <the.gadget.weight.common.CommonConstraintLayout
+            android:id="@+id/top_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:fitStatusBar="true"
+            skinBackgroundColor="@{R.color.skin_background_color_dark}"
+            tools:background="@color/skin_background_color_dark">
+
+            <the.gadget.weight.common.CommonImageView
+                android:id="@+id/iv_avatar"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:allCornerRadius="@dimen/corner_radius_max"
+                android:layout_marginStart="@dimen/margin_max"
+                android:layout_marginTop="@dimen/margin_max"
+                android:layout_marginBottom="@dimen/margin_max"
+                skinBackgroundColor="@{R.color.skin_theme_color_light}"/>
+
+            <TextView
+                android:id="@+id/tv_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@id/iv_avatar"
+                app:layout_constraintTop_toTopOf="@id/iv_avatar"
+                app:layout_constraintBottom_toTopOf="@id/tv_uid"
+                android:layout_marginStart="@dimen/margin_max"
+                android:text="Nickname"
+                android:textSize="@dimen/text_size_max"
+                android:textStyle="bold"
+                skinTextColor="@{R.color.skin_text_color_l1}"
+                tools:textColor="@color/skin_text_color_l1"/>
+
+            <TextView
+                android:id="@+id/tv_uid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@id/iv_avatar"
+                app:layout_constraintBottom_toBottomOf="@id/iv_avatar"
+                android:layout_marginStart="@dimen/margin_max"
+                android:text="uid 123456"
+                android:textSize="@dimen/text_size_mid"
+                skinTextColor="@{R.color.skin_text_color_l2}"
+                tools:textColor="@color/skin_text_color_l2"/>
+
+        </the.gadget.weight.common.CommonConstraintLayout>
+
+        <the.gadget.weight.common.CommonFrameLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/top_layout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:fitNavigationBar="true">
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never"
+                android:requiresFadingEdge="vertical"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingTop="@dimen/padding_max"
+                    android:paddingBottom="@dimen/padding_max">
+
+                    <the.gadget.weight.common.CommonLinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_max"
+                        android:layout_marginEnd="@dimen/margin_max"
+                        android:orientation="vertical"
+                        app:allCornerRadius="@dimen/corner_radius_max"
+                        skinBackgroundColor="@{R.color.skin_background_color_dark}"
+                        tools:layout_height="200dp"
+                        tools:background="@color/skin_background_color_dark">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/margin_max"
+                            android:layout_marginTop="@dimen/margin_min"
+                            android:layout_marginBottom="@dimen/margin_min"
+                            android:text="应用"
+                            android:textSize="@dimen/text_size_mid"
+                            skinTextColor="@{R.color.skin_text_color_l1}"
+                            tools:textColor="@color/skin_text_color_l1"/>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            skinBackgroundColor="@{R.color.skin_text_color_l1}"
+                            tools:background="@color/skin_text_color_l1"/>
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_app_list"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/margin_mid"
+                            android:overScrollMode="never"/>
+                    </the.gadget.weight.common.CommonLinearLayout>
+
+                    <the.gadget.weight.common.CommonLinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_max"
+                        android:layout_marginEnd="@dimen/margin_max"
+                        android:layout_marginTop="@dimen/margin_max"
+                        android:orientation="vertical"
+                        app:allCornerRadius="@dimen/corner_radius_max"
+                        skinBackgroundColor="@{R.color.skin_background_color_dark}"
+                        tools:layout_height="200dp"
+                        tools:background="@color/skin_background_color_dark">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/margin_max"
+                            android:layout_marginTop="@dimen/margin_min"
+                            android:layout_marginBottom="@dimen/margin_min"
+                            android:text="更多选项"
+                            android:textSize="@dimen/text_size_mid"
+                            skinTextColor="@{R.color.skin_text_color_l1}"
+                            tools:textColor="@color/skin_text_color_l1"/>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            skinBackgroundColor="@{R.color.skin_text_color_l1}"
+                            tools:background="@color/skin_text_color_l1"/>
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_option_list"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/margin_mid"
+                            android:overScrollMode="never"/>
+                    </the.gadget.weight.common.CommonLinearLayout>
+
+                </LinearLayout>
+
+            </androidx.core.widget.NestedScrollView>
+
+        </the.gadget.weight.common.CommonFrameLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

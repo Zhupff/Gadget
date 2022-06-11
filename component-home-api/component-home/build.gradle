@@ -1,0 +1,5 @@
+apply from: rootProject.file("gradle/scripts/component.gradle")
+
+dependencies {
+    implementation project(":component-home-api")
+}

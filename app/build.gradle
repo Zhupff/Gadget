@@ -1,15 +1,8 @@
 apply from: rootProject.file("gradle/scripts/application.gradle")
 
 dependencies {
-    // 基础模块必须依赖
-    implementation project(":module-base")
-    implementation project(":module-base:module-base-core")
-
-    // 接口模块需要依赖
-    implementation project(":module-home")
-
     // 接口实现模块按需依赖
-    implementation project(":module-home:module-home-core")
-    implementation project(":module-elysium:module-elysium-core")
-    implementation project(":module-skin:module-skin-core")
+    implementation project(":component-home-api:component-home")
+    implementation project(":component-elysium-api:component-elysium")
+    implementation project(":component-skin-api:component-skin")
 }

@@ -6,7 +6,7 @@
         android:label="@string/app_name"
         android:icon="@drawable/logo"
         android:theme="@style/BaseTheme"
-        android:name=".modulebase.application.GadgetApplication">
+        android:name=".GadgetApplication">
         <activity android:name=".MainActivity"
             android:theme="@style/MainActivityTheme">
             <intent-filter>

@@ -88,4 +88,4 @@ open class ModulePluginGenerateTask : DefaultTask() {
 
 
 
-private val MODULE: ClassName; get() = ClassName.get("the.gadget.libannotation", "Module")
+private val MODULE: ClassName; get() = ClassName.get("the.gadget.annotation", "Module")
