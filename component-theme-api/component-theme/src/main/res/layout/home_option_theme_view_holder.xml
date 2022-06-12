@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="the.gadget.theme.Colour"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mode_option_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/home_option_item_height">
+
+            <ImageView
+                android:id="@+id/iv_mode_icon"
+                android:layout_width="@dimen/home_option_item_icon_size"
+                android:layout_height="@dimen/home_option_item_icon_size"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginStart="@dimen/home_option_item_margin_start"
+                themeColorFilter="@{Colour.OnSurface}"
+                tools:src="@drawable/ic_theme_light_mode"/>
+
+            <TextView
+                android:id="@+id/tv_mode_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@id/iv_mode_icon"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginStart="@dimen/home_option_item_margin_start"
+                themeTextColor="@{Colour.OnSurface}"
+                tools:text="明亮模式"/>
+
+            <ImageView
+                android:layout_width="@dimen/home_option_item_icon_size"
+                android:layout_height="@dimen/home_option_item_icon_size"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginEnd="@dimen/home_option_item_margin_end"
+                android:src="@drawable/ic_switch_theme_mode"
+                themeColorFilter="@{Colour.OnSurface}"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/theme_option_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/home_option_item_height">
+
+            <ImageView
+                android:id="@+id/iv_theme_icon"
+                android:layout_width="@dimen/home_option_item_icon_size"
+                android:layout_height="@dimen/home_option_item_icon_size"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginStart="@dimen/home_option_item_margin_start"
+                android:src="@drawable/ic_theme_option"
+                themeColorFilter="@{Colour.OnSurface}"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@id/iv_theme_icon"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginStart="@dimen/home_option_item_margin_start"
+                android:text="个性装扮"
+                themeTextColor="@{Colour.OnSurface}"/>
+
+            <ImageView
+                android:layout_width="@dimen/home_option_item_icon_size"
+                android:layout_height="@dimen/home_option_item_icon_size"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginEnd="@dimen/home_option_item_margin_end"
+                android:src="@drawable/ic_arrow_forward"
+                themeColorFilter="@{Colour.OnSurface}"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+</layout>

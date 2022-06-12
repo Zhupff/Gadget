@@ -5,7 +5,7 @@ import the.gadget.weight.recyclerview.RecyclerViewHolder
 
 abstract class HomeOption(val option: Option) {
     enum class Option {
-        Skin,
+        Theme,
         About,
     }
 

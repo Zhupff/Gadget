@@ -9,8 +9,7 @@ include ":component-home-api",
         ":component-home-api:component-home"
 include ":component-elysium-api",
         ":component-elysium-api:component-elysium"
-include ":component-skin-api",
-        ":component-skin-api:component-skin",
-        ":component-skin-api:dark"
+include ":component-theme-api",
+        ":component-theme-api:component-theme"
 include ":lib-annotation",
         ":lib-annotation:lib-annotation-processor"

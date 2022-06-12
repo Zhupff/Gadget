@@ -4,5 +4,5 @@ dependencies {
     // 接口实现模块按需依赖
     implementation project(":component-home-api:component-home")
     implementation project(":component-elysium-api:component-elysium")
-    implementation project(":component-skin-api:component-skin")
+    implementation project(":component-theme-api:component-theme")
 }

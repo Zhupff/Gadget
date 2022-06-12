@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="the.gadget.component.home.R"/>
+        <import type="the.gadget.theme.Colour"/>
         <variable
             name="app"
             type="the.gadget.component.home.HomeApp" />
@@ -13,8 +13,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/padding_min"
-        tools:background="@color/skin_background_color_dark">
+        android:padding="@dimen/padding_min">
 
         <the.gadget.weight.common.CommonImageView
             android:id="@+id/iv_app_icon"
@@ -27,7 +26,9 @@
             app:allCornerRadius="@dimen/corner_radius_mid"
             drawableRes="@{app.icon}"
             isSelected="@{app.selected}"
-            skinColorFilter="@{app.selected ? R.color.skin_theme_color : R.color.skin_text_color_l1}"/>
+            themeColorFilter="@{app.selected ? Colour.PrimaryContainer : Colour.OnSurface}"
+            tools:src="@drawable/home_app_icon"
+            tools:tint="@color/themePrimaryContainer"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -40,7 +41,9 @@
             android:textSize="@dimen/text_size_min"
             android:text="@{app.name}"
             isSelected="@{app.selected}"
-            skinTextColor="@{app.selected ? R.color.skin_theme_color : R.color.skin_text_color_l1}"/>
+            themeTextColor="@{app.selected ? Colour.PrimaryContainer : Colour.OnSurface}"
+            tools:textColor="@color/themePrimaryContainer"
+            tools:text="应用"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="the.gadget.component.home.R"/>
+        <import type="the.gadget.theme.Colour"/>
     </data>
 
     <androidx.drawerlayout.widget.DrawerLayout
@@ -12,11 +12,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <the.gadget.weight.common.CommonConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            skinBackgroundColor="@{R.color.skin_background_color}"
-            tools:background="@color/skin_background_color">
+            themeBackgroundColor="@{Colour.Background}"
+            tools:background="@color/themeBackground">
 
             <the.gadget.component.home.weight.HomeTopBarLayout
                 android:id="@+id/top_bar_layout"
@@ -43,7 +43,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
-        </the.gadget.weight.common.CommonConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <the.gadget.component.home.weight.HomeSideBarLayout
             android:id="@+id/side_bar_layout"
