@@ -5,4 +5,5 @@ dependencies {
     implementation project(":component-home-api:component-home")
     implementation project(":component-elysium-api:component-elysium")
     implementation project(":component-theme-api:component-theme")
+    implementation project(":component-wanandroid-api:component-wanandroid")
 }

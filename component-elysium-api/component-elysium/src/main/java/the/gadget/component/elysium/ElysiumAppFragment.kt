@@ -1,11 +1,10 @@
-package the.gadget.component.elysium.fragment
+package the.gadget.component.elysium
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.auto.service.AutoService
-import the.gadget.component.elysium.R
 import the.gadget.component.elysium.databinding.ElysiumAppFragmentBinding
 import the.gadget.component.home.HomeApp
 import the.gadget.fragment.BaseFragment
