@@ -1,4 +1,4 @@
-package the.gadget.component.wanandroid.api
+package the.gadget.component.wanandroid
 
 import the.gadget.api.apiInstanceOrNull
 
