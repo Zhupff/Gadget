@@ -132,7 +132,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/margin_min"
                             android:layout_marginBottom="@dimen/margin_min"
-                            android:text="更多选项"
+                            android:text="其他"
                             android:textSize="@dimen/text_size_mid"
                             themeTextColor="@{Colour.OnSurface}"
                             tools:textColor="@color/themeOnSurface"/>

@@ -26,7 +26,7 @@
             app:allCornerRadius="@dimen/corner_radius_mid"
             drawableRes="@{app.icon}"
             isSelected="@{app.selected}"
-            themeColorFilter="@{app.selected ? Colour.PrimaryContainer : Colour.OnSurface}"
+            themeColorFilter="@{app.selected ? Colour.Primary : Colour.Outline}"
             tools:src="@drawable/home_app_icon"
             tools:tint="@color/themePrimaryContainer"/>
 
@@ -41,7 +41,7 @@
             android:textSize="@dimen/text_size_min"
             android:text="@{app.name}"
             isSelected="@{app.selected}"
-            themeTextColor="@{app.selected ? Colour.PrimaryContainer : Colour.OnSurface}"
+            themeTextColor="@{app.selected ? Colour.Primary : Colour.Outline}"
             tools:textColor="@color/themePrimaryContainer"
             tools:text="应用"/>
 

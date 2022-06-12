@@ -47,7 +47,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_marginEnd="@dimen/home_option_item_margin_end"
                 android:src="@drawable/ic_switch_theme_mode"
-                themeColorFilter="@{Colour.OnSurface}"/>
+                themeColorFilter="@{Colour.Outline}"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -85,7 +85,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_marginEnd="@dimen/home_option_item_margin_end"
                 android:src="@drawable/ic_arrow_forward"
-                themeColorFilter="@{Colour.OnSurface}"/>
+                themeColorFilter="@{Colour.Outline}"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
