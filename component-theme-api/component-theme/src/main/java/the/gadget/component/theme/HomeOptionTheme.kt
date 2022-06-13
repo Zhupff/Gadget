@@ -8,8 +8,10 @@ import com.google.auto.service.AutoService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import the.gadget.activity.toBaseActivity
 import the.gadget.component.home.HomeOption
 import the.gadget.component.theme.databinding.HomeOptionThemeViewHolderBinding
+import the.gadget.fragment.FragmentApi
 import the.gadget.livedata.observeLifecycleOrForever
 import the.gadget.theme.Palette
 import the.gadget.theme.ThemeApi
@@ -37,6 +39,16 @@ class HomeOptionTheme : HomeOption(Option.Theme) {
                     ThemeApi.instance.getCurrentTheme().removeObserver(observer)
                 }
             })
+            binding.modeOptionLayout.setOnClickListener {
+                CoroutineScope(Dispatchers.IO).launch {
+                    ThemeApi.instance.switchThemeMode()
+                }
+            }
+            binding.themeOptionLayout.setOnClickListener {
+                itemView.context.toBaseActivity()?.supportFragmentManager?.let { fm ->
+                    FragmentApi.instance.showDialogFragment(fm, HomeOptionThemeDialogFragment())
+                }
+            }
         }
 
         fun onBind() {
@@ -48,12 +60,6 @@ class HomeOptionTheme : HomeOption(Option.Theme) {
                 binding.ivModeIcon.setImageResource(R.drawable.ic_theme_dark_mode)
                 binding.tvModeName.text = "黑暗模式"
             }
-            binding.modeOptionLayout.setOnClickListener {
-                CoroutineScope(Dispatchers.IO).launch {
-                    ThemeApi.instance.switchThemeMode()
-                }
-            }
-            binding.themeOptionLayout.setOnClickListener { componentThemeApi.toThemeActivity(binding.root.context) }
         }
     }
 }

@@ -7,6 +7,7 @@ import android.util.TypedValue
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
 import androidx.annotation.DrawableRes
+import androidx.core.content.res.ResourcesCompat
 import com.google.auto.service.AutoService
 import the.gadget.api.ApplicationApi
 import the.gadget.api.ResourceApi
@@ -18,9 +19,9 @@ class ResourceApiImpl : ResourceApi {
 
     override fun getDisplayMetrics(): DisplayMetrics = getResources().displayMetrics
 
-    override fun getColorInt(@ColorRes id: Int): Int = getResources().getColor(id)
+    override fun getColorInt(@ColorRes id: Int): Int = ResourcesCompat.getColor(getResources(), id, null)
 
-    override fun getDrawable(@DrawableRes id: Int): Drawable = getResources().getDrawable(id)
+    override fun getDrawable(@DrawableRes id: Int): Drawable? = ResourcesCompat.getDrawable(getResources(), id, null)
 
     override fun getDimension(@DimenRes id: Int): Float = getResources().getDimension(id)
 

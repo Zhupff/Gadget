@@ -1,6 +1,9 @@
 package the.gadget.module.common
 
+import android.graphics.Bitmap
+import android.net.Uri
 import com.google.auto.service.AutoService
+import the.gadget.api.ApplicationApi
 import the.gadget.api.FileApi
 import java.io.File
 import java.io.FileOutputStream
@@ -29,5 +32,28 @@ class FileApiImpl : FileApi {
 
     override fun copy(inputStream: InputStream, output: File) {
         copy(inputStream, FileOutputStream(output))
+    }
+
+    override fun getInputStreamFromUri(uri: Uri): InputStream? =
+        ApplicationApi.instance.getApplication().contentResolver.openInputStream(uri)
+
+    override fun saveBitmap(bitmap: Bitmap, file: File): File {
+        FileOutputStream(file).use { fos ->
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)
+        }
+        return file
+    }
+
+    override fun getFile(file: File): File? = getFile(file.path)
+
+    override fun getFile(path: String): File? {
+        val file = File(path)
+        if (!file.exists()) {
+            val parent = file.parentFile ?: return null
+            if (!parent.exists()) {
+                parent.mkdirs()
+            }
+        }
+        return file
     }
 }

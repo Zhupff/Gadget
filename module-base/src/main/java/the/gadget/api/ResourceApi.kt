@@ -21,7 +21,7 @@ interface ResourceApi {
     @ColorInt
     fun getColorInt(@ColorRes id: Int): Int
 
-    fun getDrawable(@DrawableRes id: Int): Drawable
+    fun getDrawable(@DrawableRes id: Int): Drawable?
 
     fun getDimension(@DimenRes id: Int): Float
 

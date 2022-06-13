@@ -1,22 +1,47 @@
 package the.gadget.module.theme
 
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.view.View
+import androidx.annotation.MainThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.auto.service.AutoService
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
+import the.gadget.api.FileApi
+import the.gadget.api.ResourceApi
 import the.gadget.theme.Palette
 import the.gadget.theme.ThemeApi
 import the.gadget.theme.ThemeView
+import java.io.File
 
 @AutoService(ThemeApi::class)
 class ThemeApiImpl : ThemeApi {
+    companion object {
+        private val WALLPAPER_FILE: File?
+            get() = FileApi.instance.getFile(FileApi.CACHE_DIR.resolve("wallpaper.png"))
+    }
 
     private val currentTheme: MutableLiveData<Palette> = MutableLiveData()
 
+    private val wallpaper: MutableLiveData<String> = MutableLiveData()
+
     override fun getCurrentTheme(): LiveData<Palette> = currentTheme
+
+    override fun getWallpaper(): LiveData<String> = wallpaper
+
+    override suspend fun initTheme() {
+        if (currentTheme.value != null) return
+        val wallpaperFile = WALLPAPER_FILE
+        if (wallpaperFile != null && wallpaperFile.exists()) {
+            val bitmap = BitmapFactory.decodeFile(wallpaperFile.path)
+            switchTheme(bitmap)
+        } else {
+            val color = ResourceApi.instance.getColorInt(R.color.themeOrigin)
+            switchTheme(color)
+        }
+    }
 
     override suspend fun switchTheme(bitmap: Bitmap) {
         val mode = currentTheme.value?.mode ?: Palette.Mode.Light
@@ -24,7 +49,12 @@ class ThemeApiImpl : ThemeApi {
             getLightTheme(bitmap)
         else
             getDarkTheme(bitmap)
-        switchTheme(newPalette)
+        val wallpaperFile = WALLPAPER_FILE
+        val filePath = if (wallpaperFile != null) FileApi.instance.saveBitmap(bitmap, wallpaperFile).path else null
+        MainScope().launch {
+            wallpaper.postValue(filePath)
+            switchTheme(newPalette)
+        }
     }
 
     override suspend fun switchTheme(originArgb: Int) {
@@ -34,15 +64,10 @@ class ThemeApiImpl : ThemeApi {
                 getLightTheme(originArgb)
             else
                 getDarkTheme(originArgb)
-            switchTheme(newPalette)
-        }
-    }
-
-    override suspend fun switchTheme(palette: Palette) {
-        if (currentTheme.value != palette) {
+            WALLPAPER_FILE?.let { wallpaperFile -> if (wallpaperFile.exists()) wallpaperFile.delete() }
             MainScope().launch {
-                palette.apply()
-                currentTheme.value = palette
+                wallpaper.postValue(null)
+                switchTheme(newPalette)
             }
         }
     }
@@ -53,7 +78,17 @@ class ThemeApiImpl : ThemeApi {
             getDarkTheme(currentPalette.originArgb)
         else
             getLightTheme(currentPalette.originArgb)
-        switchTheme(newPalette)
+        MainScope().launch {
+            switchTheme(newPalette)
+        }
+    }
+
+    @MainThread
+    private fun switchTheme(palette: Palette) {
+        if (currentTheme.value != palette) {
+            palette.apply()
+            currentTheme.value = palette
+        }
     }
 
     override fun attachView(view: View): ThemeView = ThemeView.get(view) ?: ThemeViewImpl(view)
@@ -85,7 +120,7 @@ class ThemeApiImpl : ThemeApi {
             hct.error.tone(40), hct.error.tone(100),
             hct.error.tone(90), hct.error.tone(10),
             hct.n1.tone(99), hct.n1.tone(10),
-            hct.n1.tone(99), hct.n1.tone(10),
+            (0x33 shl 24) or (hct.n1.tone(99) and 0x00FFFFFF), hct.n1.tone(10),
             hct.n2.tone(90), hct.n2.tone(30),
             hct.n2.tone(50), hct.n1.tone(0),
             hct.n1.tone(20), hct.n1.tone(95), hct.a1.tone(80))
@@ -104,7 +139,7 @@ class ThemeApiImpl : ThemeApi {
             hct.error.tone(80), hct.error.tone(20),
             hct.error.tone(30), hct.error.tone(80),
             hct.n1.tone(10), hct.n1.tone(90),
-            hct.n1.tone(10), hct.n1.tone(90),
+            (0x33 shl 24) or (hct.n1.tone(10) and 0x00FFFFFF), hct.n1.tone(90),
             hct.n2.tone(30), hct.n2.tone(80),
             hct.n2.tone(60), hct.n1.tone(0),
             hct.n1.tone(90), hct.n1.tone(20), hct.a1.tone(40))

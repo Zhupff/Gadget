@@ -21,7 +21,7 @@
     <color name="themeOnErrorContainer">#ff410002</color>
     <color name="themeBackground">#fffcfcff</color>
     <color name="themeOnBackground">#ff1a1c1e</color>
-    <color name="themeSurface">#fffcfcff</color>
+    <color name="themeSurface">#33fcfcff</color>
     <color name="themeOnSurface">#ff1a1c1e</color>
     <color name="themeSurfaceVariant">#ffdee3ea</color>
     <color name="themeOnSurfaceVariant">#ff42474d</color>

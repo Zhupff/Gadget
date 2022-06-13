@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="the.gadget.theme.Colour"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <the.gadget.weight.common.CommonLinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:fitNavigationBar="true"
+            app:tlCornerRadius="@dimen/corner_radius_max"
+            app:trCornerRadius="@dimen/corner_radius_max"
+            android:orientation="vertical"
+            themeBackgroundColor="@{Colour.Background}"
+            tools:background="@color/themeBackground">
+            <TextView
+                android:id="@+id/tv_from_camera"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="拍摄"
+                android:textSize="@dimen/text_size_max"
+                android:gravity="center"
+                themeTextColor="@{Colour.OnBackground}"
+                tools:textColor="@color/themeOnBackground"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                themeBackgroundColor="@{Colour.Outline}"
+                tools:background="@color/themeOutline"/>
+            <TextView
+                android:id="@+id/tv_from_album"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="从相册选择"
+                android:textSize="@dimen/text_size_max"
+                android:gravity="center"
+                themeTextColor="@{Colour.OnBackground}"
+                tools:textColor="@color/themeOnBackground"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                themeBackgroundColor="@{Colour.Outline}"
+                tools:background="@color/themeOutline"/>
+            <TextView
+                android:id="@+id/tv_reset"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="恢复默认"
+                android:textSize="@dimen/text_size_max"
+                android:gravity="center"
+                themeTextColor="@{Colour.OnBackground}"
+                tools:textColor="@color/themeOnBackground"/>
+        </the.gadget.weight.common.CommonLinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

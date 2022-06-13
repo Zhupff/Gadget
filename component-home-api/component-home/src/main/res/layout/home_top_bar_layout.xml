@@ -14,17 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:scaleType="centerCrop"
-            themeBackgroundColor="@{Colour.PrimaryContainer}"
-            tools:src="@color/themePrimaryContainer"/>
-
         <the.gadget.weight.common.CommonFrameLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -32,7 +21,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:fitStatusBar="true">
+            app:fitStatusBar="true"
+            themeBackgroundColor="@{Colour.Surface}"
+            tools:background="@color/themeSurface">
 
             <the.gadget.weight.common.CommonConstraintLayout
                 android:layout_width="match_parent"

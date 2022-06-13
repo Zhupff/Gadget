@@ -13,11 +13,13 @@ interface ThemeApi {
 
     fun getCurrentTheme(): LiveData<Palette>
 
+    fun getWallpaper(): LiveData<String>
+
+    suspend fun initTheme()
+
     suspend fun switchTheme(bitmap: Bitmap)
 
     suspend fun switchTheme(originArgb: Int)
-
-    suspend fun switchTheme(palette: Palette)
 
     suspend fun switchThemeMode()
 

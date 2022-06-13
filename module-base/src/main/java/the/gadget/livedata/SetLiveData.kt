@@ -1,8 +1,7 @@
 package the.gadget.livedata
 
 import androidx.lifecycle.LiveData
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.HashSet
@@ -31,7 +30,7 @@ abstract class SetLiveData<T> : LiveData<Set<T>>() {
 
     override fun getValue(): MutableSet<T> = data
 
-    fun commit() { CoroutineScope(Dispatchers.Main).launch { setValue(data) } }
+    fun commit() { MainScope().launch { setValue(data) } }
 }
 
 class HashSetLiveData<T>(items: Collection<T> = emptyList()) : SetLiveData<T>() {

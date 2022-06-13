@@ -48,8 +48,8 @@
                 android:text="Nickname"
                 android:textSize="@dimen/text_size_max"
                 android:textStyle="bold"
-                themeTextColor="@{Colour.OnBackground}"
-                tools:textColor="@color/themeOnBackground"/>
+                themeTextColor="@{Colour.OnSurface}"
+                tools:textColor="@color/themeOnSurface"/>
 
             <TextView
                 android:id="@+id/tv_uid"
@@ -91,10 +91,12 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_max"
-                        android:layout_marginEnd="@dimen/margin_max"
+                        android:paddingStart="@dimen/padding_max"
+                        android:paddingEnd="@dimen/padding_max"
                         android:orientation="vertical"
                         app:allCornerRadius="@dimen/corner_radius_max"
+                        themeBackgroundColor="@{Colour.Surface}"
+                        tools:background="@color/themeSurface"
                         tools:layout_height="200dp">
                         <TextView
                             android:layout_width="wrap_content"
@@ -122,10 +124,12 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_max"
-                        android:layout_marginEnd="@dimen/margin_max"
+                        android:paddingStart="@dimen/padding_max"
+                        android:paddingEnd="@dimen/padding_max"
                         android:layout_marginTop="@dimen/margin_max"
                         android:orientation="vertical"
+                        themeBackgroundColor="@{Colour.Surface}"
+                        tools:background="@color/themeSurface"
                         tools:layout_height="200dp">
                         <TextView
                             android:layout_width="wrap_content"

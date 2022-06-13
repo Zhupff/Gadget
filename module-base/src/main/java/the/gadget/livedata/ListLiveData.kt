@@ -1,8 +1,7 @@
 package the.gadget.livedata
 
 import androidx.lifecycle.LiveData
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import java.util.concurrent.CopyOnWriteArrayList
 
@@ -34,7 +33,7 @@ abstract class ListLiveData<T> : LiveData<List<T>>() {
 
     override fun getValue(): MutableList<T> = data
 
-    fun commit() { CoroutineScope(Dispatchers.Main).launch { setValue(data) } }
+    fun commit() { MainScope().launch { setValue(data) } }
 }
 
 open class ArrayListLiveData<T>(items: Collection<T> = emptyList()) : ListLiveData<T>() {

@@ -11,8 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:fitNavigationBar="true"
-        themeBackgroundColor="@{Colour.PrimaryContainer}"
-        tools:layout_height="@dimen/common_top_bar_height"
-        tools:background="@color/themePrimaryContainer">
+        themeBackgroundColor="@{Colour.Surface}"
+        tools:background="@color/themeSurface"
+        tools:layout_height="@dimen/common_top_bar_height">
     </the.gadget.weight.common.CommonFrameLayout>
 </layout>
