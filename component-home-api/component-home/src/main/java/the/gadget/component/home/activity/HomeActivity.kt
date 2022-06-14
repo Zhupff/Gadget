@@ -1,6 +1,7 @@
 package the.gadget.component.home.activity
 
 import android.os.Bundle
+import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import the.gadget.activity.BindingActivity
@@ -39,6 +40,18 @@ class HomeActivity : BindingActivity<HomeActivityBinding>() {
     }
 
     override fun getLayoutRes(): Int = R.layout.home_activity
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event?.action == KeyEvent.ACTION_DOWN) {
+            if (binding.drawerLayout.isDrawerOpen(binding.sideBarLayout)) {
+                binding.drawerLayout.closeDrawer(binding.sideBarLayout)
+            } else {
+                moveTaskToBack(true)
+            }
+            return true
+        }
+        return super.onKeyDown(keyCode, event)
+    }
 
     private class AppFragmentPagerAdapter(activity: HomeActivity, private val pager: ViewPager2) : DiffFragmentStateAdapter<HomeApp>(activity) {
 

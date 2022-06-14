@@ -15,28 +15,38 @@ internal class ThemeViewImpl(view: View) : ThemeView(view) {
 
     private val actions = mutableMapOf<String, Runnable>()
 
-    private var isAlive = true
+    private var isAlive = false
 
     init {
-        ThemeApi.instance.getCurrentTheme().observeLifecycleOrForever(view.findViewTreeLifecycleOwner(), this)
         view.addOnAttachStateChangeListener(object : ViewOnAttachStateChangeListener() {
+            override fun onViewAttachedToWindow(v: View?) {
+                super.onViewAttachedToWindow(v)
+                active()
+            }
             override fun onViewDetachedFromWindow(v: View?) {
                 super.onViewDetachedFromWindow(v)
-                v?.removeOnAttachStateChangeListener(this)
                 release()
             }
         })
-        view.setTag(R.id.theme_view_tag, this)
+        active()
     }
 
-    override fun onChanged(t: Palette) {
-        actions.values.forEach { if (isAlive) it.run() }
+    override fun onChanged(t: Palette) { actions.values.forEach { if (isAlive) it.run() } }
+
+    private fun active() {
+        if (!isAlive) {
+            isAlive = true
+            ThemeApi.instance.getCurrentTheme().observeLifecycleOrForever(view.findViewTreeLifecycleOwner(), this)
+            view.setTag(R.id.theme_view_tag, this)
+        }
     }
 
     override fun release() {
-        isAlive = false
-        ThemeApi.instance.getCurrentTheme().removeObserver(this)
-        view.setTag(R.id.theme_view_tag, null)
+        if (isAlive) {
+            isAlive = false
+            ThemeApi.instance.getCurrentTheme().removeObserver(this)
+            view.setTag(R.id.theme_view_tag, null)
+        }
     }
 
     override fun backgroundColor(colour: Colour) = apply {

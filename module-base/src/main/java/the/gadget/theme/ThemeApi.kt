@@ -28,12 +28,4 @@ interface ThemeApi {
 
     @MainThread
     fun detachView(view: View)
-
-    suspend fun getLightTheme(bitmap: Bitmap): Palette
-
-    suspend fun getDarkTheme(bitmap: Bitmap): Palette
-
-    suspend fun getLightTheme(argb: Int): Palette
-
-    suspend fun getDarkTheme(argb: Int): Palette
 }

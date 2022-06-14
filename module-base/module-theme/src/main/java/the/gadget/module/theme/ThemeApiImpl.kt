@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.auto.service.AutoService
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
+import the.gadget.api.BitmapApi
 import the.gadget.api.FileApi
 import the.gadget.api.ResourceApi
 import the.gadget.theme.Palette
@@ -45,12 +46,13 @@ class ThemeApiImpl : ThemeApi {
 
     override suspend fun switchTheme(bitmap: Bitmap) {
         val mode = currentTheme.value?.mode ?: Palette.Mode.Light
+        val targetBitmap = BitmapApi.instance.zoomOut(bitmap, 1980 * 1080)
         val newPalette = if (mode.isLightMode())
-            getLightTheme(bitmap)
+            getLightTheme(targetBitmap)
         else
-            getDarkTheme(bitmap)
+            getDarkTheme(targetBitmap)
         val wallpaperFile = WALLPAPER_FILE
-        val filePath = if (wallpaperFile != null) FileApi.instance.saveBitmap(bitmap, wallpaperFile).path else null
+        val filePath = if (wallpaperFile != null) FileApi.instance.saveBitmap(targetBitmap, wallpaperFile).path else null
         MainScope().launch {
             wallpaper.postValue(filePath)
             switchTheme(newPalette)
@@ -95,19 +97,19 @@ class ThemeApiImpl : ThemeApi {
 
     override fun detachView(view: View) { ThemeView.get(view)?.release() }
 
-    override suspend fun getLightTheme(bitmap: Bitmap): Palette {
+    private suspend fun getLightTheme(bitmap: Bitmap): Palette {
         val pixel = IntArray(bitmap.width * bitmap.height)
         bitmap.getPixels(pixel, 0, bitmap.width, 0, 0, bitmap.width, bitmap.height)
         return getLightTheme(ColourQuantizer.quantize(pixel))
     }
 
-    override suspend fun getDarkTheme(bitmap: Bitmap): Palette {
+    private suspend fun getDarkTheme(bitmap: Bitmap): Palette {
         val pixel = IntArray(bitmap.width * bitmap.height)
         bitmap.getPixels(pixel, 0, bitmap.width, 0, 0, bitmap.width, bitmap.height)
         return getDarkTheme(ColourQuantizer.quantize(pixel))
     }
 
-    override suspend fun getLightTheme(argb: Int): Palette {
+    private suspend fun getLightTheme(argb: Int): Palette {
         val hct = ColourSolver.HCT(argb)
         return Palette(
             Palette.Mode.Light, argb,
@@ -126,7 +128,7 @@ class ThemeApiImpl : ThemeApi {
             hct.n1.tone(20), hct.n1.tone(95), hct.a1.tone(80))
     }
 
-    override suspend fun getDarkTheme(argb: Int): Palette {
+    private suspend fun getDarkTheme(argb: Int): Palette {
         val hct = ColourSolver.HCT(argb)
         return Palette(
             Palette.Mode.Dark, argb,
