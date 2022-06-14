@@ -32,6 +32,7 @@ class HomeOptionThemeDialogFragment : BindingDialogFragment<HomeOptionThemeDialo
                     CoroutineScope(Dispatchers.IO).launch {
                         ThemeApi.instance.switchTheme(bitmap)
                     }
+                    dismissAllowingStateLoss()
                 }
             }
             if (!isOk) {
@@ -59,6 +60,7 @@ class HomeOptionThemeDialogFragment : BindingDialogFragment<HomeOptionThemeDialo
             CoroutineScope(Dispatchers.IO).launch {
                 ThemeApi.instance.switchTheme(ResourceApi.instance.getColorInt(R.color.themeOrigin))
             }
+            dismissAllowingStateLoss()
         }
     }
 }
