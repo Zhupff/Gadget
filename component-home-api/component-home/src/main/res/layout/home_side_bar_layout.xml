@@ -31,10 +31,10 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:allCornerRadius="@dimen/corner_radius_max"
-                android:layout_marginStart="@dimen/margin_max"
-                android:layout_marginTop="@dimen/margin_max"
-                android:layout_marginBottom="@dimen/margin_max"
+                app:allCornerRadius="@dimen/cornerRadiusMax"
+                android:layout_marginStart="@dimen/marginMax"
+                android:layout_marginTop="@dimen/marginMax"
+                android:layout_marginBottom="@dimen/marginMax"
                 themeBackgroundColor="@{Colour.PrimaryContainer}"/>
 
             <TextView
@@ -44,9 +44,9 @@
                 app:layout_constraintStart_toEndOf="@id/iv_avatar"
                 app:layout_constraintTop_toTopOf="@id/iv_avatar"
                 app:layout_constraintBottom_toTopOf="@id/tv_uid"
-                android:layout_marginStart="@dimen/margin_max"
+                android:layout_marginStart="@dimen/marginMax"
                 android:text="Nickname"
-                android:textSize="@dimen/text_size_max"
+                android:textSize="@dimen/textSizeMax"
                 android:textStyle="bold"
                 themeTextColor="@{Colour.OnSurface}"
                 tools:textColor="@color/themeOnSurface"/>
@@ -57,9 +57,9 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toEndOf="@id/iv_avatar"
                 app:layout_constraintBottom_toBottomOf="@id/iv_avatar"
-                android:layout_marginStart="@dimen/margin_max"
+                android:layout_marginStart="@dimen/marginMax"
                 android:text="uid 123456"
-                android:textSize="@dimen/text_size_mid"
+                android:textSize="@dimen/textSizeMid"
                 themeTextColor="@{Colour.OnSurface}"
                 tools:textColor="@color/themeOnSurface"/>
 
@@ -85,26 +85,26 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:paddingTop="@dimen/padding_max"
-                    android:paddingBottom="@dimen/padding_max">
+                    android:paddingTop="@dimen/paddingMax"
+                    android:paddingBottom="@dimen/paddingMax">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingStart="@dimen/padding_max"
-                        android:paddingEnd="@dimen/padding_max"
+                        android:paddingStart="@dimen/paddingMax"
+                        android:paddingEnd="@dimen/paddingMax"
                         android:orientation="vertical"
-                        app:allCornerRadius="@dimen/corner_radius_max"
+                        app:allCornerRadius="@dimen/cornerRadiusMax"
                         themeBackgroundColor="@{Colour.Surface}"
                         tools:background="@color/themeSurface"
                         tools:layout_height="200dp">
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/margin_min"
-                            android:layout_marginBottom="@dimen/margin_min"
+                            android:layout_marginTop="@dimen/marginMin"
+                            android:layout_marginBottom="@dimen/marginMin"
                             android:text="应用"
-                            android:textSize="@dimen/text_size_mid"
+                            android:textSize="@dimen/textSizeMid"
                             themeTextColor="@{Colour.OnSurface}"
                             tools:textColor="@color/themeOnSurface"/>
                         <View
@@ -116,17 +116,17 @@
                             android:id="@+id/rv_app_list"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/margin_mid"
-                            android:layout_marginBottom="@dimen/margin_mid"
+                            android:layout_marginTop="@dimen/marginMid"
+                            android:layout_marginBottom="@dimen/marginMid"
                             android:overScrollMode="never"/>
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingStart="@dimen/padding_max"
-                        android:paddingEnd="@dimen/padding_max"
-                        android:layout_marginTop="@dimen/margin_max"
+                        android:paddingStart="@dimen/paddingMax"
+                        android:paddingEnd="@dimen/paddingMax"
+                        android:layout_marginTop="@dimen/marginMax"
                         android:orientation="vertical"
                         themeBackgroundColor="@{Colour.Surface}"
                         tools:background="@color/themeSurface"
@@ -134,10 +134,10 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/margin_min"
-                            android:layout_marginBottom="@dimen/margin_min"
+                            android:layout_marginTop="@dimen/marginMin"
+                            android:layout_marginBottom="@dimen/marginMin"
                             android:text="其他"
-                            android:textSize="@dimen/text_size_mid"
+                            android:textSize="@dimen/textSizeMid"
                             themeTextColor="@{Colour.OnSurface}"
                             tools:textColor="@color/themeOnSurface"/>
                         <View
@@ -149,8 +149,8 @@
                             android:id="@+id/rv_option_list"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/margin_mid"
-                            android:layout_marginBottom="@dimen/margin_mid"
+                            android:layout_marginTop="@dimen/marginMid"
+                            android:layout_marginBottom="@dimen/marginMid"
                             android:overScrollMode="never"/>
                     </LinearLayout>
 

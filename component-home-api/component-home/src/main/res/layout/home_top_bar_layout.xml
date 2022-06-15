@@ -27,18 +27,18 @@
 
             <the.gadget.weight.common.CommonConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/common_top_bar_height">
+                android:layout_height="@dimen/commonTopBarHeight">
 
                 <the.gadget.weight.common.CommonImageView
                     android:id="@+id/iv_app_icon"
-                    android:layout_width="@dimen/common_top_bar_item_size"
-                    android:layout_height="@dimen/common_top_bar_item_size"
+                    android:layout_width="@dimen/commonTopBarItemSize"
+                    android:layout_height="@dimen/commonTopBarItemSize"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_marginStart="@dimen/margin_max"
+                    android:layout_marginStart="@dimen/marginMax"
                     android:scaleType="centerCrop"
-                    app:allCornerRadius="@dimen/corner_radius_min"
+                    app:allCornerRadius="@dimen/cornerRadiusMin"
                     android:src="@drawable/home_app_icon"
                     drawableRes="@{app.icon}"
                     themeColorFilter="@{Colour.Primary}"
@@ -53,7 +53,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:text="@{app.name ?? `Gadget`}"
                     themeTextColor="@{Colour.OnPrimaryContainer}"
-                    android:textSize="@dimen/text_size_max"
+                    android:textSize="@dimen/textSizeMax"
                     android:textStyle="bold"
                     tools:textColor="@color/themeOnPrimaryContainer"
                     tools:text="Gadget"/>

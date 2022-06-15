@@ -12,7 +12,7 @@ class BitmapApiImpl : BitmapApi {
     override fun zoom(bitmap: Bitmap, targetSize: Int): Bitmap {
         val curSize = bitmap.width * bitmap.height
         if (curSize in (targetSize * 0.95F).roundToInt()..(targetSize * 1.05F).roundToInt()) return bitmap
-        val scale = sqrt((targetSize / curSize).toFloat())
+        val scale = sqrt(targetSize.toFloat() / curSize.toFloat())
         val targetWidth = (bitmap.width * scale).roundToInt()
         val targetHeight = (bitmap.height * scale).roundToInt()
         return Bitmap.createScaledBitmap(bitmap, targetWidth, targetHeight, true)
@@ -22,7 +22,7 @@ class BitmapApiImpl : BitmapApi {
         if (bitmap.width * bitmap.height >= minSize) return bitmap
         var targetWidth = bitmap.width
         var targetHeight = bitmap.height
-        var scale = sqrt((minSize / (targetWidth * targetHeight)).toFloat())
+        var scale = sqrt(minSize.toFloat() / (targetWidth * targetHeight).toFloat())
         while (targetWidth * targetHeight < minSize) {
             targetWidth = (targetWidth * scale).roundToInt()
             targetHeight = (targetHeight * scale).roundToInt()
@@ -35,7 +35,7 @@ class BitmapApiImpl : BitmapApi {
         if (bitmap.width * bitmap.height <= maxSize) return bitmap
         var targetWidth = bitmap.width
         var targetHeight = bitmap.height
-        var scale = sqrt((maxSize / (targetWidth * targetHeight)).toFloat())
+        var scale = sqrt(maxSize.toFloat() / (targetWidth * targetHeight).toFloat())
         while (targetWidth * targetHeight > maxSize) {
             targetWidth = (targetWidth * scale).roundToInt()
             targetHeight = (targetHeight * scale).roundToInt()

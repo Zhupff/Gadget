@@ -6,6 +6,6 @@
     </style>
 
     <style name="BaseDialogFragmentTheme" parent="BaseTheme">
-        <item name="android:windowBackground">#7F000000</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 </resources>

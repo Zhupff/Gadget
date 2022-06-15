@@ -9,7 +9,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/translucentBackgroundColor">
 
         <the.gadget.weight.common.CommonLinearLayout
             android:layout_width="0dp"
@@ -18,8 +19,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:fitNavigationBar="true"
-            app:tlCornerRadius="@dimen/corner_radius_max"
-            app:trCornerRadius="@dimen/corner_radius_max"
+            app:tlCornerRadius="@dimen/cornerRadiusMax"
+            app:trCornerRadius="@dimen/cornerRadiusMax"
             android:orientation="vertical"
             themeBackgroundColor="@{Colour.Background}"
             tools:background="@color/themeBackground">
@@ -28,7 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:text="拍摄"
-                android:textSize="@dimen/text_size_max"
+                android:textSize="@dimen/textSizeMax"
                 android:gravity="center"
                 themeTextColor="@{Colour.OnBackground}"
                 tools:textColor="@color/themeOnBackground"/>
@@ -42,7 +43,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:text="从相册选择"
-                android:textSize="@dimen/text_size_max"
+                android:textSize="@dimen/textSizeMax"
                 android:gravity="center"
                 themeTextColor="@{Colour.OnBackground}"
                 tools:textColor="@color/themeOnBackground"/>
@@ -56,7 +57,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:text="恢复默认"
-                android:textSize="@dimen/text_size_max"
+                android:textSize="@dimen/textSizeMax"
                 android:gravity="center"
                 themeTextColor="@{Colour.OnBackground}"
                 tools:textColor="@color/themeOnBackground"/>

@@ -13,7 +13,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/padding_min">
+        android:padding="@dimen/paddingMin">
 
         <the.gadget.weight.common.CommonImageView
             android:id="@+id/iv_app_icon"
@@ -23,7 +23,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:allCornerRadius="@dimen/corner_radius_mid"
+            app:allCornerRadius="@dimen/cornerRadiusMid"
             drawableRes="@{app.icon}"
             isSelected="@{app.selected}"
             themeColorFilter="@{app.selected ? Colour.Primary : Colour.Outline}"
@@ -38,7 +38,7 @@
             app:layout_constraintTop_toBottomOf="@id/iv_app_icon"
             android:gravity="center"
             android:includeFontPadding="false"
-            android:textSize="@dimen/text_size_min"
+            android:textSize="@dimen/textSizeMin"
             android:text="@{app.name}"
             isSelected="@{app.selected}"
             themeTextColor="@{app.selected ? Colour.Primary : Colour.Outline}"

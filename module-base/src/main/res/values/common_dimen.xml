@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="margin_min">4dp</dimen>
-    <dimen name="margin_mid">8dp</dimen>
-    <dimen name="margin_max">16dp</dimen>
+    <dimen name="marginMin">4dp</dimen>
+    <dimen name="marginMid">8dp</dimen>
+    <dimen name="marginMax">16dp</dimen>
 
-    <dimen name="padding_min">4dp</dimen>
-    <dimen name="padding_mid">8dp</dimen>
-    <dimen name="padding_max">16dp</dimen>
+    <dimen name="paddingMin">4dp</dimen>
+    <dimen name="paddingMid">8dp</dimen>
+    <dimen name="paddingMax">16dp</dimen>
 
-    <dimen name="corner_radius_min">4dp</dimen>
-    <dimen name="corner_radius_mid">8dp</dimen>
-    <dimen name="corner_radius_max">16dp</dimen>
+    <dimen name="cornerRadiusMin">4dp</dimen>
+    <dimen name="cornerRadiusMid">8dp</dimen>
+    <dimen name="cornerRadiusMax">16dp</dimen>
 
-    <dimen name="text_size_min">12sp</dimen>
-    <dimen name="text_size_mid">15sp</dimen>
-    <dimen name="text_size_max">18sp</dimen>
+    <dimen name="textSizeMin">12sp</dimen>
+    <dimen name="textSizeMid">15sp</dimen>
+    <dimen name="textSizeMax">18sp</dimen>
 
-    <dimen name="common_top_bar_height">50dp</dimen>
-    <dimen name="common_top_bar_item_size">36dp</dimen>
+    <dimen name="commonTopBarHeight">50dp</dimen>
+    <dimen name="commonTopBarItemSize">36dp</dimen>
 </resources>
