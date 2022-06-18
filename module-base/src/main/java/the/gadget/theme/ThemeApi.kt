@@ -19,7 +19,7 @@ interface ThemeApi {
 
     fun getCurrentTheme(): LiveData<Palette>
 
-    fun getWallpaper(): LiveData<String>
+    fun getWallpaper(): LiveData<Bitmap>
 
     suspend fun initTheme()
 

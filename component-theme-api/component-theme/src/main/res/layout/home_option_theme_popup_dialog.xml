@@ -13,6 +13,7 @@
         android:background="@color/translucentBackgroundColor">
 
         <the.gadget.weight.common.CommonLinearLayout
+            android:id="@+id/content"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
@@ -22,8 +23,27 @@
             app:tlCornerRadius="@dimen/cornerRadiusMax"
             app:trCornerRadius="@dimen/cornerRadiusMax"
             android:orientation="vertical"
+            android:visibility="invisible"
             themeBackgroundColor="@{Colour.Background}"
-            tools:background="@color/themeBackground">
+            tools:background="@color/themeBackground"
+            tools:visibility="visible">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="30dp"
+                android:paddingEnd="30dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:gravity="center"
+                android:textSize="@dimen/textSizeMin"
+                android:text="注：图片可能会被压缩至合适尺寸以保持性能！"
+                themeTextColor="@{Colour.Outline}"
+                tools:textColor="@color/themeOutline"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                themeBackgroundColor="@{Colour.Outline}"
+                tools:background="@color/themeOutline"/>
             <TextView
                 android:id="@+id/tv_from_camera"
                 android:layout_width="match_parent"

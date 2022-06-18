@@ -26,11 +26,11 @@ class ThemeApiImpl : ThemeApi {
 
     private val currentTheme: MutableLiveData<Palette> = MutableLiveData()
 
-    private val wallpaper: MutableLiveData<String> = MutableLiveData()
+    private val wallpaper: MutableLiveData<Bitmap> = MutableLiveData()
 
     override fun getCurrentTheme(): LiveData<Palette> = currentTheme
 
-    override fun getWallpaper(): LiveData<String> = wallpaper
+    override fun getWallpaper(): LiveData<Bitmap> = wallpaper
 
     override suspend fun initTheme() {
         if (currentTheme.value != null) return
@@ -48,12 +48,12 @@ class ThemeApiImpl : ThemeApi {
         val mode = currentTheme.value?.mode ?: Palette.Mode.Light
         val targetBitmap = BitmapApi.instance.zoomOut(bitmap, 1980 * 1080)
         val newPalette = if (mode.isLightMode())
-            getLightTheme(targetBitmap)
+            getLightPalette(targetBitmap)
         else
-            getDarkTheme(targetBitmap)
-        val filePath = FileApi.instance.saveBitmap(targetBitmap, WALLPAPER_FILE).path
+            getDarkPalette(targetBitmap)
+        FileApi.instance.saveBitmap(targetBitmap, WALLPAPER_FILE).path
         MainScope().launch {
-            wallpaper.postValue(filePath)
+            wallpaper.value = targetBitmap
             switchTheme(newPalette)
         }
     }
@@ -62,9 +62,9 @@ class ThemeApiImpl : ThemeApi {
         if (currentTheme.value?.originArgb != originArgb) {
             val mode = currentTheme.value?.mode ?: Palette.Mode.Light
             val newPalette = if (mode.isLightMode())
-                getLightTheme(originArgb)
+                getLightPalette(originArgb)
             else
-                getDarkTheme(originArgb)
+                getDarkPalette(originArgb)
             WALLPAPER_FILE.deleteIfExists()
             MainScope().launch {
                 wallpaper.postValue(null)
@@ -76,9 +76,9 @@ class ThemeApiImpl : ThemeApi {
     override suspend fun switchThemeMode() {
         val currentPalette = currentTheme.value ?: return
         val newPalette = if (currentPalette.mode.isLightMode())
-            getDarkTheme(currentPalette.originArgb)
+            getDarkPalette(currentPalette.originArgb)
         else
-            getLightTheme(currentPalette.originArgb)
+            getLightPalette(currentPalette.originArgb)
         MainScope().launch {
             switchTheme(newPalette)
         }
@@ -96,19 +96,19 @@ class ThemeApiImpl : ThemeApi {
 
     override fun detachView(view: View) { ThemeView.get(view)?.release() }
 
-    private suspend fun getLightTheme(bitmap: Bitmap): Palette {
+    private suspend fun getLightPalette(bitmap: Bitmap): Palette {
         val pixel = IntArray(bitmap.width * bitmap.height)
         bitmap.getPixels(pixel, 0, bitmap.width, 0, 0, bitmap.width, bitmap.height)
-        return getLightTheme(ColourQuantizer.quantize(pixel))
+        return getLightPalette(ColourQuantizer.quantize(pixel))
     }
 
-    private suspend fun getDarkTheme(bitmap: Bitmap): Palette {
+    private suspend fun getDarkPalette(bitmap: Bitmap): Palette {
         val pixel = IntArray(bitmap.width * bitmap.height)
         bitmap.getPixels(pixel, 0, bitmap.width, 0, 0, bitmap.width, bitmap.height)
-        return getDarkTheme(ColourQuantizer.quantize(pixel))
+        return getDarkPalette(ColourQuantizer.quantize(pixel))
     }
 
-    private suspend fun getLightTheme(argb: Int): Palette {
+    private suspend fun getLightPalette(argb: Int): Palette {
         val hct = ColourSolver.HCT(argb)
         return Palette(
             Palette.Mode.Light, argb,
@@ -127,7 +127,7 @@ class ThemeApiImpl : ThemeApi {
             hct.n1.tone(20), hct.n1.tone(95), hct.a1.tone(80))
     }
 
-    private suspend fun getDarkTheme(argb: Int): Palette {
+    private suspend fun getDarkPalette(argb: Int): Palette {
         val hct = ColourSolver.HCT(argb)
         return Palette(
             Palette.Mode.Dark, argb,

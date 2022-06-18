@@ -1,7 +1,8 @@
 package the.gadget.component.theme
 
+import android.animation.Animator
+import android.animation.ObjectAnimator
 import android.app.Activity
-import android.app.Dialog
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -9,17 +10,21 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.DecelerateInterpolator
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import the.gadget.api.*
-import the.gadget.component.theme.databinding.HomeOptionThemeDialogFragmentBinding
+import the.gadget.component.theme.databinding.HomeOptionThemePopupDialogBinding
 import the.gadget.fragment.BindingDialogFragment
 import the.gadget.theme.ThemeApi
+import the.gadget.weight.beVisible
+import the.gadget.weight.listener.ViewAnimatorListener
+import the.gadget.weight.postAutoRemove
 
-class HomeOptionThemeDialogFragment : BindingDialogFragment<HomeOptionThemeDialogFragmentBinding>() {
+class HomeOptionThemePopupDialog : BindingDialogFragment<HomeOptionThemePopupDialogBinding>() {
 
     private val albumLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
@@ -61,13 +66,9 @@ class HomeOptionThemeDialogFragment : BindingDialogFragment<HomeOptionThemeDialo
         }
     }
 
-    override fun getLayoutRes(): Int = R.layout.home_option_theme_dialog_fragment
+    override fun getLayoutRes(): Int = R.layout.home_option_theme_popup_dialog
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog = Dialog(requireContext(), R.style.BaseDialogFragmentTheme)
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return binding.root
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View = binding.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -89,6 +90,20 @@ class HomeOptionThemeDialogFragment : BindingDialogFragment<HomeOptionThemeDialo
                 ThemeApi.instance.switchTheme(ResourceApi.instance.getColorInt(R.color.themeOrigin))
             }
             dismissAllowingStateLoss()
+        }
+
+        binding.content.postAutoRemove {
+            ObjectAnimator.ofFloat(binding.content, "translationY", binding.content.height.toFloat(), 0F)
+                .also {
+                    it.duration = 200
+                    it.interpolator = DecelerateInterpolator()
+                    it.addListener(object : ViewAnimatorListener() {
+                        override fun onAnimationStart(animation: Animator?) {
+                            super.onAnimationStart(animation)
+                            binding.content.beVisible()
+                        }
+                    })
+                }.start()
         }
     }
 }

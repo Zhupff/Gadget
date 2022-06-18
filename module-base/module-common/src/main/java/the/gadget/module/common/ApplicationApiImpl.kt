@@ -26,5 +26,3 @@ class ApplicationApiImpl : ApplicationApi {
 
     override fun isDebug(): Boolean = BuildConfig.DEBUG
 }
-
-internal val applicationApi: ApplicationApiImpl by lazy { ApplicationApi.instance as ApplicationApiImpl }

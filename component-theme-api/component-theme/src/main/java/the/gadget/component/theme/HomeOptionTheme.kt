@@ -46,7 +46,7 @@ class HomeOptionTheme : HomeOption(Option.Theme) {
             }
             binding.themeOptionLayout.setOnClickListener {
                 itemView.context.toBaseActivity()?.supportFragmentManager?.let { fm ->
-                    FragmentApi.instance.showDialogFragment(fm, HomeOptionThemeDialogFragment())
+                    FragmentApi.instance.showDialogFragment(fm, HomeOptionThemePopupDialog())
                 }
             }
         }
