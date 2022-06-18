@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 import the.gadget.api.BitmapApi
 import the.gadget.api.FileApi
 import the.gadget.api.ResourceApi
+import the.gadget.api.deleteIfExists
 import the.gadget.theme.Palette
 import the.gadget.theme.ThemeApi
 import the.gadget.theme.ThemeView
@@ -20,8 +21,7 @@ import java.io.File
 @AutoService(ThemeApi::class)
 class ThemeApiImpl : ThemeApi {
     companion object {
-        private val WALLPAPER_FILE: File?
-            get() = FileApi.instance.getFile(FileApi.CACHE_DIR.resolve("wallpaper.png"))
+        private val WALLPAPER_FILE: File; get() = FileApi.WALLPAPER_DIR.resolve(ThemeApi.WALLPAPER_FILE_NAME)
     }
 
     private val currentTheme: MutableLiveData<Palette> = MutableLiveData()
@@ -35,7 +35,7 @@ class ThemeApiImpl : ThemeApi {
     override suspend fun initTheme() {
         if (currentTheme.value != null) return
         val wallpaperFile = WALLPAPER_FILE
-        if (wallpaperFile != null && wallpaperFile.exists()) {
+        if (wallpaperFile.exists()) {
             val bitmap = BitmapFactory.decodeFile(wallpaperFile.path)
             switchTheme(bitmap)
         } else {
@@ -51,8 +51,7 @@ class ThemeApiImpl : ThemeApi {
             getLightTheme(targetBitmap)
         else
             getDarkTheme(targetBitmap)
-        val wallpaperFile = WALLPAPER_FILE
-        val filePath = if (wallpaperFile != null) FileApi.instance.saveBitmap(targetBitmap, wallpaperFile).path else null
+        val filePath = FileApi.instance.saveBitmap(targetBitmap, WALLPAPER_FILE).path
         MainScope().launch {
             wallpaper.postValue(filePath)
             switchTheme(newPalette)
@@ -66,7 +65,7 @@ class ThemeApiImpl : ThemeApi {
                 getLightTheme(originArgb)
             else
                 getDarkTheme(originArgb)
-            WALLPAPER_FILE?.let { wallpaperFile -> if (wallpaperFile.exists()) wallpaperFile.delete() }
+            WALLPAPER_FILE.deleteIfExists()
             MainScope().launch {
                 wallpaper.postValue(null)
                 switchTheme(newPalette)
