@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <import type="the.gadget.theme.Colour"/>
@@ -8,7 +9,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/home_option_item_height">
+        android:layout_height="@dimen/home_option_item_height"
+        tools:background="@color/themeBackground">
 
         <ImageView
             android:id="@+id/iv_mode_icon"
@@ -19,7 +21,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginStart="@dimen/home_option_item_margin_start"
             android:src="@drawable/ic_about_option"
-            themeColorFilter="@{Colour.OnSurface}"/>
+            themeForegroundTint="@{Colour.OnBackground}"
+            tools:tint="@color/themeOnBackground"/>
 
         <TextView
             android:id="@+id/tv_mode_name"
@@ -30,7 +33,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginStart="@dimen/home_option_item_margin_start"
             android:text="关于Gadget"
-            themeTextColor="@{Colour.OnSurface}"/>
+            themeTextColor="@{Colour.OnBackground}"
+            tools:textColor="@color/themeOnBackground"/>
 
         <ImageView
             android:layout_width="@dimen/home_option_item_icon_size"
@@ -40,7 +44,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginEnd="@dimen/home_option_item_margin_end"
             android:src="@drawable/ic_arrow_forward"
-            themeColorFilter="@{Colour.Outline}"/>
+            themeForegroundTint="@{Colour.Outline}"
+            tools:tint="@color/themeOutline"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -23,9 +23,15 @@ abstract class ThemeView(val view: View) : Observer<Palette> {
         }
 
         @JvmStatic
-        @BindingAdapter("themeColorFilter")
-        fun themeColorFilter(view: View, colour: Colour) {
-            ThemeApi.instance.attachView(view).colorFilter(colour)
+        @BindingAdapter("themeForegroundTint")
+        fun themeForegroundTint(view: View, colour: Colour) {
+            ThemeApi.instance.attachView(view).foregroundTint(colour)
+        }
+
+        @JvmStatic
+        @BindingAdapter("themeBackgroundTint")
+        fun themeBackgroundTint(view: View, colour: Colour) {
+            ThemeApi.instance.attachView(view).backgroundTint(colour)
         }
     }
 
@@ -35,5 +41,7 @@ abstract class ThemeView(val view: View) : Observer<Palette> {
 
     abstract fun textColor(colour: Colour): ThemeView
 
-    abstract fun colorFilter(colour: Colour): ThemeView
+    abstract fun foregroundTint(colour: Colour): ThemeView
+
+    abstract fun backgroundTint(colour: Colour): ThemeView
 }

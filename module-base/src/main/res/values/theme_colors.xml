@@ -21,13 +21,12 @@
     <color name="themeOnErrorContainer">#ff410002</color>
     <color name="themeBackground">#fffcfcff</color>
     <color name="themeOnBackground">#ff1a1c1e</color>
+    <color name="themeBackgroundContainer">#ffe2e2e5</color>
+    <color name="themeOnBackgroundContainer">#ff454749</color>
     <color name="themeSurface">#33fcfcff</color>
-    <color name="themeOnSurface">#ff1a1c1e</color>
-    <color name="themeSurfaceVariant">#ffdee3ea</color>
-    <color name="themeOnSurfaceVariant">#ff42474d</color>
     <color name="themeOutline">#ff72787e</color>
     <color name="themeShadow">#ff000000</color>
-    <color name="themeInverseSurface">#ff2f3133</color>
-    <color name="themeInverseOnSurface">#fff0f0f4</color>
     <color name="themeInversePrimary">#ff90cdff</color>
+    <color name="themeInverseSecondary">#ffb8c8d9</color>
+    <color name="themeInverseTertiary">#ffd1bfe7</color>
 </resources>

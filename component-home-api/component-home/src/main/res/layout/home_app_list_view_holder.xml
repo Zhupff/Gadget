@@ -26,7 +26,7 @@
             app:allCornerRadius="@dimen/cornerRadiusMid"
             drawableRes="@{app.icon}"
             isSelected="@{app.selected}"
-            themeColorFilter="@{app.selected ? Colour.Primary : Colour.Outline}"
+            themeForegroundTint="@{app.selected ? Colour.Primary : Colour.Outline}"
             tools:src="@drawable/home_app_icon"
             tools:tint="@color/themePrimaryContainer"/>
 

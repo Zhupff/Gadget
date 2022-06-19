@@ -118,10 +118,10 @@ class ThemeApiImpl : ThemeApi {
             hct.error.tone(40), hct.error.tone(100),
             hct.error.tone(90), hct.error.tone(10),
             hct.n1.tone(99), hct.n1.tone(10),
-            (0x33 shl 24) or (hct.n1.tone(99) and 0x00FFFFFF), hct.n1.tone(10),
-            hct.n2.tone(90), hct.n2.tone(30),
+            hct.n1.tone(90), hct.n1.tone(30),
+            (0x33 shl 24) or (hct.n1.tone(99) and 0x00FFFFFF),
             hct.n2.tone(50), hct.n1.tone(0),
-            hct.n1.tone(20), hct.n1.tone(95), hct.a1.tone(80))
+            hct.a1.tone(80), hct.a2.tone(80), hct.a3.tone(80))
     }
 
     private suspend fun getDarkPalette(argb: Int): Palette {
@@ -137,9 +137,9 @@ class ThemeApiImpl : ThemeApi {
             hct.error.tone(80), hct.error.tone(20),
             hct.error.tone(30), hct.error.tone(80),
             hct.n1.tone(10), hct.n1.tone(90),
-            (0x33 shl 24) or (hct.n1.tone(10) and 0x00FFFFFF), hct.n1.tone(90),
-            hct.n2.tone(30), hct.n2.tone(80),
+            hct.n1.tone(30), hct.n1.tone(70),
+            (0x33 shl 24) or (hct.n1.tone(10) and 0x00FFFFFF),
             hct.n2.tone(60), hct.n1.tone(0),
-            hct.n1.tone(90), hct.n1.tone(20), hct.a1.tone(40))
+            hct.a1.tone(40), hct.a2.tone(40), hct.a3.tone(40))
     }
 }

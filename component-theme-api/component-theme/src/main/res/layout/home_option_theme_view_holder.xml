@@ -10,7 +10,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:background="@color/themeBackground">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/mode_option_layout"
@@ -25,8 +26,9 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_marginStart="@dimen/home_option_item_margin_start"
-                themeColorFilter="@{Colour.OnSurface}"
-                tools:src="@drawable/ic_theme_light_mode"/>
+                themeForegroundTint="@{Colour.OnBackground}"
+                tools:src="@drawable/ic_theme_light_mode"
+                tools:tint="@color/themeOnBackground"/>
 
             <TextView
                 android:id="@+id/tv_mode_name"
@@ -36,7 +38,8 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_marginStart="@dimen/home_option_item_margin_start"
-                themeTextColor="@{Colour.OnSurface}"
+                themeTextColor="@{Colour.OnBackground}"
+                tools:textColor="@color/themeOnBackground"
                 tools:text="明亮模式"/>
 
             <ImageView
@@ -47,7 +50,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_marginEnd="@dimen/home_option_item_margin_end"
                 android:src="@drawable/ic_switch_theme_mode"
-                themeColorFilter="@{Colour.Outline}"/>
+                themeForegroundTint="@{Colour.Outline}"
+                tools:tint="@color/themeOutline"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -65,7 +69,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_marginStart="@dimen/home_option_item_margin_start"
                 android:src="@drawable/ic_theme_option"
-                themeColorFilter="@{Colour.OnSurface}"/>
+                themeForegroundTint="@{Colour.OnBackground}"
+                tools:tint="@color/themeOnBackground"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -75,7 +80,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_marginStart="@dimen/home_option_item_margin_start"
                 android:text="个性装扮"
-                themeTextColor="@{Colour.OnSurface}"/>
+                themeTextColor="@{Colour.OnBackground}"
+                tools:textColor="@color/themeOnBackground"/>
 
             <ImageView
                 android:layout_width="@dimen/home_option_item_icon_size"
@@ -85,7 +91,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_marginEnd="@dimen/home_option_item_margin_end"
                 android:src="@drawable/ic_arrow_forward"
-                themeColorFilter="@{Colour.Outline}"/>
+                themeForegroundTint="@{Colour.Outline}"
+                tools:tint="@color/themeOutline"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

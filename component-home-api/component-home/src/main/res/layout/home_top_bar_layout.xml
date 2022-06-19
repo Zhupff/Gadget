@@ -41,7 +41,7 @@
                     app:allCornerRadius="@dimen/cornerRadiusMin"
                     android:src="@drawable/home_app_icon"
                     drawableRes="@{app.icon}"
-                    themeColorFilter="@{Colour.Primary}"
+                    themeForegroundTint="@{Colour.Primary}"
                     tools:tint="@color/themePrimary"/>
 
                 <TextView

@@ -1,5 +1,6 @@
 package the.gadget.module.theme
 
+import android.content.res.ColorStateList
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -51,35 +52,44 @@ internal class ThemeViewImpl(view: View) : ThemeView(view) {
 
     override fun backgroundColor(colour: Colour) = apply {
         actions["backgroundColor"] = Runnable {
-            _backgroundColor(colour)
+            backgroundColorAction(colour)
         }.also { if (isAlive) it.run() }
     }
 
     override fun textColor(colour: Colour) = apply {
         actions["textColor"] = Runnable {
-            _textColor(colour)
+            textColorAction(colour)
         }.also { if (isAlive) it.run() }
     }
 
-    override fun colorFilter(colour: Colour) = apply {
-        actions["colorFilter"] = Runnable {
-            _colorFilter(colour)
+    override fun foregroundTint(colour: Colour) = apply {
+        actions["foregroundTint"] = Runnable {
+            foregroundTintAction(colour)
+        }.also { if (isAlive) it.run() }
+    }
+
+    override fun backgroundTint(colour: Colour) = apply {
+        actions["backgroundTint"] = Runnable {
+            backgroundTintAction(colour)
         }.also { if (isAlive) it.run() }
     }
 
 
-
-    private fun _backgroundColor(colour: Colour) {
+    private fun backgroundColorAction(colour: Colour) {
         view.setBackgroundColor(colour.color)
     }
 
-    private fun _textColor(colour: Colour) {
+    private fun textColorAction(colour: Colour) {
         if (view !is TextView) return
         view.setTextColor(colour.color)
     }
 
-    private fun _colorFilter(colour: Colour) {
+    private fun foregroundTintAction(colour: Colour) {
         if (view !is ImageView) return
         view.setColorFilter(colour.color)
+    }
+
+    private fun backgroundTintAction(colour: Colour) {
+        view.backgroundTintList = ColorStateList.valueOf(colour.color)
     }
 }
