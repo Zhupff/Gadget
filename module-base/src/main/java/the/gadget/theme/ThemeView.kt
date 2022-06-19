@@ -5,7 +5,7 @@ import androidx.databinding.BindingAdapter
 import androidx.lifecycle.Observer
 import the.gadget.module.base.R
 
-abstract class ThemeView(val view: View) : Observer<Palette> {
+abstract class ThemeView(val view: View) : Observer<Scheme> {
 
     companion object {
         fun get(view: View): ThemeView? = view.getTag(R.id.theme_view_tag) as? ThemeView
@@ -44,4 +44,6 @@ abstract class ThemeView(val view: View) : Observer<Palette> {
     abstract fun foregroundTint(colour: Colour): ThemeView
 
     abstract fun backgroundTint(colour: Colour): ThemeView
+
+    abstract fun wallpaper(): ThemeView
 }

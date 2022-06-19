@@ -13,7 +13,7 @@ import the.gadget.component.home.HomeOption
 import the.gadget.component.theme.databinding.HomeOptionThemeViewHolderBinding
 import the.gadget.fragment.FragmentApi
 import the.gadget.livedata.observeLifecycleOrForever
-import the.gadget.theme.Palette
+import the.gadget.theme.Scheme
 import the.gadget.theme.ThemeApi
 import the.gadget.weight.listener.ViewOnAttachStateChangeListener
 import the.gadget.weight.recyclerview.BindingRecyclerViewHolder
@@ -31,17 +31,17 @@ class HomeOptionTheme : HomeOption(Option.Theme) {
 
         fun onCreate() {
             itemView.addOnAttachStateChangeListener(object : ViewOnAttachStateChangeListener() {
-                private val observer = Observer<Palette> { onBind() }
+                private val observer = Observer<Scheme> { onBind() }
                 override fun onViewAttachedToWindow(v: View?) {
-                    ThemeApi.instance.getCurrentTheme().observeLifecycleOrForever(v?.findViewTreeLifecycleOwner(), observer)
+                    ThemeApi.instance.getCurrentScheme().observeLifecycleOrForever(v?.findViewTreeLifecycleOwner(), observer)
                 }
                 override fun onViewDetachedFromWindow(v: View?) {
-                    ThemeApi.instance.getCurrentTheme().removeObserver(observer)
+                    ThemeApi.instance.getCurrentScheme().removeObserver(observer)
                 }
             })
             binding.modeOptionLayout.setOnClickListener {
                 CoroutineScope(Dispatchers.IO).launch {
-                    ThemeApi.instance.switchThemeMode()
+                    ThemeApi.instance.switchMode()
                 }
             }
             binding.themeOptionLayout.setOnClickListener {
@@ -52,11 +52,11 @@ class HomeOptionTheme : HomeOption(Option.Theme) {
         }
 
         fun onBind() {
-            val palette = ThemeApi.instance.getCurrentTheme().value ?: return
-            if (palette.mode.isLightMode()) {
+            val scheme = ThemeApi.instance.getCurrentScheme().value ?: return
+            if (scheme.mode.isLightMode()) {
                 binding.ivModeIcon.setImageResource(R.drawable.ic_theme_light_mode)
                 binding.tvModeName.text = "明亮模式"
-            } else if (palette.mode.isDarkMode()) {
+            } else if (scheme.mode.isDarkMode()) {
                 binding.ivModeIcon.setImageResource(R.drawable.ic_theme_dark_mode)
                 binding.tvModeName.text = "黑暗模式"
             }

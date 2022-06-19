@@ -17,17 +17,15 @@ interface ThemeApi {
         val WALLPAPER_TEMP_FILE: File; get() = FileApi.WALLPAPER_TEMP_DIR.resolve(WALLPAPER_FILE_NAME)
     }
 
-    fun getCurrentTheme(): LiveData<Palette>
-
-    fun getWallpaper(): LiveData<Bitmap>
+    fun getCurrentScheme(): LiveData<Scheme>
 
     suspend fun initTheme()
 
     suspend fun switchTheme(bitmap: Bitmap)
 
-    suspend fun switchTheme(originArgb: Int)
+    suspend fun switchTheme(argb: Int)
 
-    suspend fun switchThemeMode()
+    suspend fun switchMode()
 
     @MainThread
     fun attachView(view: View): ThemeView

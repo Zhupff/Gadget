@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.lifecycle.findViewTreeLifecycleOwner
 import the.gadget.livedata.observeLifecycleOrForever
 import the.gadget.theme.Colour
-import the.gadget.theme.Palette
+import the.gadget.theme.Scheme
 import the.gadget.theme.ThemeApi
 import the.gadget.theme.ThemeView
 import the.gadget.weight.listener.ViewOnAttachStateChangeListener
@@ -32,12 +32,12 @@ internal class ThemeViewImpl(view: View) : ThemeView(view) {
         active()
     }
 
-    override fun onChanged(t: Palette) { actions.values.forEach { if (isAlive) it.run() } }
+    override fun onChanged(t: Scheme) { actions.values.forEach { if (isAlive) it.run() } }
 
     private fun active() {
         if (!isAlive) {
             isAlive = true
-            ThemeApi.instance.getCurrentTheme().observeLifecycleOrForever(view.findViewTreeLifecycleOwner(), this)
+            ThemeApi.instance.getCurrentScheme().observeLifecycleOrForever(view.findViewTreeLifecycleOwner(), this)
             view.setTag(R.id.theme_view_tag, this)
         }
     }
@@ -45,7 +45,7 @@ internal class ThemeViewImpl(view: View) : ThemeView(view) {
     override fun release() {
         if (isAlive) {
             isAlive = false
-            ThemeApi.instance.getCurrentTheme().removeObserver(this)
+            ThemeApi.instance.getCurrentScheme().removeObserver(this)
             view.setTag(R.id.theme_view_tag, null)
         }
     }
@@ -74,6 +74,12 @@ internal class ThemeViewImpl(view: View) : ThemeView(view) {
         }.also { if (isAlive) it.run() }
     }
 
+    override fun wallpaper(): ThemeView = apply {
+        actions["wallpaper"] = Runnable {
+            wallpaperAction()
+        }.also { if (isAlive) it.run() }
+    }
+
 
     private fun backgroundColorAction(colour: Colour) {
         view.setBackgroundColor(colour.color)
@@ -91,5 +97,11 @@ internal class ThemeViewImpl(view: View) : ThemeView(view) {
 
     private fun backgroundTintAction(colour: Colour) {
         view.backgroundTintList = ColorStateList.valueOf(colour.color)
+    }
+
+    private fun wallpaperAction() {
+        if (view !is ImageView) return
+        val wallpaper = ThemeApi.instance.getCurrentScheme().value?.wallpaper
+        view.setImageBitmap(wallpaper)
     }
 }
