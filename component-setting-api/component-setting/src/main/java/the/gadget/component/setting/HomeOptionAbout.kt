@@ -14,6 +14,6 @@ class HomeOptionAbout : HomeOption(Option.About) {
         BindingRecyclerViewHolder<HomeOptionAboutViewHolderBinding>(container, R.layout.home_option_about_view_holder)
 
     override fun bindViewHolder(viewHolder: RecyclerViewHolder) {
-        viewHolder.itemView.setOnClickListener { "该功能暂未支持，尽情期待！".singleToastS() }
+        viewHolder.itemView.setOnClickListener { "该功能暂未支持，敬请期待！".singleToastS() }
     }
 }

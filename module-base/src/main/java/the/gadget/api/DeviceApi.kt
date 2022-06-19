@@ -6,4 +6,12 @@ interface DeviceApi {
     }
 
     fun hasCamera(): Boolean
+
+    fun screenWidth(): Int
+
+    fun screenHeight(): Int
+
+    fun screenArea(): Int
+
+    fun screenSides(): Pair<Int, Int>
 }

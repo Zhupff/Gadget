@@ -9,10 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.auto.service.AutoService
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
-import the.gadget.api.BitmapApi
-import the.gadget.api.FileApi
-import the.gadget.api.ResourceApi
-import the.gadget.api.deleteIfExists
+import the.gadget.api.*
 import the.gadget.theme.Palette
 import the.gadget.theme.ThemeApi
 import the.gadget.theme.ThemeView
@@ -46,7 +43,7 @@ class ThemeApiImpl : ThemeApi {
 
     override suspend fun switchTheme(bitmap: Bitmap) {
         val mode = currentTheme.value?.mode ?: Palette.Mode.Light
-        val targetBitmap = BitmapApi.instance.zoomOut(bitmap, 1980 * 1080)
+        val targetBitmap = BitmapApi.instance.zoomOut(bitmap, DeviceApi.instance.screenArea())
         val newPalette = if (mode.isLightMode())
             getLightPalette(targetBitmap)
         else

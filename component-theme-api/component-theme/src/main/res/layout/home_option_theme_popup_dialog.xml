@@ -24,26 +24,7 @@
             app:trCornerRadius="@dimen/cornerRadiusMax"
             android:orientation="vertical"
             android:visibility="invisible"
-            themeBackgroundColor="@{Colour.Background}"
-            tools:background="@color/themeBackground"
             tools:visibility="visible">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="30dp"
-                android:paddingEnd="30dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:gravity="center"
-                android:textSize="@dimen/textSizeMin"
-                android:text="注：图片可能会被压缩至合适尺寸以保持性能！"
-                themeTextColor="@{Colour.Outline}"
-                tools:textColor="@color/themeOutline"/>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                themeBackgroundColor="@{Colour.Outline}"
-                tools:background="@color/themeOutline"/>
             <TextView
                 android:id="@+id/tv_from_camera"
                 android:layout_width="match_parent"
@@ -51,8 +32,10 @@
                 android:text="拍摄"
                 android:textSize="@dimen/textSizeMax"
                 android:gravity="center"
-                themeTextColor="@{Colour.OnBackground}"
-                tools:textColor="@color/themeOnBackground"/>
+                themeTextColor="@{Colour.OnSecondary}"
+                themeBackgroundColor="@{Colour.Secondary}"
+                tools:textColor="@color/themeOnSecondary"
+                tools:background="@color/themeSecondary"/>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
@@ -65,13 +48,24 @@
                 android:text="从相册选择"
                 android:textSize="@dimen/textSizeMax"
                 android:gravity="center"
-                themeTextColor="@{Colour.OnBackground}"
-                tools:textColor="@color/themeOnBackground"/>
-            <View
+                themeTextColor="@{Colour.OnSecondary}"
+                themeBackgroundColor="@{Colour.Secondary}"
+                tools:textColor="@color/themeOnSecondary"
+                tools:background="@color/themeSecondary"/>
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                themeBackgroundColor="@{Colour.Outline}"
-                tools:background="@color/themeOutline"/>
+                android:layout_height="wrap_content"
+                android:paddingStart="30dp"
+                android:paddingEnd="30dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:gravity="center"
+                android:textSize="@dimen/textSizeMin"
+                android:text="注：拍摄或选取的图片可能会被压缩以保持性能！"
+                themeTextColor="@{Colour.OnSecondaryContainer}"
+                themeBackgroundColor="@{Colour.SecondaryContainer}"
+                tools:textColor="@color/themeOnSecondaryContainer"
+                tools:background="@color/themeSecondaryContainer"/>
             <TextView
                 android:id="@+id/tv_reset"
                 android:layout_width="match_parent"
@@ -79,8 +73,10 @@
                 android:text="恢复默认"
                 android:textSize="@dimen/textSizeMax"
                 android:gravity="center"
-                themeTextColor="@{Colour.OnBackground}"
-                tools:textColor="@color/themeOnBackground"/>
+                themeTextColor="@{Colour.OnSecondary}"
+                themeBackgroundColor="@{Colour.Secondary}"
+                tools:textColor="@color/themeOnSecondary"
+                tools:background="@color/themeSecondary"/>
         </the.gadget.weight.common.CommonLinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

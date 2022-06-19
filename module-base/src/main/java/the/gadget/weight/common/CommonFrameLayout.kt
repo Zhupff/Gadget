@@ -75,6 +75,23 @@ open class CommonFrameLayout @JvmOverloads constructor(
         }
     }
 
+    override fun dispatchDraw(canvas: Canvas?) {
+        if (canvas != null && hasCorner()) {
+            cornerRect.set(0F, 0F, width.toFloat(), height.toFloat())
+            cornerPath.reset()
+            cornerPath.addRoundRect(cornerRect, floatArrayOf(
+                tlCornerRadius, tlCornerRadius, trCornerRadius, trCornerRadius,
+                brCornerRadius, brCornerRadius, blCornerRadius, blCornerRadius
+            ), Path.Direction.CW)
+            canvas.save()
+            canvas.clipPath(cornerPath)
+            super.dispatchDraw(canvas)
+            canvas.restore()
+        } else {
+            super.dispatchDraw(canvas)
+        }
+    }
+
     override fun onApplyWindowInsets(insets: WindowInsets?): WindowInsets {
         val compatInsets = ViewCompat.getRootWindowInsets(this)?.getInsets(WindowInsetsCompat.Type.systemBars())
         statusBarHeight = compatInsets?.top ?: 0
