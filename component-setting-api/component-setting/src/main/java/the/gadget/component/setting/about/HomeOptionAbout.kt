@@ -1,9 +1,10 @@
-package the.gadget.component.setting
+package the.gadget.component.setting.about
 
 import android.view.ViewGroup
 import com.google.auto.service.AutoService
 import the.gadget.activity.toBaseActivity
 import the.gadget.component.home.HomeOption
+import the.gadget.component.setting.R
 import the.gadget.component.setting.databinding.HomeOptionAboutViewHolderBinding
 import the.gadget.fragment.FragmentApi
 import the.gadget.weight.recyclerview.BindingRecyclerViewHolder

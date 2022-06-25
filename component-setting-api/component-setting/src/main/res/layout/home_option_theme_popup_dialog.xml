@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 themeBackgroundColor="@{Colour.Background}"
                 tools:background="@color/themeBackground">
-                <the.gadget.component.theme.RgbColorPickerView
+                <the.gadget.component.setting.theme.RgbColorPickerView
                     android:id="@+id/rgb_color_picker"
                     android:layout_width="100dp"
                     android:layout_height="100dp"

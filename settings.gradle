@@ -14,8 +14,6 @@ include ":component-elysium-api",
         ":component-elysium-api:component-elysium"
 include ":component-setting-api",
         ":component-setting-api:component-setting"
-include ":component-theme-api",
-        ":component-theme-api:component-theme"
 include ":component-wanandroid-api",
         ":component-wanandroid-api:component-wanandroid"
 include ":lib-annotation",

@@ -1,17 +1,16 @@
-package the.gadget.component.theme
+package the.gadget.component.setting.theme
 
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.findViewTreeLifecycleOwner
 import com.google.auto.service.AutoService
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import the.gadget.activity.toBaseActivity
 import the.gadget.api.singleToastS
 import the.gadget.component.home.HomeOption
-import the.gadget.component.theme.databinding.HomeOptionThemeViewHolderBinding
+import the.gadget.component.setting.R
+import the.gadget.component.setting.databinding.HomeOptionThemeViewHolderBinding
 import the.gadget.fragment.FragmentApi
 import the.gadget.livedata.observeLifecycleOrForever
 import the.gadget.theme.Scheme
@@ -19,9 +18,28 @@ import the.gadget.theme.ThemeApi
 import the.gadget.weight.listener.ViewOnAttachStateChangeListener
 import the.gadget.weight.recyclerview.BindingRecyclerViewHolder
 import the.gadget.weight.recyclerview.RecyclerViewHolder
+import java.util.concurrent.atomic.AtomicBoolean
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.EmptyCoroutineContext
 
 @AutoService(HomeOption::class)
 class HomeOptionTheme : HomeOption(Option.Theme) {
+    companion object {
+        private val THEME_OPTION_LOCK: AtomicBoolean = AtomicBoolean(false)
+
+        init { ThemeApi.instance.getCurrentScheme().observeForever { THEME_OPTION_LOCK.set(false) } }
+
+        fun isThemeOptionLocked(): Boolean = THEME_OPTION_LOCK.get()
+
+        fun launch(
+            context: CoroutineContext = EmptyCoroutineContext,
+            start: CoroutineStart = CoroutineStart.DEFAULT,
+            block: suspend CoroutineScope.() -> Unit
+        ): Job {
+            THEME_OPTION_LOCK.set(true)
+            return CoroutineScope(Dispatchers.IO).launch(context, start, block)
+        }
+    }
 
     override fun createViewHolder(container: ViewGroup): RecyclerViewHolder =
         ViewHolder(container, R.layout.home_option_theme_view_holder).also { it.onCreate() }
@@ -41,13 +59,15 @@ class HomeOptionTheme : HomeOption(Option.Theme) {
                 }
             })
             binding.modeOptionLayout.setOnClickListener {
-                CoroutineScope(Dispatchers.IO).launch {
-                    ThemeApi.instance.switchMode()
+                if (isThemeOptionLocked()) {
+                    "正在切换主题，请稍等~".singleToastS()
+                } else {
+                    launch { ThemeApi.instance.switchMode() }
                 }
             }
             binding.themeOptionLayout.setOnClickListener {
                 itemView.context.toBaseActivity()?.supportFragmentManager?.let { fm ->
-                    if (componentThemeApi.isEntranceLock()) {
+                    if (isThemeOptionLocked()) {
                         "正在切换主题，请稍等~".singleToastS()
                     } else {
                         FragmentApi.instance.showDialogFragment(fm, HomeOptionThemePopupDialog())

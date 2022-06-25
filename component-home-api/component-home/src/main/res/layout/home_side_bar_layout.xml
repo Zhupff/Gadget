@@ -136,7 +136,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/marginMin"
                             android:layout_marginBottom="@dimen/marginMin"
-                            android:text="其他"
+                            android:text="设置"
                             android:textSize="@dimen/textSizeMid"
                             themeTextColor="@{Colour.OnBackground}"
                             tools:textColor="@color/themeOnBackground"/>

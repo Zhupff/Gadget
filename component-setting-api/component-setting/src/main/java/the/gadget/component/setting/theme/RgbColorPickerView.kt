@@ -1,4 +1,4 @@
-package the.gadget.component.theme
+package the.gadget.component.setting.theme
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import the.gadget.api.ResourceApi
+import the.gadget.component.setting.R
 import the.gadget.theme.ThemeApi
 import kotlin.math.*
 
