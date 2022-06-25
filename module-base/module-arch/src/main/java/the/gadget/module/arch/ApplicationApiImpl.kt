@@ -22,6 +22,8 @@ class ApplicationApiImpl : ApplicationApi {
 
     override fun getPackageName(): String = getApplication().packageName
 
+    override fun getVersion(): String = getApplication().packageManager.getPackageInfo(getPackageName(), 0).versionName
+
     override fun getClassLoader(): ClassLoader = getApplication().classLoader
 
     override fun isDebug(): Boolean = BuildConfig.DEBUG

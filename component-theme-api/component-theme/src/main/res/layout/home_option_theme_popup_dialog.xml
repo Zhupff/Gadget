@@ -23,8 +23,8 @@
             app:tlCornerRadius="@dimen/cornerRadiusMax"
             app:trCornerRadius="@dimen/cornerRadiusMax"
             android:orientation="vertical"
-            themeBackgroundColor="@{Colour.Background}"
             android:visibility="invisible"
+            themeBackgroundColor="@{Colour.Background}"
             tools:visibility="visible"
             tools:background="@color/themeBackground">
             <FrameLayout
