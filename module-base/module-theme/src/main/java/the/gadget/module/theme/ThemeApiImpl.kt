@@ -39,9 +39,8 @@ class ThemeApiImpl : ThemeApi {
 
     override suspend fun switchTheme(bitmap: Bitmap) {
         val mode = currentScheme.value?.mode ?: Scheme.Mode.DEFAULT
-        val targetBitmap = BitmapApi.instance.zoomOut(bitmap, DeviceApi.instance.screenArea())
         val newScheme = createScheme(mode, bitmap)
-        FileApi.instance.saveBitmap(targetBitmap, WALLPAPER_FILE)
+        FileApi.instance.saveBitmap(bitmap, WALLPAPER_FILE)
         MainScope().launch { switchScheme(newScheme) }
     }
 

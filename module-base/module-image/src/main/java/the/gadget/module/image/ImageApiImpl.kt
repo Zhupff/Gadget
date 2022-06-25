@@ -1,13 +1,40 @@
-package the.gadget.module.common
+package the.gadget.module.image
 
 import android.graphics.Bitmap
+import android.net.Uri
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.auto.service.AutoService
-import the.gadget.api.BitmapApi
+import the.gadget.api.ApplicationApi
+import the.gadget.api.DeviceApi
+import the.gadget.api.ImageApi
 import kotlin.math.roundToInt
 import kotlin.math.sqrt
 
-@AutoService(BitmapApi::class)
-class BitmapApiImpl : BitmapApi {
+@AutoService(ImageApi::class)
+class ImageApiImpl : ImageApi {
+
+    override suspend fun loadWallpaperBitmap(str: String): Bitmap {
+        return Glide.with(ApplicationApi.instance.getApplication())
+            .asBitmap()
+            .load(str)
+            .skipMemoryCache(true)
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .centerCrop()
+            .submit(DeviceApi.instance.screenWidth(), DeviceApi.instance.screenHeight())
+            .get()
+    }
+
+    override suspend fun loadWallpaperBitmap(uri: Uri): Bitmap {
+        return Glide.with(ApplicationApi.instance.getApplication())
+            .asBitmap()
+            .load(uri)
+            .skipMemoryCache(true)
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .centerCrop()
+            .submit(DeviceApi.instance.screenWidth(), DeviceApi.instance.screenHeight())
+            .get()
+    }
 
     override fun zoom(bitmap: Bitmap, targetSize: Int): Bitmap {
         val curSize = bitmap.width * bitmap.height

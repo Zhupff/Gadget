@@ -31,14 +31,11 @@ class HomeOptionThemePopupDialog : BindingDialogFragment<HomeOptionThemePopupDia
             var isOk = false
             val uri = result.data?.data
             if (uri != null) {
-                val bitmap = BitmapFactory.decodeStream(FileApi.instance.getInputStreamFromUri(uri))
-                if (bitmap != null) {
-                    isOk = true
-                    CoroutineScope(Dispatchers.IO).launch {
-                        ThemeApi.instance.switchTheme(bitmap)
-                    }
-                    dismissAllowingStateLoss()
+                isOk = true
+                CoroutineScope(Dispatchers.IO).launch {
+                    ThemeApi.instance.switchTheme(ImageApi.instance.loadWallpaperBitmap(uri))
                 }
+                dismissAllowingStateLoss()
             }
             if (!isOk) {
                 "切换主题失败，请稍后重试或选择其他壁纸！".singleToastS()
@@ -51,13 +48,11 @@ class HomeOptionThemePopupDialog : BindingDialogFragment<HomeOptionThemePopupDia
             var isOk = false
             ThemeApi.WALLPAPER_TEMP_FILE.also { file ->
                 if (file.exists()) {
-                    BitmapFactory.decodeFile(file.path)?.let { bitmap ->
-                        isOk = true
-                        CoroutineScope(Dispatchers.IO).launch {
-                            ThemeApi.instance.switchTheme(bitmap)
-                        }
-                        dismissAllowingStateLoss()
+                    isOk = true
+                    CoroutineScope(Dispatchers.IO).launch {
+                        ThemeApi.instance.switchTheme(ImageApi.instance.loadWallpaperBitmap(file.path))
                     }
+                    dismissAllowingStateLoss()
                 }
             }
             if (!isOk) {
