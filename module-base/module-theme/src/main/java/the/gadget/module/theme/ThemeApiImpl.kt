@@ -9,7 +9,6 @@ import androidx.lifecycle.MutableLiveData
 import com.google.auto.service.AutoService
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
-import the.gadget.annotation.DataStoreKey
 import the.gadget.api.*
 import the.gadget.theme.Scheme
 import the.gadget.theme.ThemeApi
@@ -20,10 +19,8 @@ import java.io.File
 class ThemeApiImpl : ThemeApi {
     companion object {
         private val WALLPAPER_FILE: File; get() = FileApi.WALLPAPER_DIR.resolve(ThemeApi.WALLPAPER_FILE_NAME)
-        @DataStoreKey("store_theme_color")
-        private const val STORE_THEME_COLOR_KEY: String = "theme_color"
-        @DataStoreKey("store_theme_mode")
-        private const val STORE_THEME_MODE_KEY: String = "theme_mode"
+        private const val STORE_THEME_COLOR_KEY: String = "store_theme_color"
+        private const val STORE_THEME_MODE_KEY: String = "store_theme_mode"
     }
 
     private val currentScheme: MutableLiveData<Scheme> = MutableLiveData()
