@@ -75,7 +75,7 @@ class HomeOptionThemePopupDialog : BindingDialogFragment<HomeOptionThemePopupDia
         }
         binding.tvReset.setOnClickListener {
             HomeOptionTheme.launch {
-                ThemeApi.instance.switchTheme(ResourceApi.instance.getColorInt(R.color.themeOrigin))
+                ThemeApi.instance.switchTheme(ResourceApi.instance.getColorInt(the.gadget.module.base.R.color.themeOrigin))
             }
             dismissAllowingStateLoss()
         }

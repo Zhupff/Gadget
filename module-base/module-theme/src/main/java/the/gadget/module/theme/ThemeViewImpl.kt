@@ -38,7 +38,7 @@ internal class ThemeViewImpl(view: View) : ThemeView(view) {
         if (!isAlive) {
             isAlive = true
             ThemeApi.instance.getCurrentScheme().observeLifecycleOrForever(view.findViewTreeLifecycleOwner(), this)
-            view.setTag(R.id.theme_view_tag, this)
+            view.setTag(the.gadget.module.base.R.id.theme_view_tag, this)
         }
     }
 
@@ -46,7 +46,7 @@ internal class ThemeViewImpl(view: View) : ThemeView(view) {
         if (isAlive) {
             isAlive = false
             ThemeApi.instance.getCurrentScheme().removeObserver(this)
-            view.setTag(R.id.theme_view_tag, null)
+            view.setTag(the.gadget.module.base.R.id.theme_view_tag, null)
         }
     }
 

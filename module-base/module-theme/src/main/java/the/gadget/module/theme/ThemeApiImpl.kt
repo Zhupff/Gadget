@@ -35,7 +35,7 @@ class ThemeApiImpl : ThemeApi {
             switchTheme(bitmap)
         } else {
             val color = DataStoreApi.instance.getGlobalInt(
-                STORE_THEME_COLOR_KEY, ResourceApi.instance.getColorInt(R.color.themeOrigin))
+                STORE_THEME_COLOR_KEY, ResourceApi.instance.getColorInt(the.gadget.module.base.R.color.themeOrigin))
             switchTheme(color)
         }
     }
