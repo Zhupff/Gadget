@@ -1,4 +1,4 @@
-package the.gadget.module.common
+package the.gadget.module.arch
 
 import android.app.Application
 import com.google.auto.service.AutoService

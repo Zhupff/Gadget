@@ -23,6 +23,7 @@ android {
 
 dependencies {
     implementation project(":module-base")
+    implementation project(":module-base:module-arch")
     implementation project(":module-base:module-common")
     implementation project(":module-base:module-logcat")
     implementation project(":module-base:module-permission")

@@ -1,4 +1,4 @@
-package the.gadget.module.common
+package the.gadget.module.arch
 
 import android.content.res.Resources
 import android.graphics.drawable.Drawable

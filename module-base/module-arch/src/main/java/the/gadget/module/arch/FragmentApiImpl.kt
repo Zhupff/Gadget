@@ -1,4 +1,4 @@
-package the.gadget.module.common
+package the.gadget.module.arch
 
 import androidx.fragment.app.FragmentManager
 import com.google.auto.service.AutoService
