@@ -25,6 +25,7 @@ dependencies {
     implementation project(":module-base")
     implementation project(":module-base:module-arch")
     implementation project(":module-base:module-common")
+    implementation project(":module-base:module-datastore")
     implementation project(":module-base:module-image")
     implementation project(":module-base:module-logcat")
     implementation project(":module-base:module-permission")

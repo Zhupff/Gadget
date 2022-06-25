@@ -3,6 +3,7 @@ include ":app"
 include ":module-base",
         ":module-base:module-arch",
         ":module-base:module-common",
+        ":module-base:module-datastore",
         ":module-base:module-image",
         ":module-base:module-logcat",
         ":module-base:module-permission",
