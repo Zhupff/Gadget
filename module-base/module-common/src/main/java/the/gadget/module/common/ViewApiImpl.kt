@@ -33,14 +33,12 @@ class ViewApiImpl : ViewApi {
     }
 
     override fun postAutoRemove(view: View?, runnable: Runnable) {
+        view?.post(runnable)
         view?.addOnAttachStateChangeListener(object : ViewOnAttachStateChangeListener() {
-            override fun onViewAttachedToWindow(v: View?) {
-                super.onViewAttachedToWindow(v)
-                v?.post(runnable)
-            }
             override fun onViewDetachedFromWindow(v: View?) {
                 super.onViewDetachedFromWindow(v)
                 v?.removeCallbacks(runnable)
+                v?.removeOnAttachStateChangeListener(this)
             }
         })
     }

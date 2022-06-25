@@ -73,6 +73,12 @@ class HomeOptionThemePopupDialog : BindingDialogFragment<HomeOptionThemePopupDia
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.root.setOnClickListener { dismissAllowingStateLoss() }
+        binding.rgbColorPicker.setOnClickListener {
+            CoroutineScope(Dispatchers.IO).launch {
+                ThemeApi.instance.switchTheme(binding.rgbColorPicker.currentColor)
+            }
+            dismissAllowingStateLoss()
+        }
         binding.tvFromCamera.setOnClickListener {
             if (DeviceApi.instance.hasCamera()) {
                 val file = ThemeApi.WALLPAPER_TEMP_FILE.also { it.deleteIfExists() }
