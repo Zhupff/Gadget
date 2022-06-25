@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.auto.service.AutoService
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
+import the.gadget.annotation.DataStoreKey
 import the.gadget.api.*
 import the.gadget.theme.Scheme
 import the.gadget.theme.ThemeApi
@@ -19,6 +20,10 @@ import java.io.File
 class ThemeApiImpl : ThemeApi {
     companion object {
         private val WALLPAPER_FILE: File; get() = FileApi.WALLPAPER_DIR.resolve(ThemeApi.WALLPAPER_FILE_NAME)
+        @DataStoreKey("store_theme_color")
+        private const val STORE_THEME_COLOR_KEY: String = "theme_color"
+        @DataStoreKey("store_theme_mode")
+        private const val STORE_THEME_MODE_KEY: String = "theme_mode"
     }
 
     private val currentScheme: MutableLiveData<Scheme> = MutableLiveData()
@@ -32,20 +37,29 @@ class ThemeApiImpl : ThemeApi {
             val bitmap = BitmapFactory.decodeFile(wallpaperFile.path)
             switchTheme(bitmap)
         } else {
-            val color = ResourceApi.instance.getColorInt(R.color.themeOrigin)
+            val color = DataStoreApi.instance.getGlobalInt(
+                STORE_THEME_COLOR_KEY, ResourceApi.instance.getColorInt(R.color.themeOrigin))
             switchTheme(color)
         }
     }
 
     override suspend fun switchTheme(bitmap: Bitmap) {
-        val mode = currentScheme.value?.mode ?: Scheme.Mode.DEFAULT
+        val mode = currentScheme.value?.mode
+            ?: if (DataStoreApi.instance.getGlobalBoolean(STORE_THEME_MODE_KEY, true))
+                Scheme.Mode.Light
+            else
+                Scheme.Mode.Dark
         val newScheme = createScheme(mode, bitmap)
         FileApi.instance.saveBitmap(bitmap, WALLPAPER_FILE)
         MainScope().launch { switchScheme(newScheme) }
     }
 
     override suspend fun switchTheme(argb: Int) {
-        val mode = currentScheme.value?.mode ?: Scheme.Mode.DEFAULT
+        val mode = currentScheme.value?.mode
+            ?: if (DataStoreApi.instance.getGlobalBoolean(STORE_THEME_MODE_KEY, true))
+                Scheme.Mode.Light
+            else
+                Scheme.Mode.Dark
         val newScheme = createScheme(mode, argb, null)
         WALLPAPER_FILE.deleteIfExists()
         MainScope().launch { switchScheme(newScheme) }
@@ -58,8 +72,10 @@ class ThemeApiImpl : ThemeApi {
     }
 
     @MainThread
-    private fun switchScheme(scheme: Scheme) {
+    private suspend fun switchScheme(scheme: Scheme) {
         if (currentScheme.value != scheme) {
+            DataStoreApi.instance.setGlobalInt(STORE_THEME_COLOR_KEY, scheme.originArgb)
+            DataStoreApi.instance.setGlobalBoolean(STORE_THEME_MODE_KEY, scheme.mode.isLightMode())
             scheme.apply()
             currentScheme.value = scheme
         }

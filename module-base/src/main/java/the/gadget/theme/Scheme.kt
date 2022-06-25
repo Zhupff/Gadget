@@ -23,10 +23,6 @@ class Scheme(
         fun isLightMode(): Boolean = this == Light
         fun isDarkMode(): Boolean = this == Dark
         fun reverse(): Mode = if (isLightMode()) Dark else Light
-
-        companion object {
-            val DEFAULT: Mode; get() = Light
-        }
     }
 
     fun apply() {
