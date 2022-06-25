@@ -7,7 +7,8 @@ include ":module-base",
         ":module-base:module-image",
         ":module-base:module-logcat",
         ":module-base:module-permission",
-        ":module-base:module-theme"
+        ":module-base:module-theme",
+        ":module-base:module-user"
 include ":component-home-api",
         ":component-home-api:component-home"
 include ":component-elysium-api",

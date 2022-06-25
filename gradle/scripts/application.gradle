@@ -30,4 +30,5 @@ dependencies {
     implementation project(":module-base:module-logcat")
     implementation project(":module-base:module-permission")
     implementation project(":module-base:module-theme")
+    implementation project(":module-base:module-user")
 }
