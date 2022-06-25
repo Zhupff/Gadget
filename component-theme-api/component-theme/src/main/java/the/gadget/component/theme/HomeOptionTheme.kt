@@ -9,6 +9,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import the.gadget.activity.toBaseActivity
+import the.gadget.api.singleToastS
 import the.gadget.component.home.HomeOption
 import the.gadget.component.theme.databinding.HomeOptionThemeViewHolderBinding
 import the.gadget.fragment.FragmentApi
@@ -46,7 +47,11 @@ class HomeOptionTheme : HomeOption(Option.Theme) {
             }
             binding.themeOptionLayout.setOnClickListener {
                 itemView.context.toBaseActivity()?.supportFragmentManager?.let { fm ->
-                    FragmentApi.instance.showDialogFragment(fm, HomeOptionThemePopupDialog())
+                    if (componentThemeApi.isEntranceLock()) {
+                        "正在切换主题，请稍等~".singleToastS()
+                    } else {
+                        FragmentApi.instance.showDialogFragment(fm, HomeOptionThemePopupDialog())
+                    }
                 }
             }
         }

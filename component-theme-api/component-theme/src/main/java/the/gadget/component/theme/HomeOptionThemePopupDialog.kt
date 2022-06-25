@@ -30,6 +30,7 @@ class HomeOptionThemePopupDialog : BindingDialogFragment<HomeOptionThemePopupDia
             if (uri != null) {
                 isOk = true
                 CoroutineScope(Dispatchers.IO).launch {
+                    componentThemeApi.lockEntrance()
                     ThemeApi.instance.switchTheme(ImageApi.instance.loadWallpaperBitmap(uri))
                 }
                 dismissAllowingStateLoss()
@@ -47,6 +48,7 @@ class HomeOptionThemePopupDialog : BindingDialogFragment<HomeOptionThemePopupDia
                 if (file.exists()) {
                     isOk = true
                     CoroutineScope(Dispatchers.IO).launch {
+                        componentThemeApi.lockEntrance()
                         ThemeApi.instance.switchTheme(ImageApi.instance.loadWallpaperBitmap(file.path))
                     }
                     dismissAllowingStateLoss()
@@ -65,6 +67,7 @@ class HomeOptionThemePopupDialog : BindingDialogFragment<HomeOptionThemePopupDia
         binding.root.setOnClickListener { dismissAllowingStateLoss() }
         binding.rgbColorPicker.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
+                componentThemeApi.lockEntrance()
                 ThemeApi.instance.switchTheme(binding.rgbColorPicker.currentColor)
             }
             dismissAllowingStateLoss()
