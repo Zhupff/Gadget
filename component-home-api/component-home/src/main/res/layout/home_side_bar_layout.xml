@@ -5,6 +5,7 @@
 
     <data>
         <import type="the.gadget.theme.Colour"/>
+        <variable name="user" type="the.gadget.user.User" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -35,7 +36,9 @@
                 android:layout_marginStart="@dimen/marginMax"
                 android:layout_marginTop="@dimen/marginMax"
                 android:layout_marginBottom="@dimen/marginMax"
-                themeBackgroundColor="@{Colour.PrimaryContainer}"/>
+                foregroundBitmap="@{user.avatar}"
+                themeBackgroundColor="@{Colour.PrimaryContainer}"
+                tools:background="@color/themePrimaryContainer"/>
 
             <TextView
                 android:id="@+id/tv_nickname"
@@ -45,7 +48,7 @@
                 app:layout_constraintTop_toTopOf="@id/iv_avatar"
                 app:layout_constraintBottom_toTopOf="@id/tv_uid"
                 android:layout_marginStart="@dimen/marginMax"
-                android:text="Nickname"
+                android:text="@{user.nickname}"
                 android:textSize="@dimen/textSizeMax"
                 android:textStyle="bold"
                 themeTextColor="@{Colour.OnBackground}"
@@ -58,7 +61,7 @@
                 app:layout_constraintStart_toEndOf="@id/iv_avatar"
                 app:layout_constraintBottom_toBottomOf="@id/iv_avatar"
                 android:layout_marginStart="@dimen/marginMax"
-                android:text="uid 123456"
+                android:text="@{user.uid}"
                 android:textSize="@dimen/textSizeMid"
                 themeTextColor="@{Colour.OnBackground}"
                 tools:textColor="@color/themeOnBackground"/>

@@ -24,7 +24,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:allCornerRadius="@dimen/cornerRadiusMid"
-            drawableRes="@{app.icon}"
+            foregroundDrawableRes="@{app.icon}"
             isSelected="@{app.selected}"
             themeForegroundTint="@{app.selected ? Colour.Primary : Colour.Outline}"
             tools:src="@drawable/home_app_icon"

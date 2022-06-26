@@ -1,10 +1,16 @@
 package the.gadget.user
 
-open class User {
+import android.graphics.Bitmap
 
-    var uid: String = ""; protected set
+open class User(
+    uid: String,
+    nickname: String,
+    avatar: Bitmap
+) {
 
-    var nickname: String = ""; protected set
+    var uid: String = uid; protected set
 
-    var avatar: String = ""; protected set
+    var nickname: String = nickname; protected set
+
+    var avatar: Bitmap = avatar; protected set
 }

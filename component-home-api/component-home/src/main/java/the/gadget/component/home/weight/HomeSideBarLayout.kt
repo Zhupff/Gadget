@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,6 +16,8 @@ import the.gadget.component.home.componentHomeApi
 import the.gadget.component.home.databinding.HomeAppListViewHolderBinding
 import the.gadget.component.home.databinding.HomeSideBarLayoutBinding
 import the.gadget.interfaces.ILayoutRes
+import the.gadget.livedata.observe
+import the.gadget.user.UserApi
 import the.gadget.weight.recyclerview.BindingRecyclerViewHolder
 import the.gadget.weight.recyclerview.DiffRecyclerViewAdapter
 import the.gadget.weight.recyclerview.RecyclerViewAdapter
@@ -29,14 +30,6 @@ class HomeSideBarLayout @JvmOverloads constructor(
     private val binding: HomeSideBarLayoutBinding = DataBindingUtil
         .inflate(LayoutInflater.from(context), getLayoutRes(), this, true)
 
-    private val homeAppObserver = Observer<List<HomeApp>> {
-        (binding.rvAppList.adapter as AppListAdapter).submit(it ?: emptyList())
-    }
-
-    private val homeOptionObserver = Observer<List<HomeOption>> {
-        (binding.rvOptionList.adapter as OptionListAdapter).update(it ?: emptyList())
-    }
-
     init {
         binding.rvAppList.layoutManager = GridLayoutManager(context, 4, RecyclerView.VERTICAL, false)
         binding.rvAppList.adapter = AppListAdapter()
@@ -45,21 +38,17 @@ class HomeSideBarLayout @JvmOverloads constructor(
         binding.rvOptionList.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         binding.rvOptionList.adapter = OptionListAdapter()
         binding.rvOptionList.itemAnimator = null
+
+        UserApi.instance.getCurrentUser().observe(this) { binding.user = it }
+        componentHomeApi.getAllHomeApps().observe(this) {
+            (binding.rvAppList.adapter as AppListAdapter).submit(it ?: emptyList())
+        }
+        componentHomeApi.getAllHomeOptions().observe(this) {
+            (binding.rvOptionList.adapter as OptionListAdapter).update(it ?: emptyList())
+        }
     }
 
     override fun getLayoutRes(): Int = R.layout.home_side_bar_layout
-
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
-        componentHomeApi.getAllHomeApps().observeForever(homeAppObserver)
-        componentHomeApi.getAllHomeOptions().observeForever(homeOptionObserver)
-    }
-
-    override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
-        componentHomeApi.getAllHomeApps().removeObserver(homeAppObserver)
-        componentHomeApi.getAllHomeOptions().removeObserver(homeOptionObserver)
-    }
 
     private class AppListAdapter : DiffRecyclerViewAdapter<HomeApp, BindingRecyclerViewHolder<HomeAppListViewHolderBinding>>() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingRecyclerViewHolder<HomeAppListViewHolderBinding> =

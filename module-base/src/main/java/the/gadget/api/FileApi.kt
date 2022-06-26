@@ -19,6 +19,10 @@ interface FileApi {
         val WALLPAPER_DIR: File; get() = STORAGE_DIR.resolve("wallpaper").also { it.mkdirs() }
 
         val WALLPAPER_TEMP_DIR: File; get() = CACHE_DIR.resolve("wallpaper").also { it.mkdirs() }
+
+        val AVATAR_DIR: File; get() = STORAGE_DIR.resolve("avatar").also { it.mkdirs() }
+
+        val AVATAR_TEMP_DIR: File; get() = CACHE_DIR.resolve("avatar").also { it.mkdirs() }
     }
 
     fun copy(inputStream: InputStream, outputStream: OutputStream)

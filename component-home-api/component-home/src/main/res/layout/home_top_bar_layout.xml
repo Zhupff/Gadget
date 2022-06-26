@@ -40,7 +40,7 @@
                     android:scaleType="centerCrop"
                     app:allCornerRadius="@dimen/cornerRadiusMin"
                     android:src="@drawable/home_app_icon"
-                    drawableRes="@{app.icon}"
+                    foregroundDrawableRes="@{app.icon}"
                     themeForegroundTint="@{Colour.Primary}"
                     tools:tint="@color/themePrimary"/>
 

@@ -13,6 +13,7 @@ import kotlinx.coroutines.withContext
 import the.gadget.activity.BaseActivity
 import the.gadget.component.home.activity.HomeActivity
 import the.gadget.theme.ThemeApi
+import the.gadget.user.UserApi
 import the.gadget.weight.wallpaper.WallpaperView
 
 class MainActivity : BaseActivity() {
@@ -31,6 +32,7 @@ class MainActivity : BaseActivity() {
         }
         setContentView(wallpaperView, ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT))
         lifecycleScope.launch(Dispatchers.IO) {
+            UserApi.instance.login()
             ThemeApi.instance.initTheme()
             withContext(Dispatchers.Main) {
                 delay(1000)

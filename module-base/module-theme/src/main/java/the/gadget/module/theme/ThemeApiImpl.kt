@@ -1,7 +1,6 @@
 package the.gadget.module.theme
 
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.view.View
 import androidx.annotation.MainThread
 import androidx.lifecycle.LiveData
@@ -31,7 +30,7 @@ class ThemeApiImpl : ThemeApi {
         if (currentScheme.value != null) return
         val wallpaperFile = WALLPAPER_FILE
         if (wallpaperFile.exists()) {
-            val bitmap = BitmapFactory.decodeFile(wallpaperFile.path)
+            val bitmap = ImageApi.instance.loadWallpaperBitmap(wallpaperFile.path)
             switchTheme(bitmap)
         } else {
             val color = DataStoreApi.instance.getGlobalInt(

@@ -9,4 +9,6 @@ interface UserApi {
     }
 
     fun getCurrentUser(): LiveData<User>
+
+    suspend fun login()
 }
