@@ -18,7 +18,7 @@ object ViewDataBindingAdapter {
 
     @JvmStatic
     @BindingAdapter("foregroundBitmap")
-    fun foregroundBitmap(view: ImageView, bitmap: Bitmap) {
+    fun foregroundBitmap(view: ImageView, bitmap: Bitmap?) {
         view.setImageBitmap(bitmap)
     }
 

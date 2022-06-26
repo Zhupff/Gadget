@@ -1,11 +1,16 @@
 package the.gadget.module.user
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.auto.service.AutoService
+import the.gadget.activity.toBaseActivity
 import the.gadget.api.DataStoreApi
 import the.gadget.api.FileApi
 import the.gadget.api.ImageApi
+import the.gadget.fragment.FragmentApi
 import the.gadget.user.User
 import the.gadget.user.UserApi
 import java.io.File
@@ -16,7 +21,6 @@ class UserApiImpl : UserApi {
         private const val AVATAR_FILE_NAME: String = "avatar.png"
         private val AVATAR_FILE: File; get() = FileApi.AVATAR_DIR.resolve(AVATAR_FILE_NAME)
         private const val STORE_USER_NICKNAME_KEY: String = "store_user_nickname"
-        private const val STORE_USER_ID_KEY: String = "store_user_id"
     }
 
     private val currentUser: MutableLiveData<User> = MutableLiveData()
@@ -25,11 +29,29 @@ class UserApiImpl : UserApi {
 
     override suspend fun login() {
         if (currentUser.value != null) return
-        val defaultUser = UserImpl.DEFAULT_USER
-        val uid = DataStoreApi.instance.getGlobalString(STORE_USER_ID_KEY, defaultUser.uid)
-        val nickname = DataStoreApi.instance.getGlobalString(STORE_USER_NICKNAME_KEY, defaultUser.nickname)
-        val avatar = if (AVATAR_FILE.exists()) ImageApi.instance.loadWallpaperBitmap(AVATAR_FILE.path) else defaultUser.avatar
-        val user = UserImpl(uid, nickname, avatar)
-        currentUser.postValue(user)
+        val uid = System.currentTimeMillis()
+        val nickname = DataStoreApi.instance.getGlobalString(STORE_USER_NICKNAME_KEY, "User${uid % 10000}")
+        val avatar = if (AVATAR_FILE.exists()) {
+            ImageApi.instance.loadAvatarBitmap(AVATAR_FILE.path)
+        } else {
+            val bitmap = Bitmap.createBitmap(2, 2, Bitmap.Config.ARGB_8888)
+            Canvas(bitmap).drawColor(uid.toInt())
+            bitmap
+        }
+        currentUser.postValue(UserImpl(uid.toString(), nickname, avatar))
+    }
+
+    override suspend fun updateAvatar(avatar: Bitmap) {
+        currentUser.value?.let { user ->
+            FileApi.instance.saveBitmap(avatar, AVATAR_FILE)
+            (user as UserImpl).setUserAvatar(avatar)
+            currentUser.postValue(user)
+        }
+    }
+
+    override fun showUserInfoPopupDialog(context: Context) {
+        context.toBaseActivity()?.supportFragmentManager?.let { fm ->
+            FragmentApi.instance.showDialogFragment(fm, UserInfoPopupDialog())
+        }
     }
 }

@@ -36,6 +36,28 @@ class ImageApiImpl : ImageApi {
             .get()
     }
 
+    override suspend fun loadAvatarBitmap(str: String): Bitmap {
+        return Glide.with(ApplicationApi.instance.getApplication())
+            .asBitmap()
+            .load(str)
+            .skipMemoryCache(true)
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .centerCrop()
+            .submit(480, 480)
+            .get()
+    }
+
+    override suspend fun loadAvatarBitmap(uri: Uri): Bitmap {
+        return Glide.with(ApplicationApi.instance.getApplication())
+            .asBitmap()
+            .load(uri)
+            .skipMemoryCache(true)
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .centerCrop()
+            .submit(480, 480)
+            .get()
+    }
+
     override fun zoom(bitmap: Bitmap, targetSize: Int): Bitmap {
         val curSize = bitmap.width * bitmap.height
         if (curSize in (targetSize * 0.95F).roundToInt()..(targetSize * 1.05F).roundToInt()) return bitmap

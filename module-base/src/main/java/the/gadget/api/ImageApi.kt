@@ -12,6 +12,10 @@ interface ImageApi {
 
     suspend fun loadWallpaperBitmap(uri: Uri): Bitmap
 
+    suspend fun loadAvatarBitmap(str: String): Bitmap
+
+    suspend fun loadAvatarBitmap(uri: Uri): Bitmap
+
     fun zoom(bitmap: Bitmap, targetSize: Int): Bitmap
 
     fun zoomIn(bitmap: Bitmap, minSize: Int): Bitmap

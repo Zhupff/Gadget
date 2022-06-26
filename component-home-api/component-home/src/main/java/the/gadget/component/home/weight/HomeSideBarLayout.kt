@@ -31,6 +31,8 @@ class HomeSideBarLayout @JvmOverloads constructor(
         .inflate(LayoutInflater.from(context), getLayoutRes(), this, true)
 
     init {
+        binding.ivAvatar.setOnClickListener { UserApi.instance.showUserInfoPopupDialog(context) }
+
         binding.rvAppList.layoutManager = GridLayoutManager(context, 4, RecyclerView.VERTICAL, false)
         binding.rvAppList.adapter = AppListAdapter()
         binding.rvAppList.itemAnimator = null

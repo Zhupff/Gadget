@@ -1,5 +1,7 @@
 package the.gadget.user
 
+import android.content.Context
+import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
 import the.gadget.api.apiInstance
 
@@ -11,4 +13,8 @@ interface UserApi {
     fun getCurrentUser(): LiveData<User>
 
     suspend fun login()
+
+    suspend fun updateAvatar(avatar: Bitmap)
+
+    fun showUserInfoPopupDialog(context: Context)
 }
