@@ -37,25 +37,41 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/v_horizontal"
                 app:allCornerRadius="@dimen/cornerRadiusMid"
                 android:layout_margin="@dimen/marginMax"
                 android:padding="@dimen/paddingMid"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
+                android:gravity="center"
                 android:hint="@{user.nickname}"
                 android:textCursorDrawable="@null"
+                android:textSize="@dimen/textSizeMax"
                 themeHintColor="@{Colour.Outline}"
                 themeTextColor="@{Colour.OnBackgroundContainer}"
                 themeBackgroundColor="@{Colour.BackgroundContainer}"
                 tools:hint="Nickname"
                 tools:background="@color/themeBackgroundContainer"/>
 
+            <TextView
+                android:id="@+id/tv_nickname_limit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/et_nickname"
+                android:layout_marginTop="@dimen/marginMin"
+                android:text="昵称最长10个字符"
+                android:textSize="@dimen/textSizeMin"
+                themeTextColor="@{Colour.Outline}"
+                tools:textColor="@color/themeOutline"/>
+
             <View
                 android:id="@+id/v_horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_nickname_limit"
                 app:layout_constraintBottom_toTopOf="@id/tv_cancel"
+                android:layout_marginTop="@dimen/marginMid"
                 themeBackgroundColor="@{Colour.Outline}"
                 tools:background="@color/themeOutline"/>
 

@@ -1,6 +1,7 @@
 package the.gadget.module.user
 
 import android.os.Bundle
+import android.text.InputFilter
 import android.view.View
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -16,6 +17,7 @@ class NicknameEditDialog : BindingDialogFragment<NicknameEditDialogBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.root.setOnClickListener { dismissAllowingStateLoss() }
+        binding.etNickname.filters = arrayOf(InputFilter.LengthFilter(10))
         binding.tvCancel.setOnClickListener { dismissAllowingStateLoss() }
         binding.tvConfirm.setOnClickListener {
             val nickname = binding.etNickname.text?.toString()?.trim()
