@@ -16,5 +16,7 @@ interface UserApi {
 
     suspend fun updateAvatar(avatar: Bitmap)
 
+    suspend fun updateNickname(nickname: String)
+
     fun showUserInfoPopupDialog(context: Context)
 }

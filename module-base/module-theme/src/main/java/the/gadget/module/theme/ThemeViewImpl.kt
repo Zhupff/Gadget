@@ -2,6 +2,7 @@ package the.gadget.module.theme
 
 import android.content.res.ColorStateList
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.findViewTreeLifecycleOwner
@@ -62,6 +63,12 @@ internal class ThemeViewImpl(view: View) : ThemeView(view) {
         }.also { if (isAlive) it.run() }
     }
 
+    override fun hintColor(colour: Colour) = apply {
+        actions["hintColor"] = Runnable {
+            hintColorAction(colour)
+        }.also { if (isAlive) it.run() }
+    }
+
     override fun foregroundTint(colour: Colour) = apply {
         actions["foregroundTint"] = Runnable {
             foregroundTintAction(colour)
@@ -88,6 +95,11 @@ internal class ThemeViewImpl(view: View) : ThemeView(view) {
     private fun textColorAction(colour: Colour) {
         if (view !is TextView) return
         view.setTextColor(colour.color)
+    }
+
+    private fun hintColorAction(colour: Colour) {
+        if (view !is EditText) return
+        view.setHintTextColor(colour.color)
     }
 
     private fun foregroundTintAction(colour: Colour) {

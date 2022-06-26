@@ -49,6 +49,14 @@ class UserApiImpl : UserApi {
         }
     }
 
+    override suspend fun updateNickname(nickname: String) {
+        currentUser.value?.let { user ->
+            DataStoreApi.instance.setGlobalString(STORE_USER_NICKNAME_KEY, nickname)
+            (user as UserImpl).setUserNickname(nickname)
+            currentUser.postValue(user)
+        }
+    }
+
     override fun showUserInfoPopupDialog(context: Context) {
         context.toBaseActivity()?.supportFragmentManager?.let { fm ->
             FragmentApi.instance.showDialogFragment(fm, UserInfoPopupDialog())

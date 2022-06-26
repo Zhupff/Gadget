@@ -58,6 +58,13 @@
         <attr name="blCornerRadius"/>
         <attr name="brCornerRadius"/>
     </declare-styleable>
+    <declare-styleable name="CommonEditText">
+        <attr name="allCornerRadius"/>
+        <attr name="tlCornerRadius"/>
+        <attr name="trCornerRadius"/>
+        <attr name="blCornerRadius"/>
+        <attr name="brCornerRadius"/>
+    </declare-styleable>
     <declare-styleable name="CommonImageView">
         <attr name="allCornerRadius"/>
         <attr name="tlCornerRadius"/>

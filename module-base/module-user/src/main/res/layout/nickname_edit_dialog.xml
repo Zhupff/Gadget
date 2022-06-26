@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="the.gadget.theme.Colour"/>
+        <variable name="user" type="the.gadget.user.User" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/translucentBackgroundColor">
+
+        <the.gadget.weight.common.CommonConstraintLayout
+            android:id="@+id/content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintWidth_percent="0.618"
+            app:allCornerRadius="@dimen/cornerRadiusMax"
+            android:clickable="true"
+            android:focusable="true"
+            android:visibility="invisible"
+            themeBackgroundColor="@{Colour.Background}"
+            tools:background="@color/themeBackground"
+            tools:visibility="visible">
+
+            <the.gadget.weight.common.CommonEditText
+                android:id="@+id/et_nickname"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/v_horizontal"
+                app:allCornerRadius="@dimen/cornerRadiusMid"
+                android:layout_margin="@dimen/marginMax"
+                android:padding="@dimen/paddingMid"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:hint="@{user.nickname}"
+                android:textCursorDrawable="@null"
+                themeHintColor="@{Colour.Outline}"
+                themeTextColor="@{Colour.OnBackgroundContainer}"
+                themeBackgroundColor="@{Colour.BackgroundContainer}"
+                tools:hint="Nickname"
+                tools:background="@color/themeBackgroundContainer"/>
+
+            <View
+                android:id="@+id/v_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                app:layout_constraintBottom_toTopOf="@id/tv_cancel"
+                themeBackgroundColor="@{Colour.Outline}"
+                tools:background="@color/themeOutline"/>
+
+            <View
+                android:id="@+id/v_vertical"
+                android:layout_width="0.5dp"
+                android:layout_height="0dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/v_horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                themeBackgroundColor="@{Colour.Outline}"
+                tools:background="@color/themeOutline"/>
+
+
+            <TextView
+                android:id="@+id/tv_cancel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tv_confirm"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:padding="@dimen/paddingMid"
+                android:gravity="center"
+                android:text="取消"
+                android:textSize="@dimen/textSizeMax"
+                themeTextColor="@{Colour.OnBackground}"
+                tools:textColor="@color/themeOnBackground"/>
+
+            <TextView
+                android:id="@+id/tv_confirm"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@id/tv_cancel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:padding="@dimen/paddingMid"
+                android:gravity="center"
+                android:text="确认"
+                android:textSize="@dimen/textSizeMax"
+                themeTextColor="@{Colour.Primary}"
+                tools:textColor="@color/themePrimary"/>
+        </the.gadget.weight.common.CommonConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

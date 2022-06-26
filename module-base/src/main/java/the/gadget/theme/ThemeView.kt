@@ -23,6 +23,12 @@ abstract class ThemeView(val view: View) : Observer<Scheme> {
         }
 
         @JvmStatic
+        @BindingAdapter("themeHintColor")
+        fun themeHintColor(view: View, colour: Colour) {
+            ThemeApi.instance.attachView(view).hintColor(colour)
+        }
+
+        @JvmStatic
         @BindingAdapter("themeForegroundTint")
         fun themeForegroundTint(view: View, colour: Colour) {
             ThemeApi.instance.attachView(view).foregroundTint(colour)
@@ -40,6 +46,8 @@ abstract class ThemeView(val view: View) : Observer<Scheme> {
     abstract fun backgroundColor(colour: Colour): ThemeView
 
     abstract fun textColor(colour: Colour): ThemeView
+
+    abstract fun hintColor(colour: Colour): ThemeView
 
     abstract fun foregroundTint(colour: Colour): ThemeView
 

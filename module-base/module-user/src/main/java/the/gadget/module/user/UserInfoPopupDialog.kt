@@ -9,6 +9,7 @@ import kotlinx.coroutines.*
 import the.gadget.api.ImageApi
 import the.gadget.api.singleToastS
 import the.gadget.fragment.BindingDialogFragment
+import the.gadget.fragment.FragmentApi
 import the.gadget.module.user.databinding.UserInfoPopupDialogBinding
 import the.gadget.user.UserApi
 import java.util.concurrent.atomic.AtomicBoolean
@@ -62,6 +63,7 @@ class UserInfoPopupDialog : BindingDialogFragment<UserInfoPopupDialogBinding>() 
             }
         }
         binding.nicknameLayout.setOnClickListener {
+            FragmentApi.instance.showDialogFragment(childFragmentManager, NicknameEditDialog())
         }
         UserApi.instance.getCurrentUser().observe(viewLifecycleOwner) { binding.user = it }
         contentPopup(binding.content)
