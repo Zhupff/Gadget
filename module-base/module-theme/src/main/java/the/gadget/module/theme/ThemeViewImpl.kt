@@ -5,93 +5,104 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.lifecycle.findViewTreeLifecycleOwner
-import the.gadget.livedata.observeLifecycleOrForever
+import androidx.lifecycle.Observer
 import the.gadget.theme.Colour
 import the.gadget.theme.Scheme
 import the.gadget.theme.ThemeApi
 import the.gadget.theme.ThemeView
+import java.util.concurrent.atomic.AtomicBoolean
 
-internal class ThemeViewImpl(view: View) : ThemeView(view), View.OnAttachStateChangeListener {
+internal class ThemeViewImpl(view: View) : ThemeView(view), View.OnAttachStateChangeListener, Observer<Scheme> {
 
-    private inner class Action(val action: Runnable) {
-        init { if (isAttached) action.run() }
-    }
+    private val actions = mutableMapOf<String, Runnable>()
 
-    private val actions = mutableMapOf<String, Action>()
+    private val isAttached = AtomicBoolean(false)
 
-    private var isAttached = false
+    private var currentScheme: Scheme? = null
 
     init {
+        view.setTag(the.gadget.module.base.R.id.theme_view_tag, this)
         view.addOnAttachStateChangeListener(this)
-        if (view.isAttachedToWindow) onViewAttachedToWindow(view)
+        onViewAttachedToWindow(view)
     }
 
     override fun onViewAttachedToWindow(v: View?) {
-        if (!isAttached) {
-            isAttached = true
-            ThemeApi.instance.getCurrentScheme().observeLifecycleOrForever(view.findViewTreeLifecycleOwner(), this)
-            view.setTag(the.gadget.module.base.R.id.theme_view_tag, this)
+        if (isAttached.compareAndSet(false, true)) {
+            ThemeApi.instance.getCurrentScheme().observeForever(this)
         }
     }
 
     override fun onViewDetachedFromWindow(v: View?) {
-        if (isAttached) {
-            isAttached = false
+        if (isAttached.compareAndSet(true, false)) {
             ThemeApi.instance.getCurrentScheme().removeObserver(this)
-            view.setTag(the.gadget.module.base.R.id.theme_view_tag, null)
         }
     }
 
-    override fun onChanged(scheme: Scheme) { actions.values.forEach { it.action.run() } }
+    override fun onChanged(scheme: Scheme) {
+        if (scheme != currentScheme) {
+            currentScheme = scheme
+            actions.values.forEach {
+                it.run()
+            }
+        }
+    }
 
     override fun release() {
+        view.setTag(the.gadget.module.base.R.id.theme_view_tag, null)
         view.removeOnAttachStateChangeListener(this)
         onViewDetachedFromWindow(view)
     }
 
     override fun backgroundColor(colour: Colour) = apply {
-        actions["backgroundColor"] = Action {
+        actions["backgroundColor"] = Runnable {
             view.setBackgroundColor(colour.color)
-        }
+        }.apply { run() }
     }
 
     override fun textColor(colour: Colour) = apply {
-        actions["textColor"] = Action {
-            if (view is TextView) {
-                view.setTextColor(colour.color)
+        actions["textColor"] = Runnable {
+            when (view) {
+                is TextView -> {
+                    view.setTextColor(colour.color)
+                }
             }
-        }
+        }.apply { run() }
     }
 
     override fun hintColor(colour: Colour) = apply {
-        actions["hintColor"] = Action {
-            if (view is EditText) {
-                view.setHintTextColor(colour.color)
+        actions["hintColor"] = Runnable {
+            when (view) {
+                is EditText -> {
+                    view.setHintTextColor(colour.color)
+                }
             }
-        }
+        }.apply { run() }
     }
 
     override fun foregroundTint(colour: Colour) = apply {
-        actions["foregroundTint"] = Action {
-            if (view is ImageView) {
-                view.setColorFilter(colour.color)
+        actions["foregroundTint"] = Runnable {
+            when (view) {
+                is ImageView -> {
+                    view.setColorFilter(colour.color)
+                }
             }
-        }
+        }.apply { run() }
     }
 
     override fun backgroundTint(colour: Colour) = apply {
-        actions["backgroundTint"] = Action {
+        actions["backgroundTint"] = Runnable {
             view.backgroundTintList = ColorStateList.valueOf(colour.color)
-        }
+        }.apply { run() }
     }
 
     override fun wallpaper(): ThemeView = apply {
-        actions["wallpaper"] = Action {
-            if (view is ImageView) {
-                val wallpaper = ThemeApi.instance.getCurrentScheme().value?.wallpaper
-                view.setImageBitmap(wallpaper)
+        actions["wallpaper"] = Runnable {
+            when (view) {
+                is ImageView -> {
+                    val wallpaper = ThemeApi.instance.getCurrentScheme().value?.wallpaper
+                    view.setImageBitmap(wallpaper)
+                }
             }
-        }
+        }.apply { run() }
     }
 }

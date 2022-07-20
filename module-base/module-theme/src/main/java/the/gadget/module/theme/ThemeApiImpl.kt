@@ -77,9 +77,20 @@ class ThemeApiImpl : ThemeApi {
         }
     }
 
-    override fun attachView(view: View): ThemeView = ThemeView.get(view) ?: ThemeViewImpl(view)
+    override fun attachView(view: View): ThemeView {
+        val instance = view.getTag(the.gadget.module.base.R.id.theme_view_tag)
+        if (instance != null) {
+            if (instance is ThemeViewImpl)
+                return instance
+            else
+                throw IllegalStateException("$view already bind $instance.")
+        }
+        return ThemeViewImpl(view)
+    }
 
-    override fun detachView(view: View) { ThemeView.get(view)?.release() }
+    override fun detachView(view: View) {
+        (view.getTag(the.gadget.module.base.R.id.theme_view_tag) as? ThemeView)?.release()
+    }
 
     private suspend fun createScheme(mode: Scheme.Mode, bitmap: Bitmap): Scheme {
         val pixel = IntArray(bitmap.width * bitmap.height)

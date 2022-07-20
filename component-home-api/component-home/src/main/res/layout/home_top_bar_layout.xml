@@ -5,6 +5,7 @@
 
     <data>
         <import type="the.gadget.theme.Colour"/>
+        <import type="the.gadget.component.home.R"/>
         <variable
             name="app"
             type="the.gadget.component.home.HomeApp" />
@@ -39,8 +40,7 @@
                     android:layout_marginStart="@dimen/marginMax"
                     android:scaleType="centerCrop"
                     app:allCornerRadius="@dimen/cornerRadiusMin"
-                    android:src="@drawable/home_app_icon"
-                    foregroundDrawableRes="@{app.icon}"
+                    foregroundDrawableRes="@{app != null ? app.icon : R.drawable.home_app_icon}"
                     themeForegroundTint="@{Colour.Primary}"
                     tools:tint="@color/themePrimary"/>
 

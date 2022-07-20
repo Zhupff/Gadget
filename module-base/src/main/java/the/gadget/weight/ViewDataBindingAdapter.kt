@@ -1,48 +1,39 @@
+@file:JvmName("ViewDataBindingAdapter")
+
 package the.gadget.weight
 
 import android.graphics.Bitmap
 import android.view.View
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
-import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.BindingAdapter
 
-object ViewDataBindingAdapter {
+@BindingAdapter("foregroundDrawableRes")
+fun foregroundDrawableRes(view: ImageView, @DrawableRes id: Int) {
+    view.setImageResource(id)
+}
 
-    @JvmStatic
-    @BindingAdapter("foregroundDrawableRes")
-    fun foregroundDrawableRes(view: ImageView, @DrawableRes id: Int) {
-        if (id == ResourcesCompat.ID_NULL) return
-        view.setImageResource(id)
-    }
+@BindingAdapter("foregroundBitmap")
+fun foregroundBitmap(view: ImageView, bitmap: Bitmap?) {
+    view.setImageBitmap(bitmap)
+}
 
-    @JvmStatic
-    @BindingAdapter("foregroundBitmap")
-    fun foregroundBitmap(view: ImageView, bitmap: Bitmap?) {
-        view.setImageBitmap(bitmap)
-    }
+@BindingAdapter("visibleOrInvisible")
+fun visibleOrInvisible(view: View, bool: Boolean) {
+    view.beVisibleOrInvisible(bool)
+}
 
-    @JvmStatic
-    @BindingAdapter("visibleOrInvisible")
-    fun visibleOrInvisible(view: View, bool: Boolean) {
-        view.visibility = if (bool) View.VISIBLE else View.INVISIBLE
-    }
+@BindingAdapter("visibleOrGone")
+fun visibleOrGone(view: View, bool: Boolean) {
+    view.beVisibleOrGone(bool)
+}
 
-    @JvmStatic
-    @BindingAdapter("visibleOrGone")
-    fun visibleOrGone(view: View, bool: Boolean) {
-        view.visibility = if (bool) View.VISIBLE else View.GONE
-    }
+@BindingAdapter("invisibleOrGone")
+fun invisibleOrGone(view: View, bool: Boolean) {
+    view.beInvisibleOrGone(bool)
+}
 
-    @JvmStatic
-    @BindingAdapter("invisibleOrGone")
-    fun invisibleOrGone(view: View, bool: Boolean) {
-        view.visibility = if (bool) View.INVISIBLE else View.GONE
-    }
-
-    @JvmStatic
-    @BindingAdapter("isSelected")
-    fun isSelected(view: View, selected: Boolean) {
-        view.isSelected = selected
-    }
+@BindingAdapter("isSelected")
+fun isSelected(view: View, selected: Boolean) {
+    view.isSelected = selected
 }
