@@ -6,6 +6,7 @@ include ":module-base",
         ":module-base:module-datastore",
         ":module-base:module-image",
         ":module-base:module-logcat",
+        ":module-base:module-network",
         ":module-base:module-permission",
         ":module-base:module-theme",
         ":module-base:module-user"

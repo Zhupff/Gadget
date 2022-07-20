@@ -1,1 +1,2 @@
-apply from: rootProject.file("gradle/scripts/module-base.gradle")
+apply plugin: "com.android.library"
+apply from: rootProject.file("gradle/scripts/template.gradle")

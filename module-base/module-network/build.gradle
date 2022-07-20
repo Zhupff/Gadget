@@ -1,0 +1,7 @@
+apply from: rootProject.file("gradle/scripts/module.gradle")
+
+dependencies {
+    implementation OKHTTP
+    implementation GSON
+    implementation RETROFIT_GSON
+}

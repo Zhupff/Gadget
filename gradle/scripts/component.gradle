@@ -1,5 +1,5 @@
 apply plugin: "com.android.library"
-apply from: rootProject.file("gradle/scripts/module-template.gradle")
+apply from: rootProject.file("gradle/scripts/template.gradle")
 
 dependencies {
     implementation project(":module-base")

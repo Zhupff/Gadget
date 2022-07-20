@@ -1,6 +1,5 @@
-apply from: rootProject.file("gradle/scripts/module-base.gradle")
+apply from: rootProject.file("gradle/scripts/module.gradle")
 
 dependencies {
-    implementation project(":module-base")
     implementation DATA_STORE
 }
