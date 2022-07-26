@@ -15,9 +15,9 @@ import the.gadget.component.home.R
 import the.gadget.component.home.componentHomeApi
 import the.gadget.component.home.databinding.HomeAppListViewHolderBinding
 import the.gadget.component.home.databinding.HomeSideBarLayoutBinding
+import the.gadget.component.user.ComponentUserApi
 import the.gadget.interfaces.ILayoutRes
 import the.gadget.livedata.observe
-import the.gadget.user.UserApi
 import the.gadget.weight.recyclerview.BindingRecyclerViewHolder
 import the.gadget.weight.recyclerview.DiffRecyclerViewAdapter
 import the.gadget.weight.recyclerview.RecyclerViewAdapter
@@ -31,7 +31,7 @@ class HomeSideBarLayout @JvmOverloads constructor(
         .inflate(LayoutInflater.from(context), getLayoutRes(), this, true)
 
     init {
-        binding.ivAvatar.setOnClickListener { UserApi.instance.showUserInfoPopupDialog(context) }
+        binding.ivAvatar.setOnClickListener { ComponentUserApi.instance.showUserInfoPopupDialog(context) }
 
         binding.rvAppList.layoutManager = GridLayoutManager(context, 4, RecyclerView.VERTICAL, false)
         binding.rvAppList.adapter = AppListAdapter()
@@ -41,7 +41,7 @@ class HomeSideBarLayout @JvmOverloads constructor(
         binding.rvOptionList.adapter = OptionListAdapter()
         binding.rvOptionList.itemAnimator = null
 
-        UserApi.instance.getCurrentUser().observe(this) { binding.user = it }
+        ComponentUserApi.instance.getCurrentUser().observe(this) { binding.user = it }
         componentHomeApi.getAllHomeApps().observe(this) {
             (binding.rvAppList.adapter as AppListAdapter).submit(it ?: emptyList())
         }

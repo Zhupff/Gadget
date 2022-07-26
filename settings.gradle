@@ -8,14 +8,15 @@ include ":module-base",
         ":module-base:module-logcat",
         ":module-base:module-network",
         ":module-base:module-permission",
-        ":module-base:module-theme",
-        ":module-base:module-user"
+        ":module-base:module-theme"
 include ":component-home-api",
         ":component-home-api:component-home"
 include ":component-elysium-api",
         ":component-elysium-api:component-elysium"
 include ":component-setting-api",
         ":component-setting-api:component-setting"
+include ":component-user-api",
+        ":component-user-api:component-user"
 include ":component-wanandroid-api",
         ":component-wanandroid-api:component-wanandroid"
 include ":lib-annotation",

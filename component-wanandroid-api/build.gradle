@@ -1,5 +1,1 @@
 apply from: rootProject.file("gradle/scripts/component-api.gradle")
-
-dependencies {
-    implementation RETROFIT
-}

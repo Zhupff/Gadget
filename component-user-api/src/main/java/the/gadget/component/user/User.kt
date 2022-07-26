@@ -1,4 +1,4 @@
-package the.gadget.user
+package the.gadget.component.user
 
 import android.graphics.Bitmap
 

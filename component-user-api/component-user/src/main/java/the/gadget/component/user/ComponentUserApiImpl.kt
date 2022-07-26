@@ -1,4 +1,4 @@
-package the.gadget.module.user
+package the.gadget.component.user
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -11,21 +11,19 @@ import the.gadget.api.DataStoreApi
 import the.gadget.api.FileApi
 import the.gadget.api.ImageApi
 import the.gadget.fragment.FragmentApi
-import the.gadget.user.User
-import the.gadget.user.UserApi
 import java.io.File
 
-@AutoService(UserApi::class)
-class UserApiImpl : UserApi {
+@AutoService(ComponentUserApi::class)
+class ComponentUserApiImpl : ComponentUserApi {
     companion object {
         private const val AVATAR_FILE_NAME: String = "avatar.png"
         private val AVATAR_FILE: File; get() = FileApi.AVATAR_DIR.resolve(AVATAR_FILE_NAME)
         private const val STORE_USER_NICKNAME_KEY: String = "store_user_nickname"
     }
 
-    private val currentUser: MutableLiveData<User> = MutableLiveData()
+    private val currentUser: MutableLiveData<UserImpl> = MutableLiveData()
 
-    override fun getCurrentUser(): LiveData<User> = currentUser
+    override fun getCurrentUser(): LiveData<out User> = currentUser
 
     override suspend fun login() {
         if (currentUser.value != null) return
@@ -63,3 +61,5 @@ class UserApiImpl : UserApi {
         }
     }
 }
+
+internal val componentUserApi: ComponentUserApiImpl by lazy { ComponentUserApi.instance as ComponentUserApiImpl }

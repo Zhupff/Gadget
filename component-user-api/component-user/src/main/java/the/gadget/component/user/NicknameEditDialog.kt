@@ -1,4 +1,4 @@
-package the.gadget.module.user
+package the.gadget.component.user
 
 import android.os.Bundle
 import android.text.InputFilter
@@ -7,8 +7,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import the.gadget.fragment.BindingDialogFragment
-import the.gadget.module.user.databinding.NicknameEditDialogBinding
-import the.gadget.user.UserApi
+import the.gadget.component.user.databinding.NicknameEditDialogBinding
 
 class NicknameEditDialog : BindingDialogFragment<NicknameEditDialogBinding>() {
 
@@ -23,12 +22,12 @@ class NicknameEditDialog : BindingDialogFragment<NicknameEditDialogBinding>() {
             val nickname = binding.etNickname.text?.toString()?.trim()
             if (!nickname.isNullOrEmpty()) {
                 CoroutineScope(Dispatchers.IO).launch {
-                    UserApi.instance.updateNickname(nickname)
+                    componentUserApi.updateNickname(nickname)
                 }
                 dismissAllowingStateLoss()
             }
         }
-        UserApi.instance.getCurrentUser().observe(viewLifecycleOwner) { binding.user = it }
+        componentUserApi.getCurrentUser().observe(viewLifecycleOwner) { binding.user = it }
         contentPopup(binding.content)
     }
 }

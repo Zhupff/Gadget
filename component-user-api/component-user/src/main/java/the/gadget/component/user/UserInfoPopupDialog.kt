@@ -1,4 +1,4 @@
-package the.gadget.module.user
+package the.gadget.component.user
 
 import android.app.Activity
 import android.content.Intent
@@ -10,8 +10,7 @@ import the.gadget.api.ImageApi
 import the.gadget.api.singleToastS
 import the.gadget.fragment.BindingDialogFragment
 import the.gadget.fragment.FragmentApi
-import the.gadget.module.user.databinding.UserInfoPopupDialogBinding
-import the.gadget.user.UserApi
+import the.gadget.component.user.databinding.UserInfoPopupDialogBinding
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
@@ -41,7 +40,7 @@ class UserInfoPopupDialog : BindingDialogFragment<UserInfoPopupDialogBinding>() 
             if (uri != null) {
                 isOk = true
                 launch {
-                    UserApi.instance.updateAvatar(ImageApi.instance.loadAvatarBitmap(uri))
+                    componentUserApi.updateAvatar(ImageApi.instance.loadAvatarBitmap(uri))
                 }
             }
             if (!isOk) {
@@ -65,7 +64,7 @@ class UserInfoPopupDialog : BindingDialogFragment<UserInfoPopupDialogBinding>() 
         binding.nicknameLayout.setOnClickListener {
             FragmentApi.instance.showDialogFragment(childFragmentManager, NicknameEditDialog())
         }
-        UserApi.instance.getCurrentUser().observe(viewLifecycleOwner) { binding.user = it }
+        componentUserApi.getCurrentUser().observe(viewLifecycleOwner) { binding.user = it }
         contentPopup(binding.content)
     }
 }

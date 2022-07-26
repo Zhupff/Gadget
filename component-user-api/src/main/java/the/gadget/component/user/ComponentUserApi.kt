@@ -1,16 +1,20 @@
-package the.gadget.user
+package the.gadget.component.user
 
 import android.content.Context
 import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
 import the.gadget.api.apiInstance
+import the.gadget.api.apiInstanceOrNull
 
-interface UserApi {
+interface ComponentUserApi {
     companion object {
-        val instance: UserApi by lazy { apiInstance(UserApi::class.java) }
+        val instance: ComponentUserApi by lazy {
+            apiInstanceOrNull(ComponentUserApi::class.java)
+                ?: apiInstance(MockComponentUserApi::class.java)
+        }
     }
 
-    fun getCurrentUser(): LiveData<User>
+    fun getCurrentUser(): LiveData<out User>
 
     suspend fun login()
 

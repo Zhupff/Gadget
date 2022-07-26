@@ -1,7 +1,6 @@
-package the.gadget.module.user
+package the.gadget.component.user
 
 import android.graphics.Bitmap
-import the.gadget.user.User
 
 class UserImpl(uid: String, nickname: String, avatar: Bitmap) : User(uid, nickname, avatar) {
 

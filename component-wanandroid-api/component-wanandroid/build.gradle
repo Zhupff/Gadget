@@ -1,6 +1,7 @@
 apply from: rootProject.file("gradle/scripts/component.gradle")
 
 dependencies {
-    implementation project(":component-wanandroid-api")
+    api project(":component-wanandroid-api")
     implementation project(":component-home-api")
+    implementation RETROFIT
 }

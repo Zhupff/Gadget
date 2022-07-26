@@ -5,7 +5,7 @@
 
     <data>
         <import type="the.gadget.theme.Colour"/>
-        <variable name="user" type="the.gadget.user.User" />
+        <variable name="user" type="the.gadget.component.user.User" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
