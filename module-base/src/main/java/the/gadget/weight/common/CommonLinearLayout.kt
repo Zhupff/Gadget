@@ -1,9 +1,7 @@
 package the.gadget.weight.common
 
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Path
-import android.graphics.RectF
+import android.graphics.*
 import android.util.AttributeSet
 import android.view.WindowInsets
 import android.widget.LinearLayout
@@ -31,17 +29,28 @@ open class CommonLinearLayout @JvmOverloads constructor(
     var brCornerRadius: Float = 0F
         protected set
 
-    protected val cornerRect: RectF = RectF()
+    var fitStatusBar: Boolean = false
+        protected set
 
-    protected val cornerPath: Path = Path()
+    var fitNavigationBar: Boolean = false
+        protected set
 
-    var fitStatusBar: Boolean = false; protected set
+    var statusBarHeight: Int = 0
+        protected set
 
-    var fitNavigationBar: Boolean = false; protected set
+    var navigationBarHeight: Int = 0
+        protected set
 
-    var statusBarHeight: Int = 0; protected set
+    private val innerPath: Path = Path()
 
-    var navigationBarHeight: Int = 0; protected set
+    private val outerPath: Path = Path()
+
+    private val outlineRect: RectF = RectF()
+
+    private val outlinePaint: Paint = Paint().also {
+        it.isAntiAlias = true
+        it.xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_OUT)
+    }
 
     init {
         context.obtainStyledAttributes(attrs, R.styleable.CommonLinearLayout).also {
@@ -55,37 +64,27 @@ open class CommonLinearLayout @JvmOverloads constructor(
         }.recycle()
     }
 
-    override fun draw(canvas: Canvas?) {
-        if (canvas != null && hasCorner()) {
-            cornerRect.set(0F, 0F, width.toFloat(), height.toFloat())
-            cornerPath.reset()
-            cornerPath.addRoundRect(cornerRect, floatArrayOf(
-                tlCornerRadius, tlCornerRadius, trCornerRadius, trCornerRadius,
-                brCornerRadius, brCornerRadius, blCornerRadius, blCornerRadius
-            ), Path.Direction.CW)
-            canvas.save()
-            canvas.clipPath(cornerPath)
-            super.draw(canvas)
-            canvas.restore()
-        } else {
-            super.draw(canvas)
-        }
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+        outlineRect.set(0f, 0f, w.toFloat(), h.toFloat())
+        innerPath.reset()
+        innerPath.addRoundRect(outlineRect, floatArrayOf(
+            tlCornerRadius, tlCornerRadius, trCornerRadius, trCornerRadius,
+            brCornerRadius, brCornerRadius, blCornerRadius, blCornerRadius
+        ), Path.Direction.CW)
+        outerPath.reset()
+        outerPath.addRect(outlineRect, Path.Direction.CW)
+        outerPath.op(innerPath, Path.Op.DIFFERENCE)
     }
 
-    override fun dispatchDraw(canvas: Canvas?) {
+    override fun draw(canvas: Canvas?) {
         if (canvas != null && hasCorner()) {
-            cornerRect.set(0F, 0F, width.toFloat(), height.toFloat())
-            cornerPath.reset()
-            cornerPath.addRoundRect(cornerRect, floatArrayOf(
-                tlCornerRadius, tlCornerRadius, trCornerRadius, trCornerRadius,
-                brCornerRadius, brCornerRadius, blCornerRadius, blCornerRadius
-            ), Path.Direction.CW)
-            canvas.save()
-            canvas.clipPath(cornerPath)
-            super.dispatchDraw(canvas)
-            canvas.restore()
+            val sc = canvas.saveLayer(0f, 0f, width.toFloat(), height.toFloat(), null)
+            super.draw(canvas)
+            canvas.drawPath(outerPath, outlinePaint)
+            canvas.restoreToCount(sc)
         } else {
-            super.dispatchDraw(canvas)
+            super.draw(canvas)
         }
     }
 
@@ -97,15 +96,15 @@ open class CommonLinearLayout @JvmOverloads constructor(
         return super.onApplyWindowInsets(insets)
     }
 
-    fun setCornerRadius(tl: Float, tr: Float, bl: Float, br: Float) {
+    open fun setCornerRadius(tl: Float, tr: Float, bl: Float, br: Float) {
         tlCornerRadius = tl
         trCornerRadius = tr
         blCornerRadius = bl
         brCornerRadius = br
-        invalidate()
+        postInvalidate()
     }
 
-    fun fitSystemBar(fitStatusBar: Boolean, fitNavigationBar: Boolean) {
+    open fun fitSystemBar(fitStatusBar: Boolean, fitNavigationBar: Boolean) {
         this.fitStatusBar = fitStatusBar
         this.fitNavigationBar = fitNavigationBar
         val targetPaddingTop = if (fitStatusBar) statusBarHeight else 0
@@ -115,5 +114,5 @@ open class CommonLinearLayout @JvmOverloads constructor(
         }
     }
 
-    private fun hasCorner(): Boolean = tlCornerRadius > 0F || trCornerRadius > 0F || brCornerRadius > 0F || blCornerRadius > 0F
+    protected fun hasCorner(): Boolean = tlCornerRadius > 0F || trCornerRadius > 0F || brCornerRadius > 0F || blCornerRadius > 0F
 }

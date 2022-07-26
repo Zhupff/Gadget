@@ -1,9 +1,7 @@
 package the.gadget.weight.common
 
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Path
-import android.graphics.RectF
+import android.graphics.*
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatEditText
 import the.gadget.module.base.R
@@ -27,9 +25,16 @@ class CommonEditText @JvmOverloads constructor(
     var brCornerRadius: Float = 0F
         protected set
 
-    protected val cornerRect: RectF = RectF()
+    private val innerPath: Path = Path()
 
-    protected val cornerPath: Path = Path()
+    private val outerPath: Path = Path()
+
+    private val outlineRect: RectF = RectF()
+
+    private val outlinePaint: Paint = Paint().also {
+        it.isAntiAlias = true
+        it.xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_OUT)
+    }
 
     init {
         context.obtainStyledAttributes(attrs, R.styleable.CommonEditText).also {
@@ -41,30 +46,37 @@ class CommonEditText @JvmOverloads constructor(
         }.recycle()
     }
 
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+        outlineRect.set(0f, 0f, w.toFloat(), h.toFloat())
+        innerPath.reset()
+        innerPath.addRoundRect(outlineRect, floatArrayOf(
+            tlCornerRadius, tlCornerRadius, trCornerRadius, trCornerRadius,
+            brCornerRadius, brCornerRadius, blCornerRadius, blCornerRadius
+        ), Path.Direction.CW)
+        outerPath.reset()
+        outerPath.addRect(outlineRect, Path.Direction.CW)
+        outerPath.op(innerPath, Path.Op.DIFFERENCE)
+    }
+
     override fun draw(canvas: Canvas?) {
         if (canvas != null && hasCorner()) {
-            cornerRect.set(0F, 0F, width.toFloat(), height.toFloat())
-            cornerPath.reset()
-            cornerPath.addRoundRect(cornerRect, floatArrayOf(
-                tlCornerRadius, tlCornerRadius, trCornerRadius, trCornerRadius,
-                brCornerRadius, brCornerRadius, blCornerRadius, blCornerRadius
-            ), Path.Direction.CW)
-            canvas.save()
-            canvas.clipPath(cornerPath)
+            val sc = canvas.saveLayer(0f, 0f, width.toFloat(), height.toFloat(), null)
             super.draw(canvas)
-            canvas.restore()
+            canvas.drawPath(outerPath, outlinePaint)
+            canvas.restoreToCount(sc)
         } else {
             super.draw(canvas)
         }
     }
 
-    fun setCornerRadius(tl: Float, tr: Float, bl: Float, br: Float) {
+    open fun setCornerRadius(tl: Float, tr: Float, bl: Float, br: Float) {
         tlCornerRadius = tl
         trCornerRadius = tr
         blCornerRadius = bl
         brCornerRadius = br
-        invalidate()
+        postInvalidate()
     }
 
-    private fun hasCorner(): Boolean = tlCornerRadius > 0F || trCornerRadius > 0F || brCornerRadius > 0F || blCornerRadius > 0F
+    protected fun hasCorner(): Boolean = tlCornerRadius > 0F || trCornerRadius > 0F || brCornerRadius > 0F || blCornerRadius > 0F
 }
