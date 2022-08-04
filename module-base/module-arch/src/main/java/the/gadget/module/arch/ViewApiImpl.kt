@@ -1,11 +1,11 @@
 package the.gadget.module.arch
 
 import android.view.View
-import com.google.auto.service.AutoService
+import the.gadget.api.GlobalApi
 import the.gadget.weight.ViewApi
 import the.gadget.weight.listener.ViewOnAttachStateChangeListener
 
-@AutoService(ViewApi::class)
+@GlobalApi(ViewApi::class)
 class ViewApiImpl : ViewApi {
 
     override fun beVisible(view: View?) {

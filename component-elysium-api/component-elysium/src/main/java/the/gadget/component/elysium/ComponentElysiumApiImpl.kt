@@ -1,8 +1,8 @@
 package the.gadget.component.elysium
 
-import com.google.auto.service.AutoService
+import the.gadget.api.GlobalApi
 
-@AutoService(ComponentElysiumApi::class)
+@GlobalApi(ComponentElysiumApi::class)
 class ComponentElysiumApiImpl : ComponentElysiumApi {
 }
 

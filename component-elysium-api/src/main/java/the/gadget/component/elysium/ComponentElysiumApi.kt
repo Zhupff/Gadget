@@ -1,9 +1,10 @@
 package the.gadget.component.elysium
 
-import the.gadget.api.apiInstanceOrNull
+import the.gadget.api.NullableApi
+import the.gadget.api.globalApi
 
-interface ComponentElysiumApi {
+interface ComponentElysiumApi : NullableApi {
     companion object {
-        val instance: ComponentElysiumApi? by lazy { apiInstanceOrNull(ComponentElysiumApi::class.java) }
+        val instance: ComponentElysiumApi? by lazy { ComponentElysiumApi::class.globalApi() }
     }
 }

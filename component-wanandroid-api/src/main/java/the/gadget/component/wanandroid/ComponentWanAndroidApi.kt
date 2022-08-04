@@ -1,9 +1,10 @@
 package the.gadget.component.wanandroid
 
-import the.gadget.api.apiInstanceOrNull
+import the.gadget.api.NullableApi
+import the.gadget.api.globalApi
 
-interface ComponentWanAndroidApi {
+interface ComponentWanAndroidApi : NullableApi {
     companion object {
-        val instance: ComponentWanAndroidApi? by lazy { apiInstanceOrNull(ComponentWanAndroidApi::class.java) }
+        val instance: ComponentWanAndroidApi? by lazy { ComponentWanAndroidApi::class.globalApi() }
     }
 }

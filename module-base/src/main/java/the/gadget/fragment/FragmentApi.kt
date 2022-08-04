@@ -1,11 +1,11 @@
 package the.gadget.fragment
 
 import androidx.fragment.app.FragmentManager
-import the.gadget.api.apiInstance
+import the.gadget.api.globalApi
 
 interface FragmentApi {
     companion object {
-        val instance: FragmentApi by lazy { apiInstance(FragmentApi::class.java) }
+        val instance: FragmentApi by lazy { FragmentApi::class.globalApi() }
     }
 
     fun isAlive(fragment: BaseFragment?): Boolean

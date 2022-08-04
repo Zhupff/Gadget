@@ -7,7 +7,7 @@ import android.provider.MediaStore
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
-import the.gadget.api.*
+import the.gadget.common.*
 import the.gadget.component.setting.R
 import the.gadget.component.setting.databinding.HomeOptionThemePopupDialogBinding
 import the.gadget.fragment.BindingDialogFragment

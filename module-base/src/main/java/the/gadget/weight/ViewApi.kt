@@ -1,12 +1,12 @@
 package the.gadget.weight
 
 import android.view.View
-import the.gadget.api.apiInstance
+import the.gadget.api.globalApi
 
 interface ViewApi {
     companion object {
         @JvmStatic
-        val instance: ViewApi by lazy { apiInstance(ViewApi::class.java) }
+        val instance: ViewApi by lazy { ViewApi::class.globalApi() }
     }
 
     fun beVisible(view: View?)

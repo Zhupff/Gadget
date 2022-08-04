@@ -1,15 +1,15 @@
 package the.gadget.module.arch
 
 import androidx.fragment.app.FragmentManager
-import com.google.auto.service.AutoService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import the.gadget.api.GlobalApi
 import the.gadget.fragment.BaseDialogFragment
 import the.gadget.fragment.BaseFragment
 import the.gadget.fragment.FragmentApi
 
-@AutoService(FragmentApi::class)
+@GlobalApi(FragmentApi::class)
 class FragmentApiImpl : FragmentApi {
 
     override fun isAlive(fragment: BaseFragment?): Boolean =

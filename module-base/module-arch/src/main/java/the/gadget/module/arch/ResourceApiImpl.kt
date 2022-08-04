@@ -8,14 +8,14 @@ import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
 import androidx.annotation.DrawableRes
 import androidx.core.content.res.ResourcesCompat
-import com.google.auto.service.AutoService
-import the.gadget.api.ApplicationApi
-import the.gadget.api.ResourceApi
+import the.gadget.GadgetApplication
+import the.gadget.api.GlobalApi
+import the.gadget.common.ResourceApi
 
-@AutoService(ResourceApi::class)
+@GlobalApi(ResourceApi::class)
 class ResourceApiImpl : ResourceApi {
 
-    override fun getResources(): Resources = ApplicationApi.instance.getApplication().resources
+    override fun getResources(): Resources = GadgetApplication.instance.resources
 
     override fun getDisplayMetrics(): DisplayMetrics = getResources().displayMetrics
 

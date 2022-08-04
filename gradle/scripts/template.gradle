@@ -1,6 +1,5 @@
 apply plugin: "kotlin-android"
 apply plugin: "kotlin-kapt"
-//apply plugin: module.ModulePlugin
 
 android {
     compileSdkVersion COMPILE_SDK_VERSION as int
@@ -26,6 +25,13 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    kapt {
+        arguments {
+            arg("projectName", project.name)
+            arg("projectPackage", GradleExt.getProjectPackage(project))
+        }
+    }
 }
 
 dependencies {
@@ -40,7 +46,5 @@ dependencies {
     implementation LIFECYCLE_VIEWMODEL_KTX
     implementation AUTO_SERVICE_ANNOTATION
     kapt AUTO_SERVICE
-
-    implementation project(":lib-annotation")
-    kapt project(":lib-annotation:lib-annotation-processor")
+    kapt project(":lib-kapt")
 }

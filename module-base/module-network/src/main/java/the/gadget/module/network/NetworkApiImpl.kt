@@ -1,12 +1,12 @@
 package the.gadget.module.network
 
-import com.google.auto.service.AutoService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import the.gadget.annotation.HttpInterface
-import the.gadget.api.NetworkApi
+import the.gadget.api.GlobalApi
+import the.gadget.network.HttpInterface
+import the.gadget.common.NetworkApi
 
-@AutoService(NetworkApi::class)
+@GlobalApi(NetworkApi::class)
 class NetworkApiImpl : NetworkApi {
 
     override fun <T> createHttpInterface(cls: Class<T>): T {

@@ -1,5 +1,5 @@
 apply from: rootProject.file("gradle/scripts/component.gradle")
 
 dependencies {
-    api project(":component-user-api")
+    implementation project(":component-user-api")
 }

@@ -1,6 +1,6 @@
 apply from: rootProject.file("gradle/scripts/component.gradle")
 
 dependencies {
-    api project(":component-elysium-api")
+    implementation project(":component-elysium-api")
     implementation project(":component-home-api")
 }

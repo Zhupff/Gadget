@@ -3,13 +3,13 @@ package the.gadget.component.home
 import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.LiveData
-import com.google.auto.service.AutoService
-import the.gadget.api.autoServiceInstances
+import the.gadget.api.GlobalApi
+import the.gadget.common.autoServiceInstances
 import the.gadget.component.home.activity.HomeActivity
 import the.gadget.livedata.ArrayListLiveData
 import the.gadget.livedata.toArrayListLiveData
 
-@AutoService(ComponentHomeApi::class)
+@GlobalApi(ComponentHomeApi::class)
 class ComponentHomeApiImpl : ComponentHomeApi {
 
     private val allHomeApps: ArrayListLiveData<HomeApp> = autoServiceInstances(HomeApp::class.java)

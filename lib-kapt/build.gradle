@@ -1,0 +1,14 @@
+apply plugin: "kotlin"
+apply plugin: "kotlin-kapt"
+
+dependencies {
+    implementation KOTLIN_STDLIB
+    implementation KOTLIN_POET
+    implementation AUTO_SERVICE
+    kapt AUTO_SERVICE
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}

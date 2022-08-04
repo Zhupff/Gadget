@@ -2,13 +2,13 @@ package the.gadget.module.common
 
 import android.content.Context
 import android.widget.Toast
-import com.google.auto.service.AutoService
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
-import the.gadget.api.ApplicationApi
-import the.gadget.api.ToastApi
+import the.gadget.GadgetApplication
+import the.gadget.api.GlobalApi
+import the.gadget.common.ToastApi
 
-@AutoService(ToastApi::class)
+@GlobalApi(ToastApi::class)
 class ToastApiImpl : ToastApi {
 
     private var singleToast: Toast? = null
@@ -30,7 +30,7 @@ class ToastApiImpl : ToastApi {
     private fun singleToast(msg: String, time: Int) {
         MainScope().launch {
             singleToast?.cancel()
-            singleToast = Toast.makeText(ApplicationApi.instance.getApplication(), msg, time)
+            singleToast = Toast.makeText(GadgetApplication.instance, msg, time)
             singleToast?.show()
         }
     }

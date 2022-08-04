@@ -4,15 +4,15 @@ import android.Manifest
 import android.app.Activity
 import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
-import com.google.auto.service.AutoService
-import the.gadget.api.ApplicationApi
-import the.gadget.api.PermissionApi
+import the.gadget.GadgetApplication
+import the.gadget.api.GlobalApi
+import the.gadget.common.PermissionApi
 
-@AutoService(PermissionApi::class)
+@GlobalApi(PermissionApi::class)
 class PermissionApiImpl : PermissionApi {
 
     override fun checkStoragePermission(): Boolean = ActivityCompat
-        .checkSelfPermission(ApplicationApi.instance.getApplication(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+        .checkSelfPermission(GadgetApplication.instance, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
 
     override fun requestStoragePermission(activity: Activity, code: Int) {
         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {

@@ -6,8 +6,7 @@ import android.graphics.*
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
-import the.gadget.api.ResourceApi
-import the.gadget.component.setting.R
+import the.gadget.common.ResourceApi
 import the.gadget.theme.ThemeApi
 import kotlin.math.*
 

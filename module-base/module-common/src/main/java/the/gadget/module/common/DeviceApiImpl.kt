@@ -1,15 +1,15 @@
 package the.gadget.module.common
 
 import android.content.pm.PackageManager
-import com.google.auto.service.AutoService
-import the.gadget.api.ApplicationApi
-import the.gadget.api.DeviceApi
-import the.gadget.api.ResourceApi
+import the.gadget.GadgetApplication
+import the.gadget.api.GlobalApi
+import the.gadget.common.DeviceApi
+import the.gadget.common.ResourceApi
 
-@AutoService(DeviceApi::class)
+@GlobalApi(DeviceApi::class)
 class DeviceApiImpl : DeviceApi {
 
-    override fun hasCamera(): Boolean = ApplicationApi.instance.getApplication().packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY) ?: false
+    override fun hasCamera(): Boolean = GadgetApplication.instance.packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY) ?: false
 
     override fun screenWidth(): Int = ResourceApi.instance.getDisplayMetrics().widthPixels
 

@@ -5,16 +5,18 @@ import android.view.View
 import androidx.annotation.MainThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.google.auto.service.AutoService
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
-import the.gadget.api.*
+import the.gadget.api.GlobalApi
+import the.gadget.common.*
 import the.gadget.theme.Scheme
 import the.gadget.theme.ThemeApi
 import the.gadget.theme.ThemeView
 import java.io.File
 
-@AutoService(ThemeApi::class)
+@GlobalApi(ThemeApi::class, lazy = false)
 class ThemeApiImpl : ThemeApi {
     companion object {
         private val WALLPAPER_FILE: File; get() = FileApi.WALLPAPER_DIR.resolve(ThemeApi.WALLPAPER_FILE_NAME)
@@ -23,6 +25,10 @@ class ThemeApiImpl : ThemeApi {
     }
 
     private val currentScheme: MutableLiveData<Scheme> = MutableLiveData()
+
+    init {
+        CoroutineScope(Dispatchers.IO).launch { initTheme() }
+    }
 
     override fun getCurrentScheme(): LiveData<Scheme> = currentScheme
 

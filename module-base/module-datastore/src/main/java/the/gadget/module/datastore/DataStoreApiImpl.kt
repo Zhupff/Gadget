@@ -4,13 +4,13 @@ import android.app.Application
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
-import com.google.auto.service.AutoService
-import the.gadget.api.ApplicationApi
-import the.gadget.api.DataStoreApi
+import the.gadget.GadgetApplication
+import the.gadget.api.GlobalApi
+import the.gadget.common.DataStoreApi
 
-@AutoService(DataStoreApi::class)
+@GlobalApi(DataStoreApi::class)
 class DataStoreApiImpl : DataStoreApi {
-    private val globalDataStore: DataStore<Preferences> by lazy { ApplicationApi.instance.getApplication().globalDataStore }
+    private val globalDataStore: DataStore<Preferences> by lazy { GadgetApplication.instance.globalDataStore }
 
     private val Application.globalDataStore: DataStore<Preferences> by preferencesDataStore("global")
 

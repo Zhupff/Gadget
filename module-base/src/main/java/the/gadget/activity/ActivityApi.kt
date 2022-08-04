@@ -2,11 +2,11 @@ package the.gadget.activity
 
 import android.app.Activity
 import android.content.Context
-import the.gadget.api.apiInstance
+import the.gadget.api.globalApi
 
 interface ActivityApi {
     companion object {
-        val instance: ActivityApi by lazy { apiInstance(ActivityApi::class.java) }
+        val instance: ActivityApi by lazy { ActivityApi::class.globalApi() }
     }
 
     fun contextToActivity(context: Context?): Activity?

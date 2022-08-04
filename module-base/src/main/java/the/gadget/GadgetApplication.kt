@@ -1,12 +1,13 @@
 package the.gadget
 
 import android.app.Application
-import the.gadget.api.ApplicationApi
 
 class GadgetApplication : Application() {
+    companion object {
+        lateinit var instance: GadgetApplication; private set
 
-    override fun onCreate() {
-        super.onCreate()
-        ApplicationApi.instance.setApplication(this)
+        val APP_VERSION: String by lazy { instance.packageManager.getPackageInfo(instance.packageName, 0).versionName }
     }
+
+    init { instance = this }
 }

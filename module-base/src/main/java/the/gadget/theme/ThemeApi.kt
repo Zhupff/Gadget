@@ -4,13 +4,13 @@ import android.graphics.Bitmap
 import android.view.View
 import androidx.annotation.MainThread
 import androidx.lifecycle.LiveData
-import the.gadget.api.FileApi
-import the.gadget.api.apiInstance
+import the.gadget.api.globalApi
+import the.gadget.common.FileApi
 import java.io.File
 
 interface ThemeApi {
     companion object {
-        val instance: ThemeApi by lazy { apiInstance(ThemeApi::class.java) }
+        val instance: ThemeApi by lazy { ThemeApi::class.globalApi() }
 
         const val WALLPAPER_FILE_NAME: String = "wallpaper.png"
 

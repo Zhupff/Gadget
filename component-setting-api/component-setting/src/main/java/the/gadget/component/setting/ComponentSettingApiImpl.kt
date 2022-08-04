@@ -1,8 +1,8 @@
 package the.gadget.component.setting
 
-import com.google.auto.service.AutoService
+import the.gadget.api.GlobalApi
 
-@AutoService(ComponentSettingApi::class)
+@GlobalApi(ComponentSettingApi::class)
 class ComponentSettingApiImpl : ComponentSettingApi {
 }
 

@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import com.google.auto.service.AutoService
 import kotlinx.coroutines.*
 import the.gadget.activity.toBaseActivity
-import the.gadget.api.singleToastS
+import the.gadget.common.singleToastS
 import the.gadget.component.home.HomeOption
 import the.gadget.component.setting.R
 import the.gadget.component.setting.databinding.HomeOptionThemeViewHolderBinding

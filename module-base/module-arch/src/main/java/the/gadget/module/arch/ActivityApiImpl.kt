@@ -3,11 +3,11 @@ package the.gadget.module.arch
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
-import com.google.auto.service.AutoService
 import the.gadget.activity.ActivityApi
 import the.gadget.activity.BaseActivity
+import the.gadget.api.GlobalApi
 
-@AutoService(ActivityApi::class)
+@GlobalApi(ActivityApi::class)
 class ActivityApiImpl : ActivityApi {
 
     override fun contextToActivity(context: Context?): Activity? {

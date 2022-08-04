@@ -6,8 +6,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import kotlinx.coroutines.*
-import the.gadget.api.ImageApi
-import the.gadget.api.singleToastS
+import the.gadget.common.ImageApi
+import the.gadget.common.singleToastS
 import the.gadget.fragment.BindingDialogFragment
 import the.gadget.fragment.FragmentApi
 import the.gadget.component.user.databinding.UserInfoPopupDialogBinding

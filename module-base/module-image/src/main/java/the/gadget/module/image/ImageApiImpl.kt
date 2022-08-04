@@ -4,18 +4,18 @@ import android.graphics.Bitmap
 import android.net.Uri
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.google.auto.service.AutoService
-import the.gadget.api.ApplicationApi
-import the.gadget.api.DeviceApi
-import the.gadget.api.ImageApi
+import the.gadget.GadgetApplication
+import the.gadget.api.GlobalApi
+import the.gadget.common.DeviceApi
+import the.gadget.common.ImageApi
 import kotlin.math.roundToInt
 import kotlin.math.sqrt
 
-@AutoService(ImageApi::class)
+@GlobalApi(ImageApi::class)
 class ImageApiImpl : ImageApi {
 
     override suspend fun loadWallpaperBitmap(str: String): Bitmap {
-        return Glide.with(ApplicationApi.instance.getApplication())
+        return Glide.with(GadgetApplication.instance)
             .asBitmap()
             .load(str)
             .skipMemoryCache(true)
@@ -26,7 +26,7 @@ class ImageApiImpl : ImageApi {
     }
 
     override suspend fun loadWallpaperBitmap(uri: Uri): Bitmap {
-        return Glide.with(ApplicationApi.instance.getApplication())
+        return Glide.with(GadgetApplication.instance)
             .asBitmap()
             .load(uri)
             .skipMemoryCache(true)
@@ -37,7 +37,7 @@ class ImageApiImpl : ImageApi {
     }
 
     override suspend fun loadAvatarBitmap(str: String): Bitmap {
-        return Glide.with(ApplicationApi.instance.getApplication())
+        return Glide.with(GadgetApplication.instance)
             .asBitmap()
             .load(str)
             .skipMemoryCache(true)
@@ -48,7 +48,7 @@ class ImageApiImpl : ImageApi {
     }
 
     override suspend fun loadAvatarBitmap(uri: Uri): Bitmap {
-        return Glide.with(ApplicationApi.instance.getApplication())
+        return Glide.with(GadgetApplication.instance)
             .asBitmap()
             .load(uri)
             .skipMemoryCache(true)

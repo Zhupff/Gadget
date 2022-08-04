@@ -5,15 +5,18 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.google.auto.service.AutoService
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import the.gadget.activity.toBaseActivity
-import the.gadget.api.DataStoreApi
-import the.gadget.api.FileApi
-import the.gadget.api.ImageApi
+import the.gadget.api.GlobalApi
+import the.gadget.common.DataStoreApi
+import the.gadget.common.FileApi
+import the.gadget.common.ImageApi
 import the.gadget.fragment.FragmentApi
 import java.io.File
 
-@AutoService(ComponentUserApi::class)
+@GlobalApi(ComponentUserApi::class, lazy = false)
 class ComponentUserApiImpl : ComponentUserApi {
     companion object {
         private const val AVATAR_FILE_NAME: String = "avatar.png"
@@ -22,6 +25,10 @@ class ComponentUserApiImpl : ComponentUserApi {
     }
 
     private val currentUser: MutableLiveData<UserImpl> = MutableLiveData()
+
+    init {
+        CoroutineScope(Dispatchers.IO).launch { login() }
+    }
 
     override fun getCurrentUser(): LiveData<out User> = currentUser
 

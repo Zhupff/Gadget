@@ -1,9 +1,10 @@
 package the.gadget.component.setting
 
-import the.gadget.api.apiInstanceOrNull
+import the.gadget.api.NullableApi
+import the.gadget.api.globalApi
 
-interface ComponentSettingApi {
+interface ComponentSettingApi : NullableApi {
     companion object {
-        val instance: ComponentSettingApi? by lazy { apiInstanceOrNull(ComponentSettingApi::class.java) }
+        val instance: ComponentSettingApi? by lazy { ComponentSettingApi::class.globalApi() }
     }
 }

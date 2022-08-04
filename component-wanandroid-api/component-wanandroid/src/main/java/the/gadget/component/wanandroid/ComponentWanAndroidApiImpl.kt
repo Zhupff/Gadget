@@ -1,8 +1,8 @@
 package the.gadget.component.wanandroid
 
-import com.google.auto.service.AutoService
+import the.gadget.api.GlobalApi
 
-@AutoService(ComponentWanAndroidApi::class)
+@GlobalApi(ComponentWanAndroidApi::class)
 class ComponentWanAndroidApiImpl : ComponentWanAndroidApi {
 }
 

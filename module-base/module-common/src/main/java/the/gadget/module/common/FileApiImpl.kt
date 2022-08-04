@@ -2,15 +2,15 @@ package the.gadget.module.common
 
 import android.graphics.Bitmap
 import android.net.Uri
-import com.google.auto.service.AutoService
-import the.gadget.api.ApplicationApi
-import the.gadget.api.FileApi
+import the.gadget.GadgetApplication
+import the.gadget.api.GlobalApi
+import the.gadget.common.FileApi
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
 import java.io.OutputStream
 
-@AutoService(FileApi::class)
+@GlobalApi(FileApi::class)
 class FileApiImpl : FileApi {
 
     override fun copy(inputStream: InputStream, outputStream: OutputStream) {
@@ -35,7 +35,7 @@ class FileApiImpl : FileApi {
     }
 
     override fun getInputStreamFromUri(uri: Uri): InputStream? =
-        ApplicationApi.instance.getApplication().contentResolver.openInputStream(uri)
+        GadgetApplication.instance.contentResolver.openInputStream(uri)
 
     override fun saveBitmap(bitmap: Bitmap, file: File): File {
         FileOutputStream(file).use { fos ->

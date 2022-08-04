@@ -1,11 +1,12 @@
 package the.gadget.component.home
 
 import android.content.Context
-import the.gadget.api.apiInstanceOrNull
+import the.gadget.api.NullableApi
+import the.gadget.api.globalApi
 
-interface ComponentHomeApi {
+interface ComponentHomeApi : NullableApi {
     companion object {
-        val instance: ComponentHomeApi? by lazy { apiInstanceOrNull(ComponentHomeApi::class.java) }
+        val instance: ComponentHomeApi? by lazy { ComponentHomeApi::class.globalApi() }
     }
 
     fun toHomeActivity(context: Context)

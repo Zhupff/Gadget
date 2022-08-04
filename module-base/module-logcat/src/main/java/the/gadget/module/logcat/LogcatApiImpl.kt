@@ -1,10 +1,10 @@
 package the.gadget.module.logcat
 
 import android.util.Log
-import com.google.auto.service.AutoService
-import the.gadget.api.LogcatApi
+import the.gadget.api.GlobalApi
+import the.gadget.common.LogcatApi
 
-@AutoService(LogcatApi::class)
+@GlobalApi(LogcatApi::class)
 class LogcatApiImpl : LogcatApi {
 
     override fun v(tag: String, any: Any?) { log(Log.VERBOSE, tag, any.toString()) }
