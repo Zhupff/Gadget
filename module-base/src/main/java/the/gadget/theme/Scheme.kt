@@ -25,34 +25,34 @@ class Scheme(
         fun reverse(): Mode = if (isLightMode()) Dark else Light
     }
 
-    fun apply() {
-        Colour.Origin.color                = this.originArgb
-        Colour.Primary.color               = this.primary
-        Colour.OnPrimary.color             = this.onPrimary
-        Colour.PrimaryContainer.color      = this.primaryContainer
-        Colour.OnPrimaryContainer.color    = this.onPrimaryContainer
-        Colour.Secondary.color             = this.secondary
-        Colour.OnSecondary.color           = this.onSecondary
-        Colour.SecondaryContainer.color    = this.secondaryContainer
-        Colour.OnSecondaryContainer.color  = this.onSecondaryContainer
-        Colour.Tertiary.color              = this.tertiary
-        Colour.OnTertiary.color            = this.onTertiary
-        Colour.TertiaryContainer.color     = this.tertiaryContainer
-        Colour.OnTertiaryContainer.color   = this.onTertiaryContainer
-        Colour.Error.color                 = this.error
-        Colour.OnError.color               = this.onError
-        Colour.ErrorContainer.color        = this.errorContainer
-        Colour.OnErrorContainer.color      = this.onErrorContainer
-        Colour.Background.color            = this.background
-        Colour.OnBackground.color          = this.onBackground
-        Colour.BackgroundContainer.color   = this.backgroundContainer
-        Colour.OnBackgroundContainer.color = this.onBackgroundContainer
-        Colour.Surface.color               = this.surface
-        Colour.Outline.color               = this.outline
-        Colour.Shadow.color                = this.shadow
-        Colour.InversePrimary.color        = this.inversePrimary
-        Colour.InverseSecondary.color      = this.inverseSecondary
-        Colour.InverseTertiary.color       = this.inverseTertiary
+    fun getColour(colour: Colour): Int = when (colour) {
+        Colour.Origin                -> originArgb
+        Colour.Primary               -> primary
+        Colour.OnPrimary             -> onPrimary
+        Colour.PrimaryContainer      -> primaryContainer
+        Colour.OnPrimaryContainer    -> onPrimaryContainer
+        Colour.Secondary             -> secondary
+        Colour.OnSecondary           -> onSecondary
+        Colour.SecondaryContainer    -> secondaryContainer
+        Colour.OnSecondaryContainer  -> onSecondaryContainer
+        Colour.Tertiary              -> tertiary
+        Colour.OnTertiary            -> onTertiary
+        Colour.TertiaryContainer     -> tertiaryContainer
+        Colour.OnTertiaryContainer   -> onTertiaryContainer
+        Colour.Error                 -> error
+        Colour.OnError               -> onError
+        Colour.ErrorContainer        -> errorContainer
+        Colour.OnErrorContainer      -> onErrorContainer
+        Colour.Background            -> background
+        Colour.OnBackground          -> onBackground
+        Colour.BackgroundContainer   -> backgroundContainer
+        Colour.OnBackgroundContainer -> onBackgroundContainer
+        Colour.Surface               -> surface
+        Colour.Outline               -> outline
+        Colour.Shadow                -> shadow
+        Colour.InversePrimary        -> inversePrimary
+        Colour.InverseSecondary      -> inverseSecondary
+        Colour.InverseTertiary       -> inverseTertiary
     }
 
     override fun hashCode(): Int = originArgb

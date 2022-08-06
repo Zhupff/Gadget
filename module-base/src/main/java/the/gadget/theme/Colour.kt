@@ -22,6 +22,4 @@ enum class Colour {
 
     InversePrimary, InverseSecondary, InverseTertiary,
     ;
-
-    var color: Int = 0; internal set
 }

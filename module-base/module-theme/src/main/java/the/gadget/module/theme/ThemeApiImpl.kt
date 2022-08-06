@@ -78,7 +78,6 @@ class ThemeApiImpl : ThemeApi {
         if (currentScheme.value != scheme) {
             DataStoreApi.instance.setGlobalInt(STORE_THEME_COLOR_KEY, scheme.originArgb)
             DataStoreApi.instance.setGlobalBoolean(STORE_THEME_MODE_KEY, scheme.mode.isLightMode())
-            scheme.apply()
             currentScheme.value = scheme
         }
     }
