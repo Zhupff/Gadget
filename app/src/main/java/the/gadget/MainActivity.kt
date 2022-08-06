@@ -6,7 +6,6 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import the.gadget.activity.BaseActivity
 import the.gadget.api.Api
 import the.gadget.component.home.activity.HomeActivity
@@ -19,13 +18,11 @@ class MainActivity : BaseActivity() {
             finish()
             return
         }
-        Api.init()
-        lifecycleScope.launch(Dispatchers.IO) {
-            withContext(Dispatchers.Main) {
-                delay(1000)
-                startActivity(Intent(this@MainActivity, HomeActivity::class.java))
-                this@MainActivity.finish()
-            }
+        lifecycleScope.launch(Dispatchers.Main) {
+            Api.init()
+            delay(1000)
+            startActivity(Intent(this@MainActivity, HomeActivity::class.java))
+            this@MainActivity.finish()
         }
     }
 
