@@ -1,6 +1,5 @@
 apply from: rootProject.file("gradle/scripts/component.gradle")
 
 dependencies {
-    implementation project(":component-setting-api")
     implementation project(":component-home-api")
 }

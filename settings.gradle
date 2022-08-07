@@ -18,5 +18,7 @@ include ":component-setting-api",
 include ":component-user-api",
         ":component-user-api:component-user"
 include ":component-wanandroid-api",
-        ":component-wanandroid-api:component-wanandroid"
+        ":component-wanandroid-api:component-wanandroid",
+        ":component-wanandroid-api:subcomponent-wanandroid-home-api",
+        ":component-wanandroid-api:subcomponent-wanandroid-home-api:subcomponent-wanandroid-home"
 include ":lib-kapt"

@@ -13,7 +13,7 @@ class NetworkApiImpl : NetworkApi {
         val httpInterface = cls.getAnnotation(HttpInterface::class.java)
             ?: throw IllegalStateException("$cls isn't annotated with ${HttpInterface::class.java}.")
         return Retrofit.Builder()
-            .baseUrl(httpInterface.value)
+            .baseUrl(httpInterface.baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(cls)
