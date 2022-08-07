@@ -2,9 +2,9 @@ apply from: rootProject.file("gradle/scripts/application.gradle")
 
 dependencies {
     // 接口实现模块按需依赖
-    implementation project(":component-home-api:component-home")
-    implementation project(":component-elysium-api:component-elysium")
-    implementation project(":component-setting-api:component-setting")
-    implementation project(":component-user-api:component-user")
-    implementation project(":component-wanandroid-api:component-wanandroid")
+    implementation project(":component-home")
+    implementation project(":component-elysium")
+    implementation project(":component-setting")
+    implementation project(":component-user")
+    implementation project(":component-wanandroid")
 }

@@ -1,0 +1,5 @@
+apply from: rootProject.file("gradle/scripts/subcomponent.gradle")
+
+dependencies {
+    implementation project(":component-wanandroid:module-wanandroid")
+}

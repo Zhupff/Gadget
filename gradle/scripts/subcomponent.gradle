@@ -3,5 +3,4 @@ apply from: rootProject.file("gradle/scripts/template.gradle")
 
 dependencies {
     implementation project(":module-base")
-    implementation project.parent
 }

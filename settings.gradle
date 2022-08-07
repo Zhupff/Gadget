@@ -9,17 +9,13 @@ include ":module-base",
         ":module-base:module-network",
         ":module-base:module-permission",
         ":module-base:module-theme"
-include ":component-home-api",
-        ":component-home-api:component-home"
-include ":component-elysium-api",
-        ":component-elysium-api:component-elysium"
-include ":component-setting-api",
-        ":component-setting-api:component-setting"
-include ":component-user-api",
-        ":component-user-api:component-user"
-include ":component-wanandroid-api",
-        ":component-wanandroid-api:component-wanandroid",
-        ":component-wanandroid-api:module-wanandroid",
-        ":component-wanandroid-api:subcomponent-wanandroid-home-api",
-        ":component-wanandroid-api:subcomponent-wanandroid-home-api:subcomponent-wanandroid-home"
+include ":component-home",
+        ":component-home:component-home-api"
+include ":component-elysium"
+include ":component-setting"
+include ":component-user",
+        ":component-user:component-user-api"
+include ":component-wanandroid",
+        ":component-wanandroid:module-wanandroid",
+        ":component-wanandroid:subcomponent-wanandroid-home"
 include ":lib-kapt"
