@@ -2,6 +2,9 @@ apply from: rootProject.file("gradle/scripts/component.gradle")
 
 dependencies {
     implementation project(":component-home-api")
+
+    implementation project(":component-wanandroid-api:module-wanandroid")
     implementation project(":component-wanandroid-api:subcomponent-wanandroid-home-api:subcomponent-wanandroid-home")
+
     implementation RETROFIT
 }
