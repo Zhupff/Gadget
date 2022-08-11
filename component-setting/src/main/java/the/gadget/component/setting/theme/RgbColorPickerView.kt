@@ -51,7 +51,7 @@ class RgbColorPickerView @JvmOverloads constructor(
     private val textPaint: Paint = Paint().also {
         it.isAntiAlias = true
         it.textAlign = Paint.Align.CENTER
-        it.textSize = ResourceApi.instance.getDimension(the.gadget.module.base.R.dimen.textSizeMax)
+        it.textSize = ResourceApi.getDimension(the.gadget.module.base.R.dimen.textSizeMax)
         val rect = Rect()
         it.getTextBounds(text, 0, text.length - 1, rect)
         textBaseLine = (rect.bottom + rect.top) / -2f
@@ -69,14 +69,14 @@ class RgbColorPickerView @JvmOverloads constructor(
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        val color = ThemeApi.instance.getCurrentScheme().value?.originArgb
-            ?: ResourceApi.instance.getColorInt(the.gadget.module.base.R.color.themeOrigin)
+        val color = ThemeApi.getCurrentScheme().value?.originArgb
+            ?: ResourceApi.getColorInt(the.gadget.module.base.R.color.themeOrigin)
         val hsv = floatArrayOf(0f, 1f, 1f)
         Color.RGBToHSV(Color.red(color), Color.green(color), Color.blue(color), hsv)
         indicatorDegrees = hsv[0].toDouble()
         currentColor = Color.HSVToColor(floatArrayOf(indicatorDegrees.toFloat(), 1f, 1f))
-        textPaint.color = ThemeApi.instance.getCurrentScheme().value?.onBackground
-            ?: ResourceApi.instance.getColorInt(the.gadget.module.base.R.color.themeOnBackground)
+        textPaint.color = ThemeApi.getCurrentScheme().value?.onBackground
+            ?: ResourceApi.getColorInt(the.gadget.module.base.R.color.themeOnBackground)
     }
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {

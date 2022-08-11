@@ -9,7 +9,7 @@ import the.gadget.network.HttpInterface
 @HttpInterface(BASE_URL)
 internal interface HttpRequest {
     companion object {
-        val instance: HttpRequest by lazy { NetworkApi.instance.createHttpInterface(HttpRequest::class.java) }
+        val instance: HttpRequest by lazy { NetworkApi.createHttpInterface(HttpRequest::class.java) }
     }
 
     @GET("banner/json")

@@ -3,9 +3,7 @@ package the.gadget.common
 import the.gadget.api.globalApi
 
 interface DeviceApi {
-    companion object {
-        val instance: DeviceApi by lazy { DeviceApi::class.globalApi() }
-    }
+    companion object : DeviceApi by DeviceApi::class.globalApi()
 
     fun hasCamera(): Boolean
 

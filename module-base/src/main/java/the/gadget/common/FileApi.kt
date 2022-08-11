@@ -9,8 +9,9 @@ import java.io.InputStream
 import java.io.OutputStream
 
 interface FileApi {
-    companion object {
-        val instance: FileApi by lazy { FileApi::class.globalApi() }
+    companion object : FileApi by FileApi::class.globalApi()
+
+    object Static {
 
         const val FILE_PROVIDER_NAME: String = "the.gadget.FileProvider"
 

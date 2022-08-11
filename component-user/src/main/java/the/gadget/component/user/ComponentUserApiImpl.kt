@@ -20,7 +20,7 @@ import java.io.File
 class ComponentUserApiImpl : ComponentUserApi {
     companion object {
         private const val AVATAR_FILE_NAME: String = "avatar.png"
-        private val AVATAR_FILE: File; get() = FileApi.AVATAR_DIR.resolve(AVATAR_FILE_NAME)
+        private val AVATAR_FILE: File; get() = FileApi.Static.AVATAR_DIR.resolve(AVATAR_FILE_NAME)
         private const val STORE_USER_NICKNAME_KEY: String = "store_user_nickname"
     }
 
@@ -35,9 +35,9 @@ class ComponentUserApiImpl : ComponentUserApi {
     override suspend fun login() {
         if (currentUser.value != null) return
         val uid = System.currentTimeMillis()
-        val nickname = DataStoreApi.instance.getGlobalString(STORE_USER_NICKNAME_KEY, "User${uid % 10000}")
+        val nickname = DataStoreApi.getGlobalString(STORE_USER_NICKNAME_KEY, "User${uid % 10000}")
         val avatar = if (AVATAR_FILE.exists()) {
-            ImageApi.instance.loadAvatarBitmap(AVATAR_FILE.path)
+            ImageApi.loadAvatarBitmap(AVATAR_FILE.path)
         } else {
             val bitmap = Bitmap.createBitmap(2, 2, Bitmap.Config.ARGB_8888)
             Canvas(bitmap).drawColor(uid.toInt())
@@ -48,7 +48,7 @@ class ComponentUserApiImpl : ComponentUserApi {
 
     override suspend fun updateAvatar(avatar: Bitmap) {
         currentUser.value?.let { user ->
-            FileApi.instance.saveBitmap(avatar, AVATAR_FILE)
+            FileApi.saveBitmap(avatar, AVATAR_FILE)
             user.setUserAvatar(avatar)
             currentUser.postValue(user)
         }
@@ -56,7 +56,7 @@ class ComponentUserApiImpl : ComponentUserApi {
 
     override suspend fun updateNickname(nickname: String) {
         currentUser.value?.let { user ->
-            DataStoreApi.instance.setGlobalString(STORE_USER_NICKNAME_KEY, nickname)
+            DataStoreApi.setGlobalString(STORE_USER_NICKNAME_KEY, nickname)
             (user as UserImpl).setUserNickname(nickname)
             currentUser.postValue(user)
         }
@@ -64,7 +64,7 @@ class ComponentUserApiImpl : ComponentUserApi {
 
     override fun showUserInfoPopupDialog(context: Context) {
         context.toBaseActivity()?.supportFragmentManager?.let { fm ->
-            FragmentApi.instance.showDialogFragment(fm, UserInfoPopupDialog())
+            FragmentApi.showDialogFragment(fm, UserInfoPopupDialog())
         }
     }
 }

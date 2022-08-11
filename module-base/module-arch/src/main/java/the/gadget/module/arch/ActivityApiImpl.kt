@@ -12,13 +12,10 @@ class ActivityApiImpl : ActivityApi {
 
     override fun contextToActivity(context: Context?): Activity? {
         var ctx = context
-        while (ctx != null) {
+        while (ctx is ContextWrapper) {
             if (ctx is Activity)
                 return ctx
-            else if (ctx is ContextWrapper)
-                ctx = ctx.baseContext
-            else
-                break
+            ctx = ctx.baseContext
         }
         return null
     }

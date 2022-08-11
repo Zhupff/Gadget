@@ -21,7 +21,7 @@ class ImageApiImpl : ImageApi {
             .skipMemoryCache(true)
             .diskCacheStrategy(DiskCacheStrategy.NONE)
             .centerCrop()
-            .submit(DeviceApi.instance.screenWidth(), DeviceApi.instance.screenHeight())
+            .submit(DeviceApi.screenWidth(), DeviceApi.screenHeight())
             .get()
     }
 
@@ -32,7 +32,7 @@ class ImageApiImpl : ImageApi {
             .skipMemoryCache(true)
             .diskCacheStrategy(DiskCacheStrategy.NONE)
             .centerCrop()
-            .submit(DeviceApi.instance.screenWidth(), DeviceApi.instance.screenHeight())
+            .submit(DeviceApi.screenWidth(), DeviceApi.screenHeight())
             .get()
     }
 

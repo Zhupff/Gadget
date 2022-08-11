@@ -44,12 +44,12 @@ class HomeOptionTheme : HomeOption(Option.Theme) {
     private class ViewHolder(container: ViewGroup, id: Int) : BindingRecyclerViewHolder<HomeOptionThemeViewHolderBinding>(container, id) {
 
         fun onCreate() {
-            ThemeApi.instance.getCurrentScheme().observe(itemView) { onBind() }
+            ThemeApi.getCurrentScheme().observe(itemView) { onBind() }
             binding.modeOptionLayout.setOnClickListener {
                 if (isThemeOptionLocked()) {
                     "正在切换主题，请稍等~".singleToastS()
                 } else {
-                    launch { ThemeApi.instance.switchMode() }
+                    launch { ThemeApi.switchMode() }
                 }
             }
             binding.themeOptionLayout.setOnClickListener {
@@ -57,14 +57,14 @@ class HomeOptionTheme : HomeOption(Option.Theme) {
                     if (isThemeOptionLocked()) {
                         "正在切换主题，请稍等~".singleToastS()
                     } else {
-                        FragmentApi.instance.showDialogFragment(fm, HomeOptionThemePopupDialog())
+                        FragmentApi.showDialogFragment(fm, HomeOptionThemePopupDialog())
                     }
                 }
             }
         }
 
         fun onBind() {
-            val scheme = ThemeApi.instance.getCurrentScheme().value ?: return
+            val scheme = ThemeApi.getCurrentScheme().value ?: return
             if (scheme.mode.isLightMode()) {
                 binding.ivModeIcon.setImageResource(R.drawable.ic_theme_light_mode)
                 binding.tvModeName.text = "明亮模式"

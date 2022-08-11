@@ -4,10 +4,7 @@ import android.view.View
 import the.gadget.api.globalApi
 
 interface ViewApi {
-    companion object {
-        @JvmStatic
-        val instance: ViewApi by lazy { ViewApi::class.globalApi() }
-    }
+    companion object : ViewApi by ViewApi::class.globalApi()
 
     fun beVisible(view: View?)
 
@@ -25,11 +22,11 @@ interface ViewApi {
 }
 
 
-fun View?.beVisible() { ViewApi.instance.beVisible(this) }
-fun View?.beInvisible() { ViewApi.instance.beInvisible(this) }
-fun View?.beGone() { ViewApi.instance.beGone(this) }
-fun View?.beVisibleOrGone(bool: Boolean) { ViewApi.instance.beVisibleOrGone(this, bool) }
-fun View?.beVisibleOrInvisible(bool: Boolean) { ViewApi.instance.beVisibleOrInvisible(this, bool) }
-fun View?.beInvisibleOrGone(bool: Boolean) { ViewApi.instance.beInvisibleOrGone(this, bool) }
+fun View?.beVisible() { ViewApi.beVisible(this) }
+fun View?.beInvisible() { ViewApi.beInvisible(this) }
+fun View?.beGone() { ViewApi.beGone(this) }
+fun View?.beVisibleOrGone(bool: Boolean) { ViewApi.beVisibleOrGone(this, bool) }
+fun View?.beVisibleOrInvisible(bool: Boolean) { ViewApi.beVisibleOrInvisible(this, bool) }
+fun View?.beInvisibleOrGone(bool: Boolean) { ViewApi.beInvisibleOrGone(this, bool) }
 
-fun View?.postAutoRemove(runnable: Runnable) { ViewApi.instance.postAutoRemove(this, runnable) }
+fun View?.postAutoRemove(runnable: Runnable) { ViewApi.postAutoRemove(this, runnable) }

@@ -8,5 +8,5 @@ import the.gadget.theme.ThemeContext
 
 abstract class BaseActivity : HookActivity(), ThemeContext {
 
-    override fun getCurrentScheme(): LiveData<Scheme> = ThemeApi.instance.getCurrentScheme()
+    override fun getCurrentScheme(): LiveData<Scheme> = ThemeApi.getCurrentScheme()
 }

@@ -22,7 +22,7 @@ class HomeOptionThemePopupDialog : BindingDialogFragment<HomeOptionThemePopupDia
             if (uri != null) {
                 isOk = true
                 HomeOptionTheme.launch {
-                    ThemeApi.instance.switchTheme(ImageApi.instance.loadWallpaperBitmap(uri))
+                    ThemeApi.switchTheme(ImageApi.loadWallpaperBitmap(uri))
                 }
                 dismissAllowingStateLoss()
             }
@@ -35,11 +35,11 @@ class HomeOptionThemePopupDialog : BindingDialogFragment<HomeOptionThemePopupDia
     private val cameraLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             var isOk = false
-            ThemeApi.WALLPAPER_TEMP_FILE.also { file ->
+            ThemeApi.Static.WALLPAPER_TEMP_FILE.also { file ->
                 if (file.exists()) {
                     isOk = true
                     HomeOptionTheme.launch {
-                        ThemeApi.instance.switchTheme(ImageApi.instance.loadWallpaperBitmap(file.path))
+                        ThemeApi.switchTheme(ImageApi.loadWallpaperBitmap(file.path))
                     }
                     dismissAllowingStateLoss()
                 }
@@ -57,14 +57,14 @@ class HomeOptionThemePopupDialog : BindingDialogFragment<HomeOptionThemePopupDia
         binding.root.setOnClickListener { dismissAllowingStateLoss() }
         binding.rgbColorPicker.setOnClickListener {
             HomeOptionTheme.launch {
-                ThemeApi.instance.switchTheme(binding.rgbColorPicker.currentColor)
+                ThemeApi.switchTheme(binding.rgbColorPicker.currentColor)
             }
             dismissAllowingStateLoss()
         }
         binding.tvFromCamera.setOnClickListener {
-            if (DeviceApi.instance.hasCamera()) {
-                val file = ThemeApi.WALLPAPER_TEMP_FILE.also { it.deleteIfExists() }
-                val uri = FileProvider.getUriForFile(requireContext(), FileApi.FILE_PROVIDER_NAME, file)
+            if (DeviceApi.hasCamera()) {
+                val file = ThemeApi.Static.WALLPAPER_TEMP_FILE.also { it.deleteIfExists() }
+                val uri = FileProvider.getUriForFile(requireContext(), FileApi.Static.FILE_PROVIDER_NAME, file)
                 cameraLauncher.launch(Intent(MediaStore.ACTION_IMAGE_CAPTURE).putExtra(MediaStore.EXTRA_OUTPUT, uri))
             } else {
                 "当前设备摄像头不可用".singleToastS()
@@ -75,7 +75,7 @@ class HomeOptionThemePopupDialog : BindingDialogFragment<HomeOptionThemePopupDia
         }
         binding.tvReset.setOnClickListener {
             HomeOptionTheme.launch {
-                ThemeApi.instance.switchTheme(ResourceApi.instance.getColorInt(the.gadget.module.base.R.color.themeOrigin))
+                ThemeApi.switchTheme(ResourceApi.getColorInt(the.gadget.module.base.R.color.themeOrigin))
             }
             dismissAllowingStateLoss()
         }

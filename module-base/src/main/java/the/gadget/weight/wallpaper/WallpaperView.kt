@@ -10,6 +10,6 @@ class WallpaperView @JvmOverloads constructor(
 ) : AppCompatImageView(context, attrs, defStyleAttr) {
 
     init {
-        ThemeApi.instance.attachView(this).wallpaper()
+        ThemeApi.attachView(this).wallpaper()
     }
 }

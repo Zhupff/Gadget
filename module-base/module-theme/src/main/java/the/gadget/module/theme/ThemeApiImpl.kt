@@ -19,7 +19,7 @@ import java.io.File
 @GlobalApi(ThemeApi::class, lazy = false)
 class ThemeApiImpl : ThemeApi {
     companion object {
-        private val WALLPAPER_FILE: File; get() = FileApi.WALLPAPER_DIR.resolve(ThemeApi.WALLPAPER_FILE_NAME)
+        private val WALLPAPER_FILE: File; get() = FileApi.Static.WALLPAPER_DIR.resolve(ThemeApi.Static.WALLPAPER_FILE_NAME)
         private const val STORE_THEME_COLOR_KEY: String = "store_theme_color"
         private const val STORE_THEME_MODE_KEY: String = "store_theme_mode"
     }
@@ -36,29 +36,28 @@ class ThemeApiImpl : ThemeApi {
         if (currentScheme.value != null) return
         val wallpaperFile = WALLPAPER_FILE
         if (wallpaperFile.exists()) {
-            val bitmap = ImageApi.instance.loadWallpaperBitmap(wallpaperFile.path)
+            val bitmap = ImageApi.loadWallpaperBitmap(wallpaperFile.path)
             switchTheme(bitmap)
         } else {
-            val color = DataStoreApi.instance.getGlobalInt(
-                STORE_THEME_COLOR_KEY, ResourceApi.instance.getColorInt(the.gadget.module.base.R.color.themeOrigin))
+            val color = DataStoreApi.getGlobalInt(STORE_THEME_COLOR_KEY, ResourceApi.getColorInt(the.gadget.module.base.R.color.themeOrigin))
             switchTheme(color)
         }
     }
 
     override suspend fun switchTheme(bitmap: Bitmap) {
         val mode = currentScheme.value?.mode
-            ?: if (DataStoreApi.instance.getGlobalBoolean(STORE_THEME_MODE_KEY, true))
+            ?: if (DataStoreApi.getGlobalBoolean(STORE_THEME_MODE_KEY, true))
                 Scheme.Mode.Light
             else
                 Scheme.Mode.Dark
         val newScheme = createScheme(mode, bitmap)
-        FileApi.instance.saveBitmap(bitmap, WALLPAPER_FILE)
+        FileApi.saveBitmap(bitmap, WALLPAPER_FILE)
         MainScope().launch { switchScheme(newScheme) }
     }
 
     override suspend fun switchTheme(argb: Int) {
         val mode = currentScheme.value?.mode
-            ?: if (DataStoreApi.instance.getGlobalBoolean(STORE_THEME_MODE_KEY, true))
+            ?: if (DataStoreApi.getGlobalBoolean(STORE_THEME_MODE_KEY, true))
                 Scheme.Mode.Light
             else
                 Scheme.Mode.Dark
@@ -76,8 +75,8 @@ class ThemeApiImpl : ThemeApi {
     @MainThread
     private suspend fun switchScheme(scheme: Scheme) {
         if (currentScheme.value != scheme) {
-            DataStoreApi.instance.setGlobalInt(STORE_THEME_COLOR_KEY, scheme.originArgb)
-            DataStoreApi.instance.setGlobalBoolean(STORE_THEME_MODE_KEY, scheme.mode.isLightMode())
+            DataStoreApi.setGlobalInt(STORE_THEME_COLOR_KEY, scheme.originArgb)
+            DataStoreApi.setGlobalBoolean(STORE_THEME_MODE_KEY, scheme.mode.isLightMode())
             currentScheme.value = scheme
         }
     }

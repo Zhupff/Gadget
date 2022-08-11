@@ -18,7 +18,7 @@ class HomeOptionAbout : HomeOption(Option.About) {
     override fun bindViewHolder(viewHolder: RecyclerViewHolder) {
         viewHolder.itemView.setOnClickListener {
             it.context.toBaseActivity()?.supportFragmentManager?.let { fm ->
-                FragmentApi.instance.showDialogFragment(fm, HomeOptionAboutPopupDialog())
+                FragmentApi.showDialogFragment(fm, HomeOptionAboutPopupDialog())
             }
         }
     }

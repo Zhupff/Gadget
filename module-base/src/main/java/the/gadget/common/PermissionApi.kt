@@ -4,10 +4,7 @@ import android.app.Activity
 import the.gadget.api.globalApi
 
 interface PermissionApi {
-    companion object {
-        @JvmStatic
-        val instance: PermissionApi by lazy { PermissionApi::class.globalApi() }
-    }
+    companion object : PermissionApi by PermissionApi::class.globalApi()
 
     fun checkStoragePermission(): Boolean
 

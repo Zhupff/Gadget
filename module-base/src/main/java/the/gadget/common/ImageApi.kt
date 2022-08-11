@@ -5,9 +5,7 @@ import android.net.Uri
 import the.gadget.api.globalApi
 
 interface ImageApi {
-    companion object {
-        val instance: ImageApi by lazy { ImageApi::class.globalApi() }
-    }
+    companion object : ImageApi by ImageApi::class.globalApi()
 
     suspend fun loadWallpaperBitmap(str: String): Bitmap
 

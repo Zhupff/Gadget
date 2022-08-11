@@ -3,9 +3,7 @@ package the.gadget.common
 import the.gadget.api.globalApi
 
 interface DataStoreApi {
-    companion object {
-        val instance: DataStoreApi by lazy { DataStoreApi::class.globalApi() }
-    }
+    companion object : DataStoreApi by DataStoreApi::class.globalApi()
 
     suspend fun setGlobalInt(key: String, value: Int)
     suspend fun setGlobalLong(key: String, value: Long)

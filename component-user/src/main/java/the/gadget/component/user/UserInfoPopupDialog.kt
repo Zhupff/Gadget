@@ -40,7 +40,7 @@ class UserInfoPopupDialog : BindingDialogFragment<UserInfoPopupDialogBinding>() 
             if (uri != null) {
                 isOk = true
                 launch {
-                    componentUserApi.updateAvatar(ImageApi.instance.loadAvatarBitmap(uri))
+                    componentUserApi.updateAvatar(ImageApi.loadAvatarBitmap(uri))
                 }
             }
             if (!isOk) {
@@ -62,7 +62,7 @@ class UserInfoPopupDialog : BindingDialogFragment<UserInfoPopupDialogBinding>() 
             }
         }
         binding.nicknameLayout.setOnClickListener {
-            FragmentApi.instance.showDialogFragment(childFragmentManager, NicknameEditDialog())
+            FragmentApi.showDialogFragment(childFragmentManager, NicknameEditDialog())
         }
         componentUserApi.getCurrentUser().observe(viewLifecycleOwner) { binding.user = it }
         contentPopup(binding.content)

@@ -11,9 +11,9 @@ class DeviceApiImpl : DeviceApi {
 
     override fun hasCamera(): Boolean = GadgetApplication.instance.packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY) ?: false
 
-    override fun screenWidth(): Int = ResourceApi.instance.getDisplayMetrics().widthPixels
+    override fun screenWidth(): Int = ResourceApi.getDisplayMetrics().widthPixels
 
-    override fun screenHeight(): Int = ResourceApi.instance.getDisplayMetrics().heightPixels
+    override fun screenHeight(): Int = ResourceApi.getDisplayMetrics().heightPixels
 
     override fun screenArea(): Int = screenWidth() * screenHeight()
 

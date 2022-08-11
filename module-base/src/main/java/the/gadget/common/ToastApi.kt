@@ -5,9 +5,7 @@ import the.gadget.GadgetApplication
 import the.gadget.api.globalApi
 
 interface ToastApi {
-    companion object {
-        val instance: ToastApi by lazy { ToastApi::class.globalApi() }
-    }
+    companion object : ToastApi by ToastApi::class.globalApi()
 
     fun toastS(msg: String, context: Context = GadgetApplication.instance)
 
@@ -19,17 +17,17 @@ interface ToastApi {
 }
 
 fun String.toastS(context: Context = GadgetApplication.instance) {
-    ToastApi.instance.toastS(this, context)
+    ToastApi.toastS(this, context)
 }
 
 fun String.toastL(context: Context = GadgetApplication.instance) {
-    ToastApi.instance.toastL(this, context)
+    ToastApi.toastL(this, context)
 }
 
 fun String.singleToastS() {
-    ToastApi.instance.singleToastS(this)
+    ToastApi.singleToastS(this)
 }
 
 fun String.singleToastL() {
-    ToastApi.instance.singleToastL(this)
+    ToastApi.singleToastL(this)
 }

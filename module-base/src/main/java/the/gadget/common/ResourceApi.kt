@@ -10,10 +10,7 @@ import androidx.annotation.DrawableRes
 import the.gadget.api.globalApi
 
 interface ResourceApi {
-    companion object {
-        @JvmStatic
-        val instance: ResourceApi by lazy { ResourceApi::class.globalApi() }
-    }
+    companion object : ResourceApi by ResourceApi::class.globalApi()
 
     fun getResources(): Resources
 
@@ -44,22 +41,22 @@ interface ResourceApi {
 }
 
 
-val Int.dp2px: Float get() = ResourceApi.instance.dp2px(this.toFloat())
-val Int.dp2pxRound: Int get() = ResourceApi.instance.dp2pxRound(this.toFloat())
-val Float.dp2px: Float get() = ResourceApi.instance.dp2px(this)
-val Float.dp2pxRound: Int get() = ResourceApi.instance.dp2pxRound(this)
+val Int.dp2px: Float get() = ResourceApi.dp2px(this.toFloat())
+val Int.dp2pxRound: Int get() = ResourceApi.dp2pxRound(this.toFloat())
+val Float.dp2px: Float get() = ResourceApi.dp2px(this)
+val Float.dp2pxRound: Int get() = ResourceApi.dp2pxRound(this)
 
-val Int.px2dp: Float get() = ResourceApi.instance.px2dp(this.toFloat())
-val Int.px2dpRound: Int get() = ResourceApi.instance.px2dpRound(this.toFloat())
-val Float.px2dp: Float get() = ResourceApi.instance.px2dp(this)
-val Float.px2dpRound: Int get() = ResourceApi.instance.px2dpRound(this)
+val Int.px2dp: Float get() = ResourceApi.px2dp(this.toFloat())
+val Int.px2dpRound: Int get() = ResourceApi.px2dpRound(this.toFloat())
+val Float.px2dp: Float get() = ResourceApi.px2dp(this)
+val Float.px2dpRound: Int get() = ResourceApi.px2dpRound(this)
 
-val Int.sp2px: Float get() = ResourceApi.instance.sp2px(this.toFloat())
-val Int.sp2pxRound: Int get() = ResourceApi.instance.sp2pxRound(this.toFloat())
-val Float.sp2px: Float get() = ResourceApi.instance.sp2px(this)
-val Float.sp2pxRound: Int get() = ResourceApi.instance.sp2pxRound(this)
+val Int.sp2px: Float get() = ResourceApi.sp2px(this.toFloat())
+val Int.sp2pxRound: Int get() = ResourceApi.sp2pxRound(this.toFloat())
+val Float.sp2px: Float get() = ResourceApi.sp2px(this)
+val Float.sp2pxRound: Int get() = ResourceApi.sp2pxRound(this)
 
-val Int.px2sp: Float get() = ResourceApi.instance.px2sp(this.toFloat())
-val Int.px2spRound: Int get() = ResourceApi.instance.px2spRound(this.toFloat())
-val Float.px2sp: Float get() = ResourceApi.instance.px2sp(this)
-val Float.px2spRound: Int get() = ResourceApi.instance.px2spRound(this)
+val Int.px2sp: Float get() = ResourceApi.px2sp(this.toFloat())
+val Int.px2spRound: Int get() = ResourceApi.px2spRound(this.toFloat())
+val Float.px2sp: Float get() = ResourceApi.px2sp(this)
+val Float.px2spRound: Int get() = ResourceApi.px2spRound(this)

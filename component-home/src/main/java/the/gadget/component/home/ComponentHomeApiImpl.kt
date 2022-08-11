@@ -1,16 +1,11 @@
 package the.gadget.component.home
 
-import android.content.Context
-import android.content.Intent
 import androidx.lifecycle.LiveData
-import the.gadget.api.GlobalApi
 import the.gadget.common.autoServiceInstances
-import the.gadget.component.home.activity.HomeActivity
 import the.gadget.livedata.ArrayListLiveData
 import the.gadget.livedata.toArrayListLiveData
 
-@GlobalApi(ComponentHomeApi::class)
-class ComponentHomeApiImpl : ComponentHomeApi {
+class ComponentHomeApiImpl {
 
     private val allHomeApps: ArrayListLiveData<HomeApp> = autoServiceInstances(HomeApp::class.java)
         .toList()
@@ -31,10 +26,6 @@ class ComponentHomeApiImpl : ComponentHomeApi {
         .toArrayListLiveData()
         .also { it.commit() }
     fun getAllHomeOptions(): LiveData<List<HomeOption>> = allHomeOptions
-
-    override fun toHomeActivity(context: Context) {
-        context.startActivity(Intent(context, HomeActivity::class.java))
-    }
 }
 
-internal val componentHomeApi: ComponentHomeApiImpl by lazy { ComponentHomeApi.instance as ComponentHomeApiImpl }
+internal val componentHomeApi: ComponentHomeApiImpl by lazy { ComponentHomeApiImpl() }

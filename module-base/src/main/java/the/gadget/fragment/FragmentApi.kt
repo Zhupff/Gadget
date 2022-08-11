@@ -4,9 +4,7 @@ import androidx.fragment.app.FragmentManager
 import the.gadget.api.globalApi
 
 interface FragmentApi {
-    companion object {
-        val instance: FragmentApi by lazy { FragmentApi::class.globalApi() }
-    }
+    companion object : FragmentApi by FragmentApi::class.globalApi()
 
     fun isAlive(fragment: BaseFragment?): Boolean
 
@@ -15,6 +13,6 @@ interface FragmentApi {
     fun showDialogFragment(fragmentManager: FragmentManager, dialogFragment: BaseDialogFragment, tag: String = dialogFragment.javaClass.simpleName)
 }
 
-fun BaseFragment?.isAlive(): Boolean = FragmentApi.instance.isAlive(this)
+fun BaseFragment?.isAlive(): Boolean = FragmentApi.isAlive(this)
 
-fun BaseDialogFragment?.isAlive(): Boolean = FragmentApi.instance.isAlive(this)
+fun BaseDialogFragment?.isAlive(): Boolean = FragmentApi.isAlive(this)

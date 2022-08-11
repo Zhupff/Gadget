@@ -22,10 +22,10 @@ class ThemeViewImpl(view: View) : ThemeView(view), View.OnAttachStateChangeListe
         var c = it
         while (c is ContextWrapper) {
             if (c is ThemeContext)
-                break
+                return@let c
             c = c.baseContext
         }
-        c as? ThemeContext ?: throw IllegalStateException("View($view)'s context isn't a ThemeContext.")
+        throw IllegalStateException("View($view)'s context isn't a ThemeContext.")
     }
 
     init {
@@ -115,7 +115,7 @@ class ThemeViewImpl(view: View) : ThemeView(view), View.OnAttachStateChangeListe
         actions["wallpaper"] = Runnable {
             when (view) {
                 is ImageView -> {
-                    val wallpaper = ThemeApi.instance.getCurrentScheme().value?.wallpaper
+                    val wallpaper = ThemeApi.getCurrentScheme().value?.wallpaper
                     view.setImageBitmap(wallpaper)
                 }
             }

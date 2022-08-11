@@ -5,15 +5,13 @@ import android.content.Context
 import the.gadget.api.globalApi
 
 interface ActivityApi {
-    companion object {
-        val instance: ActivityApi by lazy { ActivityApi::class.globalApi() }
-    }
+    companion object : ActivityApi by ActivityApi::class.globalApi()
 
     fun contextToActivity(context: Context?): Activity?
 
     fun contextToBaseActivity(context: Context?): BaseActivity?
 }
 
-fun Context?.toActivity(): Activity? = ActivityApi.instance.contextToActivity(this)
+fun Context?.toActivity(): Activity? = ActivityApi.contextToActivity(this)
 
-fun Context?.toBaseActivity(): BaseActivity? = ActivityApi.instance.contextToBaseActivity(this)
+fun Context?.toBaseActivity(): BaseActivity? = ActivityApi.contextToBaseActivity(this)

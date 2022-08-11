@@ -9,12 +9,13 @@ import the.gadget.common.FileApi
 import java.io.File
 
 interface ThemeApi {
-    companion object {
-        val instance: ThemeApi by lazy { ThemeApi::class.globalApi() }
+    companion object : ThemeApi by ThemeApi::class.globalApi()
+
+    object Static {
 
         const val WALLPAPER_FILE_NAME: String = "wallpaper.png"
 
-        val WALLPAPER_TEMP_FILE: File; get() = FileApi.WALLPAPER_TEMP_DIR.resolve(WALLPAPER_FILE_NAME)
+        val WALLPAPER_TEMP_FILE: File; get() = FileApi.Static.WALLPAPER_TEMP_DIR.resolve(WALLPAPER_FILE_NAME)
     }
 
     fun getCurrentScheme(): LiveData<Scheme>

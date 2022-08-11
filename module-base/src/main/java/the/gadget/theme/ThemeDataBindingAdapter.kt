@@ -8,25 +8,25 @@ import androidx.databinding.BindingAdapter
 
 @BindingAdapter("themeBackgroundColor")
 fun themeBackgroundColor(view: View, colour: Colour) {
-    ThemeApi.instance.attachView(view).backgroundColor(colour)
+    ThemeApi.attachView(view).backgroundColor(colour)
 }
 
 @BindingAdapter("themeTextColor")
 fun themeTextColor(view: View, colour: Colour) {
-    ThemeApi.instance.attachView(view).textColor(colour)
+    ThemeApi.attachView(view).textColor(colour)
 }
 
 @BindingAdapter("themeHintColor")
 fun themeHintColor(view: View, colour: Colour) {
-    ThemeApi.instance.attachView(view).hintColor(colour)
+    ThemeApi.attachView(view).hintColor(colour)
 }
 
 @BindingAdapter("themeForegroundTint")
 fun themeForegroundTint(view: View, colour: Colour) {
-    ThemeApi.instance.attachView(view).foregroundTint(colour)
+    ThemeApi.attachView(view).foregroundTint(colour)
 }
 
 @BindingAdapter("themeBackgroundTint")
 fun themeBackgroundTint(view: View, colour: Colour) {
-    ThemeApi.instance.attachView(view).backgroundTint(colour)
+    ThemeApi.attachView(view).backgroundTint(colour)
 }
