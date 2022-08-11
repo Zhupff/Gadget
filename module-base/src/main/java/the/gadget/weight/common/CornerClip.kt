@@ -10,5 +10,7 @@ interface CornerClip {
 
     val brCornerRadius: Float
 
-    fun updateCornerRadius(tl: Float, tr: Float, bl: Float, br: Float)
+    fun setCornerRadius(radius: Float)
+
+    fun setCornerRadius(tl: Float, tr: Float, bl: Float, br: Float)
 }

@@ -39,29 +39,18 @@ class CornerClipView(
         view.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ -> adjustCorner() }
     }
 
-    fun draw(canvas: Canvas?, superDraw: () -> Unit) {
+    fun clip(canvas: Canvas?, draw: () -> Unit) {
         if (canvas == null || !hasCorner()) {
-            superDraw.invoke()
+            draw.invoke()
             return
         }
-        val sc = canvas.saveLayer(0f, 0f, width, height, null)
-        superDraw.invoke()
+        val count = canvas.saveLayer(0f, 0f, width, height, null)
+        draw.invoke()
         canvas.drawPath(outerPath, outlinePaint)
-        canvas.restoreToCount(sc)
+        canvas.restoreToCount(count)
     }
 
-    fun dispatchDraw(canvas: Canvas?, superDispatchDraw: () -> Unit) {
-        if (canvas == null || !hasCorner()) {
-            superDispatchDraw.invoke()
-            return
-        }
-        val sc = canvas.saveLayer(0f, 0f, width, height, null)
-        superDispatchDraw.invoke()
-        canvas.drawPath(outerPath, outlinePaint)
-        canvas.restoreToCount(sc)
-    }
-
-    fun updateCornerRadius(tl: Float, tr: Float, bl: Float, br: Float) {
+    fun setCornerRadius(tl: Float, tr: Float, bl: Float, br: Float) {
         if (tlCornerRadius != tl || trCornerRadius != tr || blCornerRadius != bl || brCornerRadius != br) {
             tlCornerRadius = tl
             trCornerRadius = tr
@@ -72,8 +61,7 @@ class CornerClipView(
         }
     }
 
-    private fun hasCorner(): Boolean =
-        tlCornerRadius > 0F || trCornerRadius > 0F || brCornerRadius > 0F || blCornerRadius > 0F
+    private fun hasCorner(): Boolean = tlCornerRadius > 0F || trCornerRadius > 0F || brCornerRadius > 0F || blCornerRadius > 0F
 
     private fun adjustCorner() {
         outlineRect.set(0f, 0f, width, height)

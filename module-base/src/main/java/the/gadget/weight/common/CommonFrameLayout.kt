@@ -23,15 +23,19 @@ open class CommonFrameLayout @JvmOverloads constructor(
     override val navigationBarHeight: Int;  get() = windowFitViewGroup.navigationBarHeight
 
     override fun draw(canvas: Canvas?) {
-        cornerClipView.draw(canvas) { super.draw(canvas) }
+        cornerClipView.clip(canvas) { super.draw(canvas) }
     }
 
     override fun dispatchDraw(canvas: Canvas?) {
-        cornerClipView.dispatchDraw(canvas) { super.dispatchDraw(canvas) }
+        cornerClipView.clip(canvas) { super.dispatchDraw(canvas) }
     }
 
-    override fun updateCornerRadius(tl: Float, tr: Float, bl: Float, br: Float) {
-        cornerClipView.updateCornerRadius(tl, tr, bl, br)
+    override fun setCornerRadius(radius: Float) {
+        setCornerRadius(radius, radius, radius, radius)
+    }
+
+    override fun setCornerRadius(tl: Float, tr: Float, bl: Float, br: Float) {
+        cornerClipView.setCornerRadius(tl, tr, bl, br)
     }
 
     override fun fitSystemBar(fitStatusBar: Boolean, fitNavigationBar: Boolean) {
