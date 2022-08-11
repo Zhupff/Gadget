@@ -18,6 +18,7 @@ import the.gadget.component.home.databinding.HomeSideBarLayoutBinding
 import the.gadget.component.user.ComponentUserApi
 import the.gadget.interfaces.ILayoutRes
 import the.gadget.livedata.observe
+import the.gadget.weight.beVisibleOrGone
 import the.gadget.weight.recyclerview.BindingRecyclerViewHolder
 import the.gadget.weight.recyclerview.DiffRecyclerViewAdapter
 import the.gadget.weight.recyclerview.RecyclerViewAdapter
@@ -43,9 +44,11 @@ class HomeSideBarLayout @JvmOverloads constructor(
 
         ComponentUserApi.instance.getCurrentUser().observe(this) { binding.user = it }
         componentHomeApi.getAllHomeApps().observe(this) {
+            binding.appListLayout.beVisibleOrGone(!it.isNullOrEmpty())
             (binding.rvAppList.adapter as AppListAdapter).submit(it ?: emptyList())
         }
         componentHomeApi.getAllHomeOptions().observe(this) {
+            binding.optionListLayout.beVisibleOrGone(!it.isNullOrEmpty())
             (binding.rvOptionList.adapter as OptionListAdapter).update(it ?: emptyList())
         }
     }

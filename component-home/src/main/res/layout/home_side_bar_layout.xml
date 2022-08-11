@@ -92,6 +92,7 @@
                     android:paddingBottom="@dimen/paddingMax">
 
                     <LinearLayout
+                        android:id="@+id/app_list_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingStart="@dimen/paddingMax"
@@ -125,6 +126,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/option_list_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingStart="@dimen/paddingMax"
