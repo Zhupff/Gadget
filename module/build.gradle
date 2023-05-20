@@ -1,0 +1,8 @@
+apply from: rootProject.file("gradle/scripts/module.gradle")
+
+android {
+    namespace "zhupf.gadget.module"
+}
+
+dependencies {
+}

@@ -1,0 +1,14 @@
+apply plugin: "com.android.application"
+apply from: rootProject.file("gradle/scripts/template.gradle")
+
+android {
+    namespace "zhupf.gadget"
+    defaultConfig {
+        applicationId "zhupf.gadget"
+        versionCode 1
+        versionName "1.0"
+    }
+}
+
+dependencies {
+}

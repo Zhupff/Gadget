@@ -1,0 +1,15 @@
+apply plugin: "maven-publish"
+
+afterEvaluate {
+    project.publishing {
+        repositories {
+            it.mavenLocal()
+        }
+        publications {
+            jitpack(MavenPublication) {
+                from project.plugins.hasPlugin("com.android.library") ? components.release : components.java
+                artifactId = project.name
+            }
+        }
+    }
+}
