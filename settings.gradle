@@ -20,3 +20,4 @@ if (System.getenv("JITPACK") != "true") {
 }
 
 include ":repo:gadget-widget"
+include ':repo:gadget-widget-dsl'

@@ -1,4 +1,4 @@
-package zhupf.gadget.widget
+package zhupf.gadget.widget.attr
 
 import android.graphics.Canvas
 import android.graphics.Path

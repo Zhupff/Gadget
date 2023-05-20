@@ -4,6 +4,9 @@ import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageView
+import zhupf.gadget.widget.attr.CornerClip
+import zhupf.gadget.widget.attr.CornerClipAttr
+import zhupf.gadget.widget.attr.ICornerClip
 
 open class ImageViewX @JvmOverloads constructor(
     context: Context,
@@ -17,7 +20,8 @@ open class ImageViewX @JvmOverloads constructor(
         R.styleable.ImageViewX_trCornerRadius, R.styleable.ImageViewX_trCornerRadiusX, R.styleable.ImageViewX_trCornerRadiusY,
         R.styleable.ImageViewX_brCornerRadius, R.styleable.ImageViewX_brCornerRadiusX, R.styleable.ImageViewX_brCornerRadiusY,
         R.styleable.ImageViewX_blCornerRadius, R.styleable.ImageViewX_blCornerRadiusX, R.styleable.ImageViewX_blCornerRadiusY,
-    ))
+    )
+    )
 
     override fun draw(canvas: Canvas?) {
         if (canvas == null || !cornerClip.needToClip) {

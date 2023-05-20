@@ -1,4 +1,4 @@
-package zhupf.gadget.widget
+package zhupf.gadget.widget.attr
 
 import android.util.AttributeSet
 import android.view.View

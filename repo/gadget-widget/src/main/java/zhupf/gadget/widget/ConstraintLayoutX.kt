@@ -5,6 +5,12 @@ import android.graphics.Canvas
 import android.util.AttributeSet
 import android.view.WindowInsets
 import androidx.constraintlayout.widget.ConstraintLayout
+import zhupf.gadget.widget.attr.CornerClip
+import zhupf.gadget.widget.attr.CornerClipAttr
+import zhupf.gadget.widget.attr.ICornerClip
+import zhupf.gadget.widget.attr.IInsetFit
+import zhupf.gadget.widget.attr.InsetFit
+import zhupf.gadget.widget.attr.InsetFitAttr
 
 open class ConstraintLayoutX @JvmOverloads constructor(
     context: Context,
@@ -18,13 +24,15 @@ open class ConstraintLayoutX @JvmOverloads constructor(
         R.styleable.ConstraintLayoutX_trCornerRadius, R.styleable.ConstraintLayoutX_trCornerRadiusX, R.styleable.ConstraintLayoutX_trCornerRadiusY,
         R.styleable.ConstraintLayoutX_brCornerRadius, R.styleable.ConstraintLayoutX_brCornerRadiusX, R.styleable.ConstraintLayoutX_brCornerRadiusY,
         R.styleable.ConstraintLayoutX_blCornerRadius, R.styleable.ConstraintLayoutX_blCornerRadiusX, R.styleable.ConstraintLayoutX_blCornerRadiusY,
-    ))
+    )
+    )
 
     override val insetFit: InsetFit = InsetFit(this, InsetFitAttr(
         attrs, R.styleable.ConstraintLayoutX,
         R.styleable.ConstraintLayoutX_fitSystemLeft, R.styleable.ConstraintLayoutX_fitSystemTop,
         R.styleable.ConstraintLayoutX_fitSystemRight, R.styleable.ConstraintLayoutX_fitSystemBottom
-    ))
+    )
+    )
 
     override fun draw(canvas: Canvas?) {
         if (canvas == null || !cornerClip.needToClip) {

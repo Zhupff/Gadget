@@ -1,0 +1,12 @@
+apply plugin: "com.android.library"
+apply from: rootProject.file("gradle/scripts/gadget.gradle")
+
+android {
+    namespace "zhupf.gadget.widget.dsl"
+}
+
+dependencies {
+    compileOnly(libs.androidx.appcompat)
+    compileOnly(libs.android.material)
+    implementation(project(":repo:gadget-widget"))
+}

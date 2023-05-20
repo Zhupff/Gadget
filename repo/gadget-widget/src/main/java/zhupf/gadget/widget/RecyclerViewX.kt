@@ -5,6 +5,12 @@ import android.graphics.Canvas
 import android.util.AttributeSet
 import android.view.WindowInsets
 import androidx.recyclerview.widget.RecyclerView
+import zhupf.gadget.widget.attr.CornerClip
+import zhupf.gadget.widget.attr.CornerClipAttr
+import zhupf.gadget.widget.attr.ICornerClip
+import zhupf.gadget.widget.attr.IInsetFit
+import zhupf.gadget.widget.attr.InsetFit
+import zhupf.gadget.widget.attr.InsetFitAttr
 
 open class RecyclerViewX @JvmOverloads constructor(
     context: Context,
@@ -18,13 +24,15 @@ open class RecyclerViewX @JvmOverloads constructor(
         R.styleable.RecyclerViewX_trCornerRadius, R.styleable.RecyclerViewX_trCornerRadiusX, R.styleable.RecyclerViewX_trCornerRadiusY,
         R.styleable.RecyclerViewX_brCornerRadius, R.styleable.RecyclerViewX_brCornerRadiusX, R.styleable.RecyclerViewX_brCornerRadiusY,
         R.styleable.RecyclerViewX_blCornerRadius, R.styleable.RecyclerViewX_blCornerRadiusX, R.styleable.RecyclerViewX_blCornerRadiusY,
-    ))
+    )
+    )
 
     override val insetFit: InsetFit = InsetFit(this, InsetFitAttr(
         attrs, R.styleable.RecyclerViewX,
         R.styleable.RecyclerViewX_fitSystemLeft, R.styleable.RecyclerViewX_fitSystemTop,
         R.styleable.RecyclerViewX_fitSystemRight, R.styleable.RecyclerViewX_fitSystemBottom
-    ))
+    )
+    )
 
     override fun draw(canvas: Canvas?) {
         if (canvas == null || !cornerClip.needToClip) {

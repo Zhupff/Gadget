@@ -5,6 +5,12 @@ import android.graphics.Canvas
 import android.util.AttributeSet
 import android.view.WindowInsets
 import android.widget.FrameLayout
+import zhupf.gadget.widget.attr.CornerClip
+import zhupf.gadget.widget.attr.CornerClipAttr
+import zhupf.gadget.widget.attr.ICornerClip
+import zhupf.gadget.widget.attr.IInsetFit
+import zhupf.gadget.widget.attr.InsetFit
+import zhupf.gadget.widget.attr.InsetFitAttr
 
 open class FrameLayoutX @JvmOverloads constructor(
     context: Context,
@@ -18,13 +24,15 @@ open class FrameLayoutX @JvmOverloads constructor(
         R.styleable.FrameLayoutX_trCornerRadius, R.styleable.FrameLayoutX_trCornerRadiusX, R.styleable.FrameLayoutX_trCornerRadiusY,
         R.styleable.FrameLayoutX_brCornerRadius, R.styleable.FrameLayoutX_brCornerRadiusX, R.styleable.FrameLayoutX_brCornerRadiusY,
         R.styleable.FrameLayoutX_blCornerRadius, R.styleable.FrameLayoutX_blCornerRadiusX, R.styleable.FrameLayoutX_blCornerRadiusY,
-    ))
+    )
+    )
 
     override val insetFit: InsetFit = InsetFit(this, InsetFitAttr(
         attrs, R.styleable.FrameLayoutX,
         R.styleable.FrameLayoutX_fitSystemLeft, R.styleable.FrameLayoutX_fitSystemTop,
         R.styleable.FrameLayoutX_fitSystemRight, R.styleable.FrameLayoutX_fitSystemBottom
-    ))
+    )
+    )
 
     override fun draw(canvas: Canvas?) {
         if (canvas == null || !cornerClip.needToClip) {
