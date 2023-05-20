@@ -1,9 +1,9 @@
 package zhupf.gadget
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import zhupf.gadget.module.framework.BaseActivity
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }

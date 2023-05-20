@@ -1,3 +1,25 @@
+def isAndroidLibrary = project.plugins.hasPlugin("com.android.library")
+
+if (isAndroidLibrary) {
+    apply plugin: "org.jetbrains.kotlin.android"
+    android {
+        compileSdk 33
+        defaultConfig {
+            minSdk 24
+            targetSdk 33
+        }
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
+        }
+        kotlinOptions {
+            jvmTarget = "1.8"
+        }
+    }
+} else {
+    apply plugin: "org.jetbrains.kotlin.jvm"
+}
+
 apply plugin: "maven-publish"
 
 afterEvaluate {
@@ -7,7 +29,7 @@ afterEvaluate {
         }
         publications {
             jitpack(MavenPublication) {
-                from project.plugins.hasPlugin("com.android.library") ? components.release : components.java
+                from isAndroidLibrary ? components.release : components.java
                 artifactId = project.name
             }
         }

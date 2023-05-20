@@ -5,4 +5,5 @@ android {
 }
 
 dependencies {
+    api project(":repo:gadget-widget")
 }

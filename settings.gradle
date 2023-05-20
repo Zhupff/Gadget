@@ -18,3 +18,5 @@ if (System.getenv("JITPACK") != "true") {
     include ":app"
     include ":module"
 }
+
+include ":repo:gadget-widget"

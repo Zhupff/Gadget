@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="allCornerRadius" format="dimension"/>
+
+    <attr name="tlCornerRadius" format="dimension"/>
+    <attr name="tlCornerRadiusX" format="dimension"/>
+    <attr name="tlCornerRadiusY" format="dimension"/>
+
+    <attr name="trCornerRadius" format="dimension"/>
+    <attr name="trCornerRadiusX" format="dimension"/>
+    <attr name="trCornerRadiusY" format="dimension"/>
+
+    <attr name="brCornerRadius" format="dimension"/>
+    <attr name="brCornerRadiusX" format="dimension"/>
+    <attr name="brCornerRadiusY" format="dimension"/>
+
+    <attr name="blCornerRadius" format="dimension"/>
+    <attr name="blCornerRadiusX" format="dimension"/>
+    <attr name="blCornerRadiusY" format="dimension"/>
+</resources>

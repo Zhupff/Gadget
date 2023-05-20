@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ViewX">
+        <attr name="allCornerRadius"/>
+
+        <attr name="tlCornerRadius"/>
+        <attr name="tlCornerRadiusX"/>
+        <attr name="tlCornerRadiusY"/>
+
+        <attr name="trCornerRadius"/>
+        <attr name="trCornerRadiusX"/>
+        <attr name="trCornerRadiusY"/>
+
+        <attr name="brCornerRadius"/>
+        <attr name="brCornerRadiusX"/>
+        <attr name="brCornerRadiusY"/>
+
+        <attr name="blCornerRadius"/>
+        <attr name="blCornerRadiusX"/>
+        <attr name="blCornerRadiusY"/>
+    </declare-styleable>
+
+    <declare-styleable name="ImageViewX">
+        <attr name="allCornerRadius"/>
+
+        <attr name="tlCornerRadius"/>
+        <attr name="tlCornerRadiusX"/>
+        <attr name="tlCornerRadiusY"/>
+
+        <attr name="trCornerRadius"/>
+        <attr name="trCornerRadiusX"/>
+        <attr name="trCornerRadiusY"/>
+
+        <attr name="brCornerRadius"/>
+        <attr name="brCornerRadiusX"/>
+        <attr name="brCornerRadiusY"/>
+
+        <attr name="blCornerRadius"/>
+        <attr name="blCornerRadiusX"/>
+        <attr name="blCornerRadiusY"/>
+    </declare-styleable>
+
+    <declare-styleable name="TextViewX">
+        <attr name="allCornerRadius"/>
+
+        <attr name="tlCornerRadius"/>
+        <attr name="tlCornerRadiusX"/>
+        <attr name="tlCornerRadiusY"/>
+
+        <attr name="trCornerRadius"/>
+        <attr name="trCornerRadiusX"/>
+        <attr name="trCornerRadiusY"/>
+
+        <attr name="brCornerRadius"/>
+        <attr name="brCornerRadiusX"/>
+        <attr name="brCornerRadiusY"/>
+
+        <attr name="blCornerRadius"/>
+        <attr name="blCornerRadiusX"/>
+        <attr name="blCornerRadiusY"/>
+    </declare-styleable>
+
+    <declare-styleable name="EditTextX">
+        <attr name="allCornerRadius"/>
+
+        <attr name="tlCornerRadius"/>
+        <attr name="tlCornerRadiusX"/>
+        <attr name="tlCornerRadiusY"/>
+
+        <attr name="trCornerRadius"/>
+        <attr name="trCornerRadiusX"/>
+        <attr name="trCornerRadiusY"/>
+
+        <attr name="brCornerRadius"/>
+        <attr name="brCornerRadiusX"/>
+        <attr name="brCornerRadiusY"/>
+
+        <attr name="blCornerRadius"/>
+        <attr name="blCornerRadiusX"/>
+        <attr name="blCornerRadiusY"/>
+    </declare-styleable>
+
+
+    <declare-styleable name="FrameLayoutX">
+        <attr name="allCornerRadius"/>
+
+        <attr name="tlCornerRadius"/>
+        <attr name="tlCornerRadiusX"/>
+        <attr name="tlCornerRadiusY"/>
+
+        <attr name="trCornerRadius"/>
+        <attr name="trCornerRadiusX"/>
+        <attr name="trCornerRadiusY"/>
+
+        <attr name="brCornerRadius"/>
+        <attr name="brCornerRadiusX"/>
+        <attr name="brCornerRadiusY"/>
+
+        <attr name="blCornerRadius"/>
+        <attr name="blCornerRadiusX"/>
+        <attr name="blCornerRadiusY"/>
+
+        <attr name="fitSystemLeft"/>
+        <attr name="fitSystemTop"/>
+        <attr name="fitSystemRight"/>
+        <attr name="fitSystemBottom"/>
+    </declare-styleable>
+
+    <declare-styleable name="LinearLayoutX">
+        <attr name="allCornerRadius"/>
+
+        <attr name="tlCornerRadius"/>
+        <attr name="tlCornerRadiusX"/>
+        <attr name="tlCornerRadiusY"/>
+
+        <attr name="trCornerRadius"/>
+        <attr name="trCornerRadiusX"/>
+        <attr name="trCornerRadiusY"/>
+
+        <attr name="brCornerRadius"/>
+        <attr name="brCornerRadiusX"/>
+        <attr name="brCornerRadiusY"/>
+
+        <attr name="blCornerRadius"/>
+        <attr name="blCornerRadiusX"/>
+        <attr name="blCornerRadiusY"/>
+
+        <attr name="fitSystemLeft"/>
+        <attr name="fitSystemTop"/>
+        <attr name="fitSystemRight"/>
+        <attr name="fitSystemBottom"/>
+    </declare-styleable>
+
+    <declare-styleable name="RelativeLayoutX">
+        <attr name="allCornerRadius"/>
+
+        <attr name="tlCornerRadius"/>
+        <attr name="tlCornerRadiusX"/>
+        <attr name="tlCornerRadiusY"/>
+
+        <attr name="trCornerRadius"/>
+        <attr name="trCornerRadiusX"/>
+        <attr name="trCornerRadiusY"/>
+
+        <attr name="brCornerRadius"/>
+        <attr name="brCornerRadiusX"/>
+        <attr name="brCornerRadiusY"/>
+
+        <attr name="blCornerRadius"/>
+        <attr name="blCornerRadiusX"/>
+        <attr name="blCornerRadiusY"/>
+
+        <attr name="fitSystemLeft"/>
+        <attr name="fitSystemTop"/>
+        <attr name="fitSystemRight"/>
+        <attr name="fitSystemBottom"/>
+    </declare-styleable>
+
+    <declare-styleable name="ConstraintLayoutX">
+        <attr name="allCornerRadius"/>
+
+        <attr name="tlCornerRadius"/>
+        <attr name="tlCornerRadiusX"/>
+        <attr name="tlCornerRadiusY"/>
+
+        <attr name="trCornerRadius"/>
+        <attr name="trCornerRadiusX"/>
+        <attr name="trCornerRadiusY"/>
+
+        <attr name="brCornerRadius"/>
+        <attr name="brCornerRadiusX"/>
+        <attr name="brCornerRadiusY"/>
+
+        <attr name="blCornerRadius"/>
+        <attr name="blCornerRadiusX"/>
+        <attr name="blCornerRadiusY"/>
+
+        <attr name="fitSystemLeft"/>
+        <attr name="fitSystemTop"/>
+        <attr name="fitSystemRight"/>
+        <attr name="fitSystemBottom"/>
+    </declare-styleable>
+
+    <declare-styleable name="RecyclerViewX">
+        <attr name="allCornerRadius"/>
+
+        <attr name="tlCornerRadius"/>
+        <attr name="tlCornerRadiusX"/>
+        <attr name="tlCornerRadiusY"/>
+
+        <attr name="trCornerRadius"/>
+        <attr name="trCornerRadiusX"/>
+        <attr name="trCornerRadiusY"/>
+
+        <attr name="brCornerRadius"/>
+        <attr name="brCornerRadiusX"/>
+        <attr name="brCornerRadiusY"/>
+
+        <attr name="blCornerRadius"/>
+        <attr name="blCornerRadiusX"/>
+        <attr name="blCornerRadiusY"/>
+
+        <attr name="fitSystemLeft"/>
+        <attr name="fitSystemTop"/>
+        <attr name="fitSystemRight"/>
+        <attr name="fitSystemBottom"/>
+    </declare-styleable>
+</resources>

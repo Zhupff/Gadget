@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="fitSystemLeft" format="boolean"/>
+    <attr name="fitSystemTop" format="boolean"/>
+    <attr name="fitSystemRight" format="boolean"/>
+    <attr name="fitSystemBottom" format="boolean"/>
+</resources>

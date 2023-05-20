@@ -3,6 +3,7 @@ androidGradlePlugin = "8.0.1"
 androidMaterial = "1.9.0"
 androidxAppCompat = "1.6.1"
 androidxConstraintLayout = "2.1.4"
+androidxCoreKtx = "1.9.0"
 kotlin = "1.8.20"
 
 [plugins]
@@ -16,4 +17,4 @@ kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 android-material = { group = "com.google.android.material", name = "material", version.ref = "androidMaterial" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidxAppCompat" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "androidxConstraintLayout" }
-androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "kotlin" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCoreKtx" }
