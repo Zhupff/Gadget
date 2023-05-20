@@ -1,4 +1,6 @@
 apply plugin: "com.android.library"
+apply plugin: "com.google.devtools.ksp"
+apply plugin: "org.jetbrains.kotlin.kapt"
 apply from: rootProject.file("gradle/scripts/gadget.gradle")
 
 android {
@@ -9,4 +11,6 @@ dependencies {
     compileOnly(libs.androidx.appcompat)
     compileOnly(libs.android.material)
     implementation(project(":repo:gadget-widget"))
+//    kapt(project(":repo:gadget-widget-compile"))
+    ksp(project(":repo:gadget-widget-compile"))
 }
