@@ -2,7 +2,4 @@ apply plugin: "com.android.library"
 apply from: rootProject.file("gradle/scripts/template.gradle")
 
 dependencies {
-    api(libs.android.material)
-    api(libs.androidx.appcompat)
-    api(libs.androidx.constraintlayout)
 }

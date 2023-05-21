@@ -1,4 +1,5 @@
 apply from: rootProject.file("gradle/scripts/module.gradle")
+apply plugin: "com.google.devtools.ksp"
 
 android {
     namespace "zhupf.gadget.module"
@@ -11,4 +12,5 @@ dependencies {
     api(project(":repo:gadget-logger"))
     api(project(":repo:gadget-widget"))
     api(project(":repo:gadget-widget-dsl"))
+    ksp(project(":repo:gadget-widget-compile"))
 }
