@@ -1,0 +1,10 @@
+apply plugin: "com.android.library"
+apply from: rootProject.file("gradle/scripts/gadget.gradle")
+
+android {
+    namespace "zhupf.gadget.logger"
+}
+
+dependencies {
+    compileOnly(libs.androidx.appcompat)
+}

@@ -19,6 +19,7 @@ if (System.getenv("JITPACK") != "true") {
     include ":module"
 }
 
+include ":repo:gadget-logger"
 include ":repo:gadget-widget"
-include ":repo:gadget-widget-dsl"
 include ":repo:gadget-widget-compile"
+include ":repo:gadget-widget-dsl"

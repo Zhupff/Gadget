@@ -39,6 +39,10 @@ import androidx.core.widget.NestedScrollView
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import zhupf.gadget.widget.attr.CornerClip
+import zhupf.gadget.widget.attr.ICornerClip
+import zhupf.gadget.widget.attr.IInsetFit
+import zhupf.gadget.widget.attr.InsetFit
 import zhupf.gadget.widget.listener.ViewOnSingleClickListener
 
 // region ID
@@ -190,6 +194,24 @@ fun View.onSingleClick(
     })
 }
 
+// endregion
+
+
+// region CornerClip
+inline fun ICornerClip.cornerClip(
+    block: (@DslScope CornerClip).() -> Unit
+) {
+    cornerClip.apply(block).invalidate()
+}
+// endregion
+
+
+// region InsetFit
+inline fun IInsetFit.insetFit(
+    block: (@DslScope InsetFit).() -> Unit
+) {
+    insetFit.apply(block).invalidate()
+}
 // endregion
 
 

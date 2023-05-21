@@ -2,9 +2,13 @@ apply from: rootProject.file("gradle/scripts/module.gradle")
 
 android {
     namespace "zhupf.gadget.module"
+    buildFeatures {
+        buildConfig = true
+    }
 }
 
 dependencies {
+    api(project(":repo:gadget-logger"))
     api(project(":repo:gadget-widget"))
     api(project(":repo:gadget-widget-dsl"))
 }
