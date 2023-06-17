@@ -1,0 +1,1 @@
+apply from: rootProject.file("gradle/scripts/gadget.gradle")

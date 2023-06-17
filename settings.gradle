@@ -20,7 +20,10 @@ if (System.getenv("JITPACK") != "true") {
     include ":module:module-arch"
 }
 
+include ":repo:gadget-common"
 include ":repo:gadget-logger"
+include ":repo:gadget-of"
+include ":repo:gadget-of-compile"
 include ":repo:gadget-widget"
 include ":repo:gadget-widget-compile"
 include ":repo:gadget-widget-dsl"

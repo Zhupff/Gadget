@@ -1,5 +1,10 @@
 apply from: rootProject.file("gradle/scripts/module.gradle")
+apply plugin: "com.google.devtools.ksp"
 
 android {
     namespace "zhupf.gadget.module.arch"
+}
+
+dependencies {
+    ksp(project(":repo:gadget-of-compile"))
 }

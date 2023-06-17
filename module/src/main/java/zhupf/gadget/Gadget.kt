@@ -2,6 +2,7 @@ package zhupf.gadget
 
 import android.app.Application
 import zhupf.gadget.module.BuildConfig
+import zhupf.gadget.of.OfLoader
 
 class Gadget : Application() {
     companion object {
@@ -12,5 +13,10 @@ class Gadget : Application() {
 
     init {
         application = this
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        OfLoader.DEFAULT_CLASS_LOADER = classLoader
     }
 }

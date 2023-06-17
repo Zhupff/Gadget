@@ -9,7 +9,9 @@ android {
 }
 
 dependencies {
+    api(project(":repo:gadget-common"))
     api(project(":repo:gadget-logger"))
+    api(project(":repo:gadget-of"))
     api(project(":repo:gadget-widget"))
     api(project(":repo:gadget-widget-dsl"))
     ksp(project(":repo:gadget-widget-compile"))
