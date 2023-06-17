@@ -17,6 +17,7 @@ rootProject.name = "Gadget"
 if (System.getenv("JITPACK") != "true") {
     include ":app"
     include ":module"
+    include ":module:module-arch"
 }
 
 include ":repo:gadget-logger"

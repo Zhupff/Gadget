@@ -1,7 +1,7 @@
 package zhupf.gadget
 
 import android.os.Bundle
-import zhupf.gadget.module.framework.BaseActivity
+import zhupf.gadget.module.arch.BaseActivity
 
 class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
