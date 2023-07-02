@@ -21,6 +21,7 @@ if (System.getenv("JITPACK") != "true") {
 }
 
 include ":repo:gadget-common"
+include ":repo:gadget-common-android"
 include ":repo:gadget-logger"
 include ":repo:gadget-of"
 include ":repo:gadget-of-compile"

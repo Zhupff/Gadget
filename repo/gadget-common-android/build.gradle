@@ -1,0 +1,11 @@
+apply plugin: "com.android.library"
+apply from: rootProject.file("gradle/scripts/gadget.gradle")
+
+android {
+    namespace "zhupf.gadget.common"
+}
+
+dependencies {
+    compileOnly(libs.androidx.appcompat)
+    api(project(":repo:gadget-common"))
+}

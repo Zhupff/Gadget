@@ -10,6 +10,7 @@ android {
 
 dependencies {
     api(project(":repo:gadget-common"))
+    api(project(":repo:gadget-common-android"))
     api(project(":repo:gadget-logger"))
     api(project(":repo:gadget-of"))
     api(project(":repo:gadget-widget"))

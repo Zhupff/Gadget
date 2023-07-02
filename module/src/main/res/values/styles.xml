@@ -11,4 +11,8 @@
     <style name="Gadget.SplashTheme" parent="Gadget.BaseTheme">
         <item name="android:windowBackground">@drawable/splash</item>
     </style>
+
+    <style name="Gadget.PageTheme" parent="Gadget.BaseTheme">
+        <item name="android:windowIsFloating">false</item>
+    </style>
 </resources>
