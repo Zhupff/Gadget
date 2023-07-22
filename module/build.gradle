@@ -13,6 +13,7 @@ dependencies {
     api(project(":repo:gadget-common-android"))
     api(project(":repo:gadget-logger"))
     api(project(":repo:gadget-of"))
+    api(project(":repo:gadget-palette"))
     api(project(":repo:gadget-widget"))
     api(project(":repo:gadget-widget-dsl"))
     ksp(project(":repo:gadget-widget-compile"))
