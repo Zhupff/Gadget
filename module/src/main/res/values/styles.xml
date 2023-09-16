@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Gadget.Application" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLayoutInDisplayCutoutMode" tools:targetApi="o_mr1">shortEdges</item>
+    </style>
+
+    <style name="Gadget.Splash" parent="Gadget.Application">
+        <item name="android:windowBackground">@drawable/splash</item>
+    </style>
+
+    <style name="Gadget.Page" parent="Gadget.Application">
+        <item name="android:windowIsFloating">false</item>
+    </style>
+</resources>
