@@ -1,7 +1,6 @@
 package zhupf.gadget.gradle.plugin
 
 import org.gradle.api.Project
-import java.text.SimpleDateFormat
 
 class GadgetApplicationPlugin : AndroidLibraryPlugin() {
     override fun apply(target: Project) {
@@ -11,7 +10,7 @@ class GadgetApplicationPlugin : AndroidLibraryPlugin() {
             applicationExtension.apply {
                 defaultConfig {
                     applicationId = "zhupf.gadget"
-                    versionName = SimpleDateFormat("YY.MM.dd").format(System.currentTimeMillis())
+                    versionName = GADGET_VERSION
                     println("applicationId=$applicationId, versionName=$versionName")
                 }
             }

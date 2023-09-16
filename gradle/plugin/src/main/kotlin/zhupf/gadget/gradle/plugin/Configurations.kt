@@ -7,8 +7,11 @@ import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalog
 import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.api.plugins.ExtensionAware
+import org.gradle.api.publish.PublishingExtension
+import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.kotlin.dsl.dependencies
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
+import java.text.SimpleDateFormat
 
 typealias AndroidExtension = CommonExtension<*, *, *, *, *>
 
@@ -69,3 +72,28 @@ fun Project.configureCommon() {
         "implementation"(libs.findLibrary("androidx-lifecycle-viewModelCompose").get())
     }
 }
+
+fun Project.configurePublish() {
+    pluginManager.apply("maven-publish")
+    afterEvaluate {
+        extensions.configure(PublishingExtension::class.java) {
+            repositories {
+                mavenLocal()
+            }
+            publications {
+                create("MavenLocalPublication", MavenPublication::class.java) {
+                    from(components.getByName(
+                        if (this@configurePublish.pluginManager.hasPlugin("com.android.library"))
+                            "release"
+                        else
+                            "java"
+                    ))
+                    artifactId = this@configurePublish.name
+                    version = GADGET_VERSION
+                }
+            }
+        }
+    }
+}
+
+val GADGET_VERSION = SimpleDateFormat("YY.MM.dd").format(System.currentTimeMillis())

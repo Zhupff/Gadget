@@ -29,5 +29,13 @@ gradlePlugin {
             id = "zhupf.gadget.module"
             implementationClass = "zhupf.gadget.gradle.plugin.GadgetModulePlugin"
         }
+        register("AndroidRepoPlugin") {
+            id = "zhupf.gadget.android.repo"
+            implementationClass = "zhupf.gadget.gradle.plugin.AndroidRepoPlugin"
+        }
+        register("KotlinRepoPlugin") {
+            id = "zhupf.gadget.kotlin.repo"
+            implementationClass = "zhupf.gadget.gradle.plugin.KotlinRepoPlugin"
+        }
     }
 }

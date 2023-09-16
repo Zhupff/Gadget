@@ -17,3 +17,4 @@ dependencyResolutionManagement {
 rootProject.name = "Gadget"
 include(":app")
 include(":module")
+include(":repo:logger")

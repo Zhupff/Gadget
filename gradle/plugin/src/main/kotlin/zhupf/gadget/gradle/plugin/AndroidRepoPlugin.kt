@@ -1,12 +1,13 @@
 package zhupf.gadget.gradle.plugin
 
-import org.gradle.api.Plugin
 import org.gradle.api.Project
 
-open class KotlinLibraryPlugin : Plugin<Project> {
+class AndroidRepoPlugin : AndroidLibraryPlugin() {
     override fun apply(target: Project) {
+        target.asAndroidLibrary()
+        super.apply(target)
         with(target) {
-            pluginManager.apply("org.jetbrains.kotlin.jvm")
+            configurePublish()
         }
     }
 }
