@@ -19,4 +19,5 @@ include(":app")
 include(":module")
 
 include(":repo:common")
+include(":repo:common-android")
 include(":repo:logger")

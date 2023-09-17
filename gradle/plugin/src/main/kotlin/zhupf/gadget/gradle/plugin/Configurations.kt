@@ -49,6 +49,7 @@ fun AndroidExtension.kotlinOptions(block: KotlinJvmOptions.() -> Unit) {
 }
 
 fun Project.configureCommon() {
+    pluginManager.apply("org.jetbrains.kotlin.kapt")
     androidExtension.apply {
         buildFeatures {
             compose = true
@@ -67,9 +68,13 @@ fun Project.configureCommon() {
         "debugImplementation"(libs.findLibrary("androidx-compose-ui-tooling-preview").get())
         "implementation"(libs.findLibrary("androidx-compose-runtime").get())
         "implementation"(libs.findLibrary("androidx-compose-runtime-livedata").get())
+        "kapt"(libs.findLibrary("androidx-lifecycle-compiler").get())
         "implementation"(libs.findLibrary("androidx-lifecycle-livedata-ktx").get())
-        "implementation"(libs.findLibrary("androidx-lifecycle-runtimeCompose").get())
-        "implementation"(libs.findLibrary("androidx-lifecycle-viewModelCompose").get())
+        "implementation"(libs.findLibrary("androidx-lifecycle-runtime-compose").get())
+        "implementation"(libs.findLibrary("androidx-lifecycle-runtime-ktx").get())
+        "implementation"(libs.findLibrary("androidx-lifecycle-viewModel-compose").get())
+        "implementation"(libs.findLibrary("androidx-lifecycle-viewModel-ktx").get())
+        "implementation"(libs.findLibrary("androidx-lifecycle-viewModel-savedstate").get())
     }
 }
 
