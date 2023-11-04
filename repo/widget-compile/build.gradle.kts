@@ -1,5 +1,9 @@
 plugins {
-    id("zhupf.gadget.kotlin.repo")
+    id("zhupf.gadget.jvm")
+}
+
+gadget {
+    JVMPUBLICATION()
 }
 
 dependencies {

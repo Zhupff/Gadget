@@ -21,21 +21,17 @@ dependencies {
 
 gradlePlugin {
     plugins {
-        register("GadgetApplicationPlugin") {
+        register("GadgetApplication") {
             id = "zhupf.gadget.application"
-            implementationClass = "zhupf.gadget.gradle.plugin.GadgetApplicationPlugin"
+            implementationClass = "GadgetApplication"
         }
-        register("GadgetModulePlugin") {
-            id = "zhupf.gadget.module"
-            implementationClass = "zhupf.gadget.gradle.plugin.GadgetModulePlugin"
+        register("GadgetLibrary") {
+            id = "zhupf.gadget.library"
+            implementationClass = "GadgetLibrary"
         }
-        register("AndroidRepoPlugin") {
-            id = "zhupf.gadget.android.repo"
-            implementationClass = "zhupf.gadget.gradle.plugin.AndroidRepoPlugin"
-        }
-        register("KotlinRepoPlugin") {
-            id = "zhupf.gadget.kotlin.repo"
-            implementationClass = "zhupf.gadget.gradle.plugin.KotlinRepoPlugin"
+        register("GadgetJvm") {
+            id = "zhupf.gadget.jvm"
+            implementationClass = "GadgetJvm"
         }
     }
 }

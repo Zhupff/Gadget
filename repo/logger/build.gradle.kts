@@ -1,7 +1,7 @@
 plugins {
-    id("zhupf.gadget.android.repo")
+    id("zhupf.gadget.library")
 }
 
-android {
-    namespace = "zhupf.gadget.logger"
+gadget {
+    ANDROIDPUBLICATION("zhupf.gadget.logger")
 }

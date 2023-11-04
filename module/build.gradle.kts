@@ -1,15 +1,7 @@
-import zhupf.gadget.gradle.plugin.gadget
-
 plugins {
-    id("zhupf.gadget.module")
-}
-
-android {
-    namespace = "zhupf.gadget.module"
+    id("zhupf.gadget.library")
 }
 
 gadget {
-    repo {
-        widget(compile = "kapt", depend = "implementation")
-    }
+    LIBRARY("zhupf.gadget.module")
 }
