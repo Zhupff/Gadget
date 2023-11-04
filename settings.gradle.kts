@@ -18,8 +18,8 @@ rootProject.name = "Gadget"
 include(":app")
 include(":module")
 
-include(":repo:common")
-include(":repo:common-android")
-include(":repo:logger")
-include(":repo:widget")
-include(":repo:widget-compile")
+include(":gadgets:common")
+include(":gadgets:common-android")
+include(":gadgets:logger")
+include(":gadgets:widget")
+include(":gadgets:widget-compile")
