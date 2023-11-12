@@ -16,6 +16,10 @@ dependencyResolutionManagement {
 
 rootProject.name = "Gadget"
 include(":app")
+
+include(":component-homepage")
+include(":component-homepage:feature")
+
 include(":module")
 
 include(":gadgets:common")

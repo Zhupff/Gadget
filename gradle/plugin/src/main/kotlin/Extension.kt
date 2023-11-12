@@ -8,6 +8,11 @@ import org.gradle.api.plugins.ExtensionAware
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 import java.text.SimpleDateFormat
 
+@DslMarker
+@Target(AnnotationTarget.TYPE)
+@Retention(AnnotationRetention.SOURCE)
+annotation class GradleScope
+
 internal const val ANDROID_APPLICATION_ID = "com.android.application"
 internal const val ANDROID_LIBRARY_ID = "com.android.library"
 internal const val KOTLIN_ANDROID_ID = "org.jetbrains.kotlin.android"
@@ -38,7 +43,7 @@ internal val Project.libs: VersionCatalog
     get() = versionCatalogExtension.named("libs")
 
 
-internal fun AndroidExtension.kotlinOptions(block: KotlinJvmOptions.() -> Unit) {
+internal fun AndroidExtension.kotlinOptions(block: @GradleScope KotlinJvmOptions.() -> Unit) {
     (this as ExtensionAware).extensions.configure("kotlinOptions", block)
 }
 

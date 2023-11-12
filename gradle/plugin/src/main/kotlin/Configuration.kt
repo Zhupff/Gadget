@@ -124,17 +124,17 @@ abstract class Configuration internal constructor(val gadget: Gadget) {
 }
 
 
-fun <T : Gadget> T.APPLICATION(namespace: String, closure: Configuration.Android.Application.() -> Unit = {}) =
+fun <T : Gadget> T.APPLICATION(namespace: String, closure: @GradleScope Configuration.Android.Application.() -> Unit = {}) =
     Configuration.Android.Application(this, namespace).configure(closure)
-fun <T : Gadget> T.LIBRARY(namespace: String, closure: Configuration.Android.Library.() -> Unit = {}) =
+fun <T : Gadget> T.LIBRARY(namespace: String, closure: @GradleScope Configuration.Android.Library.() -> Unit = {}) =
     Configuration.Android.Library(this, namespace).configure(closure)
-fun <T : Gadget> T.ANDROIDPUBLICATION(namespace: String, closure: Configuration.Android.Library.Publication.() -> Unit = {}) =
+fun <T : Gadget> T.ANDROIDPUBLICATION(namespace: String, closure: @GradleScope Configuration.Android.Library.Publication.() -> Unit = {}) =
     Configuration.Android.Library.Publication(this, namespace).configure(closure)
-fun <T : Gadget> T.JVM(closure: Configuration.Jvm.() -> Unit = {}) =
+fun <T : Gadget> T.JVM(closure: @GradleScope Configuration.Jvm.() -> Unit = {}) =
     Configuration.Jvm(this).configure(closure)
-fun <T : Gadget> T.JVMPUBLICATION(closure: Configuration.Jvm.Publication.() -> Unit = {}) =
+fun <T : Gadget> T.JVMPUBLICATION(closure: @GradleScope Configuration.Jvm.Publication.() -> Unit = {}) =
     Configuration.Jvm.Publication(this).configure(closure)
-private fun <T : Configuration> T.configure(closure: T.() -> Unit) {
+private fun <T : Configuration> T.configure(closure: @GradleScope T.() -> Unit) {
     gadget.configuration = this
     closure(this)
 }

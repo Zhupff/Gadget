@@ -6,6 +6,11 @@ gadget {
     APPLICATION("zhupf.gadget")
 
     dependency {
+        components {
+            component("homepage") {
+                feature()
+            }
+        }
         module()
     }
 }
