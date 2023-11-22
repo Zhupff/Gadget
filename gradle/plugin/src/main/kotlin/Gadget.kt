@@ -6,19 +6,6 @@ abstract class Gadget : Plugin<Project>, MutableMap<Any, Any> by HashMap(4) {
 
     lateinit var project: Project; private set
 
-    var configuration: Configuration = Configuration.Empty(this)
-        internal set(value) {
-            if (field is Configuration.Empty) {
-                field = value
-                field.configure()
-                println("${project.name} configure")
-            } else {
-                throw IllegalArgumentException("configuration already set!")
-            }
-        }
-
-    val dependency: Dependency = Dependency(this)
-
     override fun apply(target: Project) {
         clear()
         this.project = target

@@ -77,7 +77,14 @@ class Dependency internal constructor(val gadget: Gadget) {
 }
 
 
+val <T : Gadget> T.dependency: Dependency?; get() = this[Dependency::class.java] as? Dependency
+
 fun <T : Gadget> T.dependency(closure: @GradleScope Dependency.() -> Unit) {
+    var dependency = this[Dependency::class.java] as? Dependency
+    if (dependency == null) {
+        dependency = Dependency(this)
+        this[Dependency::class.java] = dependency
+    }
     closure(dependency)
 }
 

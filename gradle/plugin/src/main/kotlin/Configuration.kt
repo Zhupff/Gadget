@@ -7,10 +7,6 @@ abstract class Configuration internal constructor(val gadget: Gadget) {
 
     abstract fun configure()
 
-    class Empty internal constructor(gadget: Gadget) : Configuration(gadget) {
-        override fun configure() {}
-    }
-
     abstract class Android internal constructor(gadget: Gadget, val namespace: String) : Configuration(gadget) {
         override fun configure() {
             with(gadget.project) {
@@ -135,6 +131,12 @@ fun <T : Gadget> T.JVM(closure: @GradleScope Configuration.Jvm.() -> Unit = {}) 
 fun <T : Gadget> T.JVMPUBLICATION(closure: @GradleScope Configuration.Jvm.Publication.() -> Unit = {}) =
     Configuration.Jvm.Publication(this).configure(closure)
 private fun <T : Configuration> T.configure(closure: @GradleScope T.() -> Unit) {
-    gadget.configuration = this
+    if (gadget[Configuration::class.java] != null) {
+        throw IllegalArgumentException("configuration already set!")
+    }
+    gadget[Configuration::class.java] = this
     closure(this)
+    configure()
 }
+
+val <T : Gadget> T.configuration: Configuration?; get() = this[Configuration::class.java] as? Configuration
