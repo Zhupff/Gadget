@@ -52,9 +52,16 @@ class Dependency internal constructor(val gadget: Gadget) {
                 add("implementation", gadget.findProject(":gadgets:common-android"))
             }
         }
+
         fun logger() {
             gadget.project.dependencies.apply {
                 add("implementation", gadget.findProject(":gadgets:logger"))
+            }
+        }
+
+        fun theme() {
+            gadget.project.dependencies.apply {
+                add("implementation", gadget.findProject(":gadgets:theme"))
             }
         }
 
