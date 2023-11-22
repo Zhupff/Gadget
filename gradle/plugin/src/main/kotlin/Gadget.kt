@@ -2,7 +2,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.findByType
 
-open class Gadget : Plugin<Project> {
+abstract class Gadget : Plugin<Project>, MutableMap<Any, Any> by HashMap(4) {
 
     lateinit var project: Project; private set
 
@@ -20,30 +20,33 @@ open class Gadget : Plugin<Project> {
     val dependency: Dependency = Dependency(this)
 
     override fun apply(target: Project) {
+        clear()
         this.project = target
-        target.extensions.add(Gadget::class.java, "gadget", this)
     }
 }
 
 class GadgetApplication : Gadget() {
     override fun apply(target: Project) {
-        target.pluginManager.apply(ANDROID_APPLICATION_ID)
         super.apply(target)
+        target.pluginManager.apply(ANDROID_APPLICATION_ID)
+        target.extensions.add(GadgetApplication::class.java, "gadget", this)
     }
 }
 
 class GadgetLibrary : Gadget() {
     override fun apply(target: Project) {
-        target.pluginManager.apply(ANDROID_LIBRARY_ID)
         super.apply(target)
+        target.pluginManager.apply(ANDROID_LIBRARY_ID)
+        target.extensions.add(GadgetLibrary::class.java, "gadget", this)
     }
 }
 
 class GadgetJvm : Gadget() {
     override fun apply(target: Project) {
+        super.apply(target)
         target.pluginManager.apply(KOTLIN_JVM_ID)
         target.pluginManager.apply(GROOVY_ID)
-        super.apply(target)
+        target.extensions.add(GadgetJvm::class.java, "gadget", this)
     }
 }
 

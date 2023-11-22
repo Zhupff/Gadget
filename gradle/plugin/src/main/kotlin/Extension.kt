@@ -36,6 +36,12 @@ internal val Project.applicationExtension: ApplicationExtension
 internal val Project.libraryExtension: LibraryExtension
     get() = extensions.getByType(LibraryExtension::class.java)
 
+internal val Project.appExtension: com.android.build.gradle.AppExtension
+    get() = extensions.getByType(com.android.build.gradle.AppExtension::class.java)
+
+internal val Project.libExtension: com.android.build.gradle.LibraryExtension
+    get() = extensions.getByType(com.android.build.gradle.LibraryExtension::class.java)
+
 internal val Project.versionCatalogExtension: VersionCatalogsExtension
     get() = extensions.getByType(VersionCatalogsExtension::class.java)
 

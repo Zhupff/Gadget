@@ -55,7 +55,7 @@ abstract class Configuration internal constructor(val gadget: Gadget) {
                 with(gadget.project) {
                     applicationExtension.apply {
                         defaultConfig {
-                            applicationId = "zhupf.gadget"
+                            applicationId = this@Application.namespace
                             versionName = GADGET_VERSION
                             println("applicationId=$applicationId, versionName=$versionName")
                         }
