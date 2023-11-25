@@ -34,7 +34,7 @@ internal class ThemePack(gadget: GadgetApplication) {
                     }?.let { app ->
                         val task = gadget.project.tasks.register("ThemePack$variantNameUpper", ThemePackTask::class.java) {
                             inputFilePath = apkFile.path
-                            outputFile = app.buildDir.resolve("themepacks${File.separator}${variantName}${File.separator}${gadget.project.name}")
+                            outputFile = app.buildDir.resolve("themepacks${File.separator}${variantName}${File.separator}themepacks${File.separator}${gadget.project.name}")
                         }
                         app.tasks.named("ThemeMerge${variantNameUpper}") {
                             task.dependsOn("package$variantNameUpper")

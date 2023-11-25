@@ -22,6 +22,8 @@ include(":component-homepage:feature")
 
 include(":module")
 
+include(":themepack:darkness")
+
 include(":gadgets:common")
 include(":gadgets:common-android")
 include(":gadgets:logger")

@@ -38,7 +38,7 @@ abstract class Configuration internal constructor(val gadget: Gadget) {
 
         class Application internal constructor(gadget: Gadget, namespace: String) : Android(gadget, namespace) {
             override fun configure() {
-                assert(gadget.project.pluginManager.hasPlugin(ANDROID_APPLICATION_ID))
+                assert(gadget is GadgetApplication)
                 super.configure()
                 with(gadget.project) {
                     applicationExtension.apply {
@@ -49,12 +49,13 @@ abstract class Configuration internal constructor(val gadget: Gadget) {
                         }
                     }
                 }
+                ThemeMerge(gadget as GadgetApplication)
             }
         }
 
         class ThemePack internal constructor(gadget: Gadget, namespace: String) : Android(gadget, namespace) {
             override fun configure() {
-                assert(gadget.project.pluginManager.hasPlugin(ANDROID_APPLICATION_ID))
+                assert(gadget is GadgetApplication)
                 super.configure()
                 with(gadget.project) {
                     applicationExtension.apply {
@@ -63,6 +64,7 @@ abstract class Configuration internal constructor(val gadget: Gadget) {
                         }
                     }
                 }
+                ThemePack(gadget as GadgetApplication)
             }
         }
 

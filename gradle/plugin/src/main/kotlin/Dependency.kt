@@ -69,11 +69,7 @@ class Dependency internal constructor(val gadget: Gadget) {
             }
         }
 
-        fun theme(merge: Boolean = false, pack: Boolean = false) {
-            (gadget as? GadgetApplication)?.let {
-                if (merge) ThemeMerge(gadget)
-                if (pack) ThemePack(gadget)
-            }
+        fun theme() {
             gadget.project.dependencies.apply {
                 add("implementation", gadget.findProject(":gadgets:theme"))
             }

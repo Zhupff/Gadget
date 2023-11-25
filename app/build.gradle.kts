@@ -11,9 +11,6 @@ gadget {
                 feature()
             }
         }
-        gadgets {
-            theme(merge = true)
-        }
         module()
         common()
     }
