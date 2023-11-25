@@ -49,6 +49,11 @@ internal val Project.libs: VersionCatalog
     get() = versionCatalogExtension.named("libs")
 
 
+internal val com.android.build.gradle.api.BaseVariant.variantName: String; get() = name
+
+internal val com.android.build.gradle.api.BaseVariant.variantNameUpper: String; get() = variantName.replaceFirstChar { it.uppercaseChar() }
+
+
 internal fun AndroidExtension.kotlinOptions(block: @GradleScope KotlinJvmOptions.() -> Unit) {
     (this as ExtensionAware).extensions.configure("kotlinOptions", block)
 }

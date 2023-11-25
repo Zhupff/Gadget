@@ -52,6 +52,20 @@ abstract class Configuration internal constructor(val gadget: Gadget) {
             }
         }
 
+        class ThemePack internal constructor(gadget: Gadget, namespace: String) : Android(gadget, namespace) {
+            override fun configure() {
+                assert(gadget.project.pluginManager.hasPlugin(ANDROID_APPLICATION_ID))
+                super.configure()
+                with(gadget.project) {
+                    applicationExtension.apply {
+                        defaultConfig {
+                            applicationId = this@ThemePack.namespace
+                        }
+                    }
+                }
+            }
+        }
+
         open class Library internal constructor(gadget: Gadget, namespace: String) : Android(gadget, namespace) {
             override fun configure() {
                 assert(gadget.project.pluginManager.hasPlugin(ANDROID_LIBRARY_ID))
@@ -114,14 +128,22 @@ abstract class Configuration internal constructor(val gadget: Gadget) {
 
 fun <T : Gadget> T.APPLICATION(namespace: String, closure: @GradleScope Configuration.Android.Application.() -> Unit = {}) =
     Configuration.Android.Application(this, namespace).configure(closure)
+
 fun <T : Gadget> T.LIBRARY(namespace: String, closure: @GradleScope Configuration.Android.Library.() -> Unit = {}) =
     Configuration.Android.Library(this, namespace).configure(closure)
+
 fun <T : Gadget> T.ANDROIDPUBLICATION(namespace: String, closure: @GradleScope Configuration.Android.Library.Publication.() -> Unit = {}) =
     Configuration.Android.Library.Publication(this, namespace).configure(closure)
+
+fun <T : Gadget> T.THEMEPACK(namespace: String, closure: @GradleScope Configuration.Android.ThemePack.() -> Unit = {}) =
+    Configuration.Android.ThemePack(this, namespace).configure(closure)
+
 fun <T : Gadget> T.JVM(closure: @GradleScope Configuration.Jvm.() -> Unit = {}) =
     Configuration.Jvm(this).configure(closure)
+
 fun <T : Gadget> T.JVMPUBLICATION(closure: @GradleScope Configuration.Jvm.Publication.() -> Unit = {}) =
     Configuration.Jvm.Publication(this).configure(closure)
+
 private fun <T : Configuration> T.configure(closure: @GradleScope T.() -> Unit) {
     if (gadget[Configuration::class.java] != null) {
         throw IllegalArgumentException("configuration already set!")
