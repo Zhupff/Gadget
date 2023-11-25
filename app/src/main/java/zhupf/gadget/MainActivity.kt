@@ -1,6 +1,6 @@
 package zhupf.gadget
 
-import androidx.appcompat.app.AppCompatActivity
+import zhupf.gadget.module.GadgetActivity
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : GadgetActivity() {
 }

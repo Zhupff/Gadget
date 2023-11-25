@@ -10,5 +10,6 @@ gadget {
             component("homepage")
         }
         module()
+        common()
     }
 }

@@ -12,5 +12,6 @@ gadget {
             }
         }
         module()
+        common()
     }
 }

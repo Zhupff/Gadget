@@ -2,6 +2,16 @@ import org.gradle.api.Project
 
 class Dependency internal constructor(val gadget: Gadget) {
 
+    fun common() {
+        gadget.project.let { project ->
+            val libs = project.libs
+            project.dependencies.apply {
+                add("implementation", libs.findLibrary("androidx-core-ktx").get())
+                add("implementation", libs.findLibrary("androidx-appcompat").get())
+            }
+        }
+    }
+
     fun module() {
         gadget.project.dependencies.add("implementation", gadget.findProject(":module"))
     }

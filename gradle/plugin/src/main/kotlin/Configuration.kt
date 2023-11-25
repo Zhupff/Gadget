@@ -1,7 +1,6 @@
 import org.gradle.api.JavaVersion
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
-import org.gradle.kotlin.dsl.dependencies
 
 abstract class Configuration internal constructor(val gadget: Gadget) {
 
@@ -32,13 +31,6 @@ abstract class Configuration internal constructor(val gadget: Gadget) {
                                 excludes += "/META-INF/{AL2.0,LGPL2.1}"
                             }
                         }
-                    }
-                    dependencies {
-                        "implementation"(libs.findLibrary("androidx-core-ktx").get())
-                        "implementation"(libs.findLibrary("androidx-appcompat").get())
-//                        "implementation"(libs.findLibrary("androidx-lifecycle-livedata-ktx").get())
-//                        "implementation"(libs.findLibrary("androidx-lifecycle-runtime-ktx").get())
-//                        "implementation"(libs.findLibrary("androidx-lifecycle-viewModel-ktx").get())
                     }
                 }
             }
