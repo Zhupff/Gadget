@@ -9,7 +9,7 @@ gadget {
         components {
             component("homepage")
         }
-        module()
+        modules()
         common()
     }
 }

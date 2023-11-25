@@ -21,6 +21,7 @@ include(":component-homepage")
 include(":component-homepage:feature")
 
 include(":module")
+include(":module:theme")
 
 include(":themepack:darkness")
 

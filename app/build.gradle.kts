@@ -11,7 +11,7 @@ gadget {
                 feature()
             }
         }
-        module()
+        modules()
         common()
     }
 }

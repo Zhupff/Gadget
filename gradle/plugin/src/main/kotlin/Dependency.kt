@@ -12,8 +12,15 @@ class Dependency internal constructor(val gadget: Gadget) {
         }
     }
 
-    fun module() {
+    fun modules(closure: @GradleScope Modules.() -> Unit = {}) {
         gadget.project.dependencies.add("implementation", gadget.findProject(":module"))
+        closure(Modules())
+    }
+
+    inner class Modules internal constructor() {
+        fun theme() {
+            gadget.project.dependencies.add("implementation", gadget.findProject(":module:theme"))
+        }
     }
 
     fun components(closure: @GradleScope Components.() -> Unit) {
