@@ -1,5 +1,6 @@
 {
   "theme_id" : "zhupf.gadget",
-  "theme_name" : "白昼",
+  "theme_name_cn" : "白昼",
+  "theme_name_en" : "lightness",
   "is_origin" : true
 }

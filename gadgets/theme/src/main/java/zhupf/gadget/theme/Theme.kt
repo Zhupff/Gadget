@@ -17,7 +17,8 @@ class Theme(val resources: Resources, val parent: Theme?) : MutableMap<String, A
     companion object {
         const val START_VERSION = -1
         const val INFO_THEME_ID = "theme_id"
-        const val INFO_THEME_NAME = "theme_name"
+        const val INFO_THEME_NAME_CN = "theme_name_cn"
+        const val INFO_THEME_NAME_EN = "theme_name_en"
         const val INFO_IS_ORIGIN = "is_origin"
     }
 
@@ -43,7 +44,9 @@ class Theme(val resources: Resources, val parent: Theme?) : MutableMap<String, A
 
     val themeId: String = info.getString(INFO_THEME_ID)
 
-    val themeName: String = info.optString(INFO_THEME_NAME, "")
+    val themeNameCN: String = info.optString(INFO_THEME_NAME_CN, "")
+
+    val themeNameEN: String = info.optString(INFO_THEME_NAME_EN, "")
 
     val isOrigin: Boolean = info.optBoolean(INFO_IS_ORIGIN, false)
 

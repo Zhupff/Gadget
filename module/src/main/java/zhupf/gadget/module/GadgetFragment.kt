@@ -1,11 +1,11 @@
 package zhupf.gadget.module
 
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import zhupf.gadget.common.OnConfigurationChangedDispatcher
 import zhupf.gadget.common.OnConfigurationChangedListener
 import java.util.concurrent.CopyOnWriteArraySet
 
-abstract class GadgetActivity : AppCompatActivity(), OnConfigurationChangedDispatcher {
+abstract class GadgetFragment : Fragment(), OnConfigurationChangedDispatcher {
 
     protected open val onConfigurationChangedListeners: MutableCollection<OnConfigurationChangedListener> = CopyOnWriteArraySet()
 

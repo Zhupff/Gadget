@@ -7,6 +7,7 @@ gadget {
 
     dependency {
         gadgets {
+            common()
             logger()
         }
         common()
