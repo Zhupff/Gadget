@@ -1,6 +1,8 @@
 package zhupf.gadget.common
 
-interface Tuple {
+import java.io.Serializable
+
+interface Tuple : Serializable {
     val size: Int
     fun mutable(): MutableTuple
 }
