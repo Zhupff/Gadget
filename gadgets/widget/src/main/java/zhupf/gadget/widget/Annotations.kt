@@ -8,7 +8,7 @@ annotation class DslScope
 
 @Target(AnnotationTarget.CLASS, AnnotationTarget.FIELD)
 @Retention(AnnotationRetention.SOURCE)
-annotation class WidgetX(val name: String = "", val enableDsl: Boolean = false)
+annotation class WidgetX(val name: String = "")
 
 
 @Target(AnnotationTarget.CLASS, AnnotationTarget.FIELD)
