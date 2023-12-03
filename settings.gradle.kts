@@ -22,6 +22,7 @@ include(":component-homepage:feature")
 
 include(":module")
 include(":module:theme")
+include(":module:widget")
 
 include(":themepack:darkness")
 

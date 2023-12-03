@@ -18,8 +18,8 @@
     <attr name="blCornerRadiusX" format="dimension"/>
     <attr name="blCornerRadiusY" format="dimension"/>
 
-    <attr name="cornerClipBorderColor" format="color"/>
-    <attr name="cornerClipBorderWidth" format="dimension"/>
+    <attr name="borderColor" format="color"/>
+    <attr name="borderWidth" format="dimension"/>
 
     <declare-styleable name="CornerClip">
         <attr name="allCornerRadius"/>
@@ -35,7 +35,7 @@
         <attr name="blCornerRadius"/>
         <attr name="blCornerRadiusX"/>
         <attr name="blCornerRadiusY"/>
-        <attr name="cornerClipBorderColor"/>
-        <attr name="cornerClipBorderWidth"/>
+        <attr name="borderColor"/>
+        <attr name="borderWidth"/>
     </declare-styleable>
 </resources>

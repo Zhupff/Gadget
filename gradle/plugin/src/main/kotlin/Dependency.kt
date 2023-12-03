@@ -21,6 +21,10 @@ class Dependency internal constructor(val gadget: Gadget) {
         fun theme() {
             gadget.project.dependencies.add("implementation", gadget.findProject(":module:theme"))
         }
+
+        fun widget() {
+            gadget.project.dependencies.add("implementation", gadget.findProject(":module:widget"))
+        }
     }
 
     fun components(closure: @GradleScope Components.() -> Unit) {
@@ -82,7 +86,7 @@ class Dependency internal constructor(val gadget: Gadget) {
             }
         }
 
-        fun widget(compile: String? = "ksp") {
+        fun widget(compile: String? = null) {
             gadget.project.dependencies.apply {
                 add("implementation", gadget.findProject(":gadgets:widget"))
                 if (!compile.isNullOrEmpty()) {

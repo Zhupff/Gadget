@@ -65,8 +65,8 @@ class CornerClipDelegate(
                 copyInto(pendingRadius)
             }
 
-            val borderColor = typedArray.getColor(R.styleable.CornerClip_cornerClipBorderColor, Color.TRANSPARENT)
-            val borderWidth = typedArray.getDimension(R.styleable.CornerClip_cornerClipBorderWidth, 0F)
+            val borderColor = typedArray.getColor(R.styleable.CornerClip_borderColor, Color.TRANSPARENT)
+            val borderWidth = typedArray.getDimension(R.styleable.CornerClip_borderWidth, 0F)
 
             arrayOf(borderColor, borderWidth).run {
                 copyInto(currentBorder)
@@ -77,6 +77,8 @@ class CornerClipDelegate(
         view.addOnLayoutChangeListener { _, l1, t1, r1, b1, l2, t2, r2, b2 ->
             if (r1 - l1 != r2 - l2 || b1 - t1 != b2 - t2) {
                 cornerRect.set(0F, 0F, view.width.toFloat(), view.height.toFloat())
+                cornerPath.reset()
+                cornerPath.addRoundRect(cornerRect, currentRadius, Path.Direction.CW)
             }
         }
     }
@@ -188,13 +190,16 @@ class CornerClipDelegate(
         it.strokeWidth = borderWidth
     }
 
-    fun clip(canvas: Canvas) {
+    fun clipCorner(canvas: Canvas) {
         if (!pendingRadius.contentEquals(currentRadius)) {
             pendingRadius.copyInto(currentRadius)
             cornerPath.reset()
             cornerPath.addRoundRect(cornerRect, currentRadius, Path.Direction.CW)
         }
         canvas.clipPath(cornerPath)
+    }
+
+    fun drawBorder(canvas: Canvas) {
         if (!pendingBorder.contentEquals(currentBorder)) {
             pendingBorder.copyInto(currentBorder)
             borderPaint.color = borderColor

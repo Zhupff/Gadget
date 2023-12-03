@@ -1,10 +1,6 @@
 package zhupf.gadget.component.homepage
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
+import zhupf.gadget.module.GadgetActivity
 
-class HomepageActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+class HomepageActivity : GadgetActivity() {
 }
