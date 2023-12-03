@@ -196,7 +196,9 @@ class CornerClipDelegate(
             cornerPath.reset()
             cornerPath.addRoundRect(cornerRect, currentRadius, Path.Direction.CW)
         }
-        canvas.clipPath(cornerPath)
+        if (currentRadius.any { it > 0F }) {
+            canvas.clipPath(cornerPath)
+        }
     }
 
     fun drawBorder(canvas: Canvas) {
@@ -205,6 +207,8 @@ class CornerClipDelegate(
             borderPaint.color = borderColor
             borderPaint.strokeWidth = borderWidth
         }
-        canvas.drawPath(cornerPath, borderPaint)
+        if (borderColor != Color.TRANSPARENT && borderWidth > 0F) {
+            canvas.drawPath(cornerPath, borderPaint)
+        }
     }
 }
