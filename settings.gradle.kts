@@ -35,3 +35,7 @@ include(
     ":gadgets:gadget-logger",
     ":gadgets:gadget-logger:logger",
 )
+include(
+    ":gadgets:gadget-toast",
+    ":gadgets:gadget-toast:toast",
+)

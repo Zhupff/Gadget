@@ -71,6 +71,10 @@ class Dependency<S : Script> internal constructor(
         fun logger(method: String = "implementation") {
             dependencies.add(method, project(":gadgets:gadget-logger:logger"))
         }
+
+        fun toast(method: String = "implementation") {
+            dependencies.add(method,  project(":gadgets:gadget-toast:toast"))
+        }
     }
 }
 
