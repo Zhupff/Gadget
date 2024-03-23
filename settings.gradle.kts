@@ -31,3 +31,7 @@ include(
     ":gadgets:gadget-basic:basicAndroid",
     ":gadgets:gadget-basic:basicJvm",
 )
+include(
+    ":gadgets:gadget-logger",
+    ":gadgets:gadget-logger:logger",
+)

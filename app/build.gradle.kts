@@ -10,5 +10,8 @@ script {
         common()
         basic {
         }
+        gadgets {
+            basicAndroid()
+        }
     }
 }

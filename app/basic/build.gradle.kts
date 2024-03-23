@@ -10,6 +10,7 @@ script {
         common()
         gadgets {
             basicAndroid()
+            logger()
         }
     }
 }

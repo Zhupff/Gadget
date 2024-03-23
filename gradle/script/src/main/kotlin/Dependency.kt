@@ -67,6 +67,10 @@ class Dependency<S : Script> internal constructor(
         fun basicAndroid(method: String = "implementation") {
             dependencies.add(method, project(":gadgets:gadget-basic:basicAndroid"))
         }
+
+        fun logger(method: String = "implementation") {
+            dependencies.add(method, project(":gadgets:gadget-logger:logger"))
+        }
     }
 }
 

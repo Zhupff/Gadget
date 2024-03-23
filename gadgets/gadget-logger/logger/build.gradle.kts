@@ -3,7 +3,7 @@ plugins {
 }
 
 script {
-    configuration("zhupf.gadgets.basic") {
+    configuration("zhupf.gadgets.logger") {
         configure()
     }
     publication {
@@ -12,6 +12,6 @@ script {
 }
 
 dependencies {
-    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.startup)
 }
