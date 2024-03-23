@@ -32,6 +32,10 @@ include(
     ":gadgets:gadget-basic:basicJvm",
 )
 include(
+    ":gadgets:gadget-blur",
+    ":gadgets:gadget-blur:blur",
+)
+include(
     ":gadgets:gadget-logger",
     ":gadgets:gadget-logger:logger",
 )

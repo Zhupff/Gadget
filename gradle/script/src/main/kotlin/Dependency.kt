@@ -68,6 +68,10 @@ class Dependency<S : Script> internal constructor(
             dependencies.add(method, project(":gadgets:gadget-basic:basicAndroid"))
         }
 
+        fun blur(method: String = "implementation") {
+            dependencies.add(method, project(":gadgets:gadget-blur:blur"))
+        }
+
         fun logger(method: String = "implementation") {
             dependencies.add(method, project(":gadgets:gadget-logger:logger"))
         }
