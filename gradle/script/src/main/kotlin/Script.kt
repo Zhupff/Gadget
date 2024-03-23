@@ -64,6 +64,8 @@ class JvmScript : Script() {
     override fun apply(target: Project) {
         super.apply(target)
         target.pluginManager.apply("org.jetbrains.kotlin.jvm")
+        target.pluginManager.apply("java-library")
+        target.pluginManager.apply("groovy")
         target.extensions.add(JvmScript::class.java, "script", this)
     }
 }

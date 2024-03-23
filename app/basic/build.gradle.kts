@@ -8,5 +8,8 @@ script {
     }
     dependency {
         common()
+        gadgets {
+            basicAndroid()
+        }
     }
 }

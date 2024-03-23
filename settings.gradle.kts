@@ -17,4 +17,17 @@ dependencyResolutionManagement {
 rootProject.name = "Gadget"
 
 include(":app")
-include(":app:basic")
+include(
+    ":app:basic",
+)
+
+include(
+    ":gadgets",
+    ":gadgets:api",
+    ":gadgets:compile",
+)
+include(
+    ":gadgets:gadget-basic",
+    ":gadgets:gadget-basic:basicAndroid",
+    ":gadgets:gadget-basic:basicJvm",
+)

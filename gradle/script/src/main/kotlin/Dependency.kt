@@ -1,6 +1,7 @@
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalog
 import org.gradle.api.artifacts.dsl.DependencyHandler
+import org.jetbrains.kotlin.gradle.plugin.KaptExtension
 
 class Dependency<S : Script> internal constructor(
     val script: S,
@@ -26,6 +27,19 @@ class Dependency<S : Script> internal constructor(
         }
     }
 
+    fun gadget() {
+        project.pluginManager.apply("org.jetbrains.kotlin.kapt")
+        project.extensions.getByType(KaptExtension::class.java).arguments {
+            arg("GROUP", project.group)
+            arg("VERSION", project.version)
+        }
+        dependencies.apply {
+            add("compileOnly", project.dependencies.gradleApi())
+            add("compileOnly", project(":gadgets:api"))
+            add("kapt", project(":gadgets:compile"))
+        }
+    }
+
     fun basic(
         closure: Basic.() -> Unit = {},
     ) {
@@ -33,8 +47,26 @@ class Dependency<S : Script> internal constructor(
         Basic().closure()
     }
 
+    fun gadgets(
+        closure: Gadgets.() -> Unit,
+    ) {
+        Gadgets().closure()
+    }
+
 
     inner class Basic internal constructor() {
+    }
+
+
+    inner class Gadgets internal constructor() {
+
+        fun basicJvm(method: String = "implementation") {
+            dependencies.add(method, project(":gadgets:gadget-basic:basicJvm"))
+        }
+
+        fun basicAndroid(method: String = "implementation") {
+            dependencies.add(method, project(":gadgets:gadget-basic:basicAndroid"))
+        }
     }
 }
 
