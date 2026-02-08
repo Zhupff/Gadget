@@ -6,7 +6,7 @@ import java.util.function.Supplier
 
 interface ILogger {
 
-    companion object L : ILogger by singleton() {
+    companion object : ILogger by singleton() {
         @Volatile var enable: Boolean = Gadget.debuggable
             set(value) {
                 if (!Gadget.debuggable) {
