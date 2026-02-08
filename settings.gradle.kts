@@ -26,5 +26,6 @@ include(":app")
 include(
     ":basic",
     ":basic:basic-log",
+    ":basic:basic-theme",
 )
  
