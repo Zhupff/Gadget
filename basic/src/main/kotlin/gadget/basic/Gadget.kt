@@ -3,6 +3,7 @@ package gadget.basic
 import android.app.Activity
 import android.app.ActivityManager
 import android.app.Application
+import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.content.res.Configuration
 import android.os.Bundle
@@ -13,7 +14,7 @@ import androidx.lifecycle.LiveData
 import gadget.basic.log.Loggable
 import gadget.basic.log.logI
 
-open class Gadget : Application() {
+open class Gadget : Application(), Loggable by Loggable.Tag(true) {
 
     companion object {
         lateinit var application: Gadget
@@ -26,6 +27,16 @@ open class Gadget : Application() {
 
     init {
         Gadget.application = this
+    }
+
+    override fun attachBaseContext(base: Context?) {
+        super.attachBaseContext(base)
+        logI { "attachBaseContext(${base})" }
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        logI { "onCreate" }
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
