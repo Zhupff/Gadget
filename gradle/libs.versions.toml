@@ -1,0 +1,40 @@
+[versions]
+androidGradle = "8.9.0"
+androidxDataStore = "1.1.7"
+autoService = "1.1.1"
+kotlin = "2.0.0"
+squareupWire = "5.4.0"
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "androidGradle" }
+android-library = { id = "com.android.library", version.ref = "androidGradle" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+squareup-wire = { id = "com.squareup.wire", version.ref = "squareupWire" }
+
+[libraries]
+android-material = { group = "com.google.android.material", name = "material", version = "1.13.0" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version = "1.7.0" }
+androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version = "2.2.1" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version = "1.16.0" }
+androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidxDataStore" }
+androidx-datastore-protobuf = { group = "androidx.datastore", name = "datastore", version.ref = "androidxDataStore" }
+androidx-media3-exoplayer = {group = "androidx.media3", name = "media3-exoplayer", version = "1.9.0" }
+androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version = "1.4.0" }
+androidx-startup = { group = "androidx.startup", name = "startup-runtime", version = "1.2.0" }
+androidx-window = { group = "androidx.window", name = "window", version = "1.5.1" }
+autoservice-annotation = { group = "com.google.auto.service", name = "auto-service-annotations", version.ref = "autoService" }
+autoservice-processor = { group = "com.google.auto.service", name = "auto-service", version.ref = "autoService" }
+gson = { group = "com.google.code.gson", name = "gson", version = "2.13.2" }
+kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version = "1.10.2" }
+
+# Dependencies for gradle
+android-gradle = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradle" }
+kotlin-gradle = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+squareup-wire-gradle = { group = "com.squareup.wire", name = "wire-gradle-plugin", version.ref = "squareupWire" }
+
+# Dependencies for test
+androidx-espresso = { group = "androidx.test.espresso", name = "espresso-core", version = "3.6.1" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version = "1.2.1" }
+junit = { group = "junit", name = "junit", version = "4.13.2" }
