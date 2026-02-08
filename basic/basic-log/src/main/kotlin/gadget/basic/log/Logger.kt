@@ -5,8 +5,8 @@ import com.google.auto.service.AutoService
 import gadget.basic.Gadget
 import java.util.function.Supplier
 
-@AutoService(ILog::class)
-internal class Logger : ILog {
+@AutoService(ILogger::class)
+internal class Logger : ILogger {
 
     interface Printer {
         fun print(timestamp: Long, priority: Int, tag: String, cause: Throwable?, content: String)
@@ -37,7 +37,7 @@ internal class Logger : ILog {
     }
 
     override fun log(priority: Int, tag: String, cause: Throwable?, content: Supplier<String>) {
-        if (!ILog.enable) {
+        if (!ILogger.enable) {
             return
         }
         val timestamp = System.currentTimeMillis()
