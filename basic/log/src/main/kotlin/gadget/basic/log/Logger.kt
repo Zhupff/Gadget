@@ -6,7 +6,7 @@ import gadget.basic.Gadget
 import java.util.function.Supplier
 
 @AutoService(ILog::class)
-class Logger : ILog {
+internal class Logger : ILog {
 
     interface Printer {
         fun print(timestamp: Long, priority: Int, tag: String, cause: Throwable?, content: String)
@@ -14,9 +14,9 @@ class Logger : ILog {
 
     private val printers: List<Printer> by lazy {
         if (Gadget.debuggable) {
-            listOf(LogcatPrinter)
+            listOf(LogcatPrinter, FilePrinter)
         } else {
-            listOf()
+            listOf(FilePrinter)
         }
     }
 
