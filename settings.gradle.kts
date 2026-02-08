@@ -25,5 +25,6 @@ include(":app")
 
 include(
     ":basic",
+    ":basic:log",
 )
  
