@@ -5,9 +5,6 @@ import android.content.ContextWrapper
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
 import gadget.basic.exception.throws
 import java.lang.ref.WeakReference
@@ -21,14 +18,13 @@ internal class ThemeObserver(
     view: View,
     private val attribute2resource: Map<Theme.Attribute, Theme.Resource>,
     private var flags: Int = 0,
-) : WeakReference<View>(view), View.OnAttachStateChangeListener, LifecycleOwner, Observer<Theme> {
+) : WeakReference<View>(view), View.OnAttachStateChangeListener, Observer<Theme> {
 
     companion object {
         const val FLAG_TRACED = 1
         const val FLAG_MUTABLE = 2
+        const val FLAG_LIFECYCLE = 4
     }
-
-    override val lifecycle: LifecycleRegistry = LifecycleRegistry(this)
 
     private var observable: ThemeObservable? = null
 
@@ -40,7 +36,6 @@ internal class ThemeObserver(
         } else {
             view.setTag(R.id.ThemeObserver, this)
         }
-        lifecycle.currentState = Lifecycle.State.CREATED
         view.addOnAttachStateChangeListener(this)
         if (view.isAttachedToWindow) {
             onViewAttachedToWindow(view)
@@ -50,40 +45,38 @@ internal class ThemeObserver(
     override fun get(): View? {
         val target = super.get()
         if (target == null) {
-            lifecycle.currentState = Lifecycle.State.DESTROYED
+            observable?.subscribe()?.removeObserver(this)
             observable = null
         }
         return target
     }
 
     /**
-     * 当View attached的时候将生命周期置为RESUMED以获取主题资源。
+     * 当View attached的时候：
+     * 1.如果是首次，那么需要注册监听；
+     * 2.如果是FLAG_MUTABLE，也需要重新注册监听；
      */
     override fun onViewAttachedToWindow(v: View) {
         val target = get()
         if (target == null || target != v) {
             return
         }
-        lifecycle.currentState = Lifecycle.State.RESUMED
-        if (flags and FLAG_TRACED == 0) { // 首次attach。
-            trace(target).also {
+        if (flags and FLAG_TRACED == 0 || flags and FLAG_MUTABLE != 0) {
+            observable = trace(target).also {
                 flags = flags or FLAG_TRACED
-                observable = it
-            }.subscribe().observe(this, this)
-        } else {
-            if (flags and FLAG_MUTABLE != 0) {
-                // 如果是可变的，那么每次attach的时候都需要重新trace一下对应的主题源。
-                trace(target).also {
-                    observable = it
-                }.subscribe().observe(this, this)
+                if (flags and FLAG_LIFECYCLE != 0) {
+                    it.subscribe().observe(it, this)
+                } else {
+                    it.subscribe().observeForever(this)
+                }
             }
         }
     }
 
     /**
      * 当View detached的时候：
-     * 1.如果是FLAG_MUTABLE的，那么需要切换生命周期为DESTROYED；
-     * 2.如果不是FLAG_MUTABLE，那么只需切换生命周期为PAUSED即可；
+     * 1.如果是FLAG_MUTABLE的，那么需要取消监听；
+     * 2.如果不是FLAG_MUTABLE，可能是Recycler，不需要处理监听；
      */
     override fun onViewDetachedFromWindow(v: View) {
         val target = get()
@@ -91,13 +84,8 @@ internal class ThemeObserver(
             return
         }
         if (flags and FLAG_MUTABLE != 0) {
-            // 如果是可变的，每次detach的时候将生命周期设为Destroyed，这样Observable就会自动清理该Observer；
-            // 在下次attach的时候再重新trace对应的Observable并observe。
-            lifecycle.currentState = Lifecycle.State.DESTROYED
+            observable?.subscribe()?.removeObserver(this)
             observable = null
-        } else {
-            // 如果不是可变的，那只需要将生命周期设为CREATED（等价于paused）。
-            lifecycle.currentState = Lifecycle.State.CREATED
         }
     }
 
@@ -150,6 +138,8 @@ internal class ThemeObserver(
                         if (flags and FLAG_TRACED == 0) {
                             // 如果父View是可变的，那意味着当前View也是可变的。
                             this.flags = this.flags or (observer.flags and FLAG_MUTABLE)
+                            // 如果父View是跟随Lifecycle监听的，那当前View也需要。
+                            this.flags = this.flags or (observer.flags and FLAG_LIFECYCLE)
                         }
                         return observer.observable!!
                     }

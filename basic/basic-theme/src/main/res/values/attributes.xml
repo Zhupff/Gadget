@@ -7,5 +7,8 @@
              所以如果你的View是可能attach到不同主题的页面下的话，那么需要声明该flag；
              注意：父View声明了该flag之后，其子View都将会带有该flag -->
         <flag name="mutable" value="2" />
+
+        <!-- 代表该View是否要根据Lifecycle监听主题的切换 -->
+        <flag name="lifecycle" value="4" />
     </attr>
 </resources>
