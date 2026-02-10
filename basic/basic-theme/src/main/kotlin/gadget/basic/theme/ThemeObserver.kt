@@ -9,10 +9,6 @@ import androidx.lifecycle.Observer
 import gadget.basic.exception.throws
 import java.lang.ref.WeakReference
 import java.util.LinkedList
-import kotlin.also
-import kotlin.collections.forEach
-import kotlin.collections.isNotEmpty
-import kotlin.collections.set
 
 internal class ThemeObserver(
     view: View,
@@ -115,7 +111,7 @@ internal class ThemeObserver(
             context = context.baseContext
         }
         if (context is FragmentActivity) {
-            val map = kotlin.collections.HashMap<View, Fragment>()
+            val map = HashMap<View, Fragment>()
             val queue = LinkedList<Fragment>(context.supportFragmentManager.fragments)
             while (queue.isNotEmpty()) {
                 val fragment = queue.pop() ?: continue

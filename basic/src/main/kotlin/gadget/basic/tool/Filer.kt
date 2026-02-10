@@ -3,7 +3,6 @@ package gadget.basic.tool
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
-import kotlin.io.use
 
 object Filer {
 
