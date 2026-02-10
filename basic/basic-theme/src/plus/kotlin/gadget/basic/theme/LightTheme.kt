@@ -11,7 +11,10 @@ internal open class LightTheme(
     parent: LightTheme? = null,
 ) : AbstractTheme<LightTheme>(name, parent) {
 
-    companion object : LightTheme("Default")
+    companion object : LightTheme("Default") {
+        override var night: NightTheme? = null
+            get() = NightTheme
+    }
 
     final override val id: String = "${name}-Light"
 
@@ -32,7 +35,7 @@ internal open class LightTheme(
     override var onErrorColor   : Int = 0xFFFFFFFF.toInt()
         protected set
 
-    var night: NightTheme? = null
+    open var night: NightTheme? = null
         protected set
 
     fun create(name: String, argb: Int, night: NightTheme?): LightTheme {
