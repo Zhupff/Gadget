@@ -7,7 +7,7 @@ import android.view.View
 import gadget.basic.log.Loggable
 import gadget.basic.log.logW
 
-abstract class ThemeInflater(
+abstract class AbstractThemeInflateFactory(
     protected val factory: LayoutInflater.Factory?,
 ) : LayoutInflater.Factory2, Loggable by Loggable.Tag() {
 
