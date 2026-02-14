@@ -10,7 +10,7 @@ import gadget.basic.log.Loggable
 import gadget.basic.log.logD
 import gadget.basic.log.logI
 
-open class GadgetActivity : AppCompatActivity(), Loggable by Loggable.Tag() {
+abstract class GadgetActivity : AppCompatActivity(), Loggable by Loggable.Tag() {
 
     protected open lateinit var windowInsetsControllerCompat: WindowInsetsControllerCompat
 
@@ -84,7 +84,6 @@ open class GadgetActivity : AppCompatActivity(), Loggable by Loggable.Tag() {
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        logD { "onConfigurationChanged($newConfig)" }
 
         if (newConfig.orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
             windowInsetsControllerCompat.show(WindowInsetsCompat.Type.systemBars())
