@@ -28,4 +28,9 @@ include(
     ":basic:basic-log",
     ":basic:basic-theme",
 )
+
+include(
+    ":component-main:external",
+    ":component-main:internal",
+)
  
