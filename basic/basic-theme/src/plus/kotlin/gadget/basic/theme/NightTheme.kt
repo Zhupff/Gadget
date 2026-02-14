@@ -12,7 +12,8 @@ internal open class NightTheme(
 ) : AbstractTheme<NightTheme>(name, parent) {
 
     companion object : NightTheme("Default") {
-        override var light: LightTheme? = null
+        override var light: LightTheme?
+            set(_) = IllegalArgumentException("Can not set light-theme to default night-theme!").throws()
             get() = LightTheme
     }
 

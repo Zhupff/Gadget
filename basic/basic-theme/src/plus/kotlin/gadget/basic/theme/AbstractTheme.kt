@@ -53,5 +53,5 @@ internal abstract class AbstractTheme<PARENT : Theme>(
         return null
     }
 
-    override val loggableTag: String = "Theme[$id]"
+    override val loggableTag: String by lazy { "Theme[$id]" }
 }

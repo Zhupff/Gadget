@@ -22,6 +22,7 @@ object ThemeManager : AbstractThemeManager(), Observer<Gadget.AppLifecycle.State
         } else {
             observable.postValue(NightTheme)
         }
+        Gadget.AppLifecycle.observeForever(this)
     }
 
     override fun subscribe(): LiveData<out Theme> = observable

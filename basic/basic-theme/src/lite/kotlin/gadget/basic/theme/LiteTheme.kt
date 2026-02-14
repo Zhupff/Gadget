@@ -3,27 +3,18 @@ package gadget.basic.theme
 import android.graphics.drawable.Drawable
 import androidx.core.graphics.drawable.toDrawable
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import gadget.basic.Gadget
 import gadget.basic.exception.throws
 import gadget.basic.log.Loggable
 import gadget.basic.log.logW
+import gadget.basic.theme.ThemeManager.isLightMode
 
-internal object LiteTheme : LiveData<Theme>(), Theme, Observer<Gadget.AppLifecycle.State>, Loggable by Loggable.Tag(true) {
-
-    @Volatile var isLightMode: Boolean = !Gadget.application.resources.configuration.isNightModeActive
-        private set(value) {
-            if (field != value) {
-                field = value
-                postValue(this)
-            }
-        }
+internal object LiteTheme : LiveData<Theme>(), Theme, Loggable by Loggable.Tag(true) {
 
     override val id: String
         get() = if (isLightMode) "light" else "night"
 
     init {
-        Gadget.AppLifecycle.observeForever(this)
         postValue(this)
     }
 
@@ -55,9 +46,7 @@ internal object LiteTheme : LiveData<Theme>(), Theme, Observer<Gadget.AppLifecyc
         return null
     }
 
-    override fun onChanged(value: Gadget.AppLifecycle.State) {
-        if (value is Gadget.AppLifecycle.State.OnAppConfigurationChanged) {
-            isLightMode = !value.newConfiguration.isNightModeActive
-        }
+    public override fun postValue(value: Theme?) {
+        super.postValue(value)
     }
 }
