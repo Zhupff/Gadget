@@ -9,5 +9,5 @@ gadget {
 }
 
 dependencies {
-    implementation(project(":basic"))
+    implementation(project(":basic:external"))
 }
