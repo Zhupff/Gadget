@@ -5,8 +5,8 @@ import androidx.core.graphics.drawable.toDrawable
 import androidx.lifecycle.LiveData
 import gadget.basic.Gadget
 import gadget.basic.exception.throws
-import gadget.basic.log.Loggable
-import gadget.basic.log.logW
+import gadget.basic.logger.Loggable
+import gadget.basic.logger.logW
 import gadget.basic.theme.ThemeManager.isLightMode
 
 internal object LiteTheme : LiveData<Theme>(), Theme, Loggable by Loggable.Tag(true) {

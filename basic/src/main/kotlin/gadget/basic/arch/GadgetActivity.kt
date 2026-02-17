@@ -6,9 +6,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import gadget.basic.log.Loggable
-import gadget.basic.log.logD
-import gadget.basic.log.logI
+import gadget.basic.logger.Loggable
+import gadget.basic.logger.logD
+import gadget.basic.logger.logI
 
 abstract class GadgetActivity : AppCompatActivity(), Loggable by Loggable.Tag() {
 

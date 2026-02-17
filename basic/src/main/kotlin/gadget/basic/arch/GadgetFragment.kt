@@ -6,9 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import gadget.basic.log.Loggable
-import gadget.basic.log.logD
-import gadget.basic.log.logI
+import gadget.basic.logger.Loggable
+import gadget.basic.logger.logD
+import gadget.basic.logger.logI
 
 abstract class GadgetFragment : Fragment(), Loggable by Loggable.Tag() {
 

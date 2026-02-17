@@ -1,4 +1,4 @@
-package gadget.basic.log
+package gadget.basic.logger
 
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty

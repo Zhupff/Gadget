@@ -1,4 +1,4 @@
-package gadget.basic.log
+package gadget.basic.logger
 
 import android.system.Os
 import android.util.Log

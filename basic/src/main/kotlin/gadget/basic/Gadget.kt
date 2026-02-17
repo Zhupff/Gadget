@@ -11,8 +11,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.LiveData
-import gadget.basic.log.Loggable
-import gadget.basic.log.logI
+import gadget.basic.logger.Loggable
+import gadget.basic.logger.logI
 
 open class Gadget : Application(), Loggable by Loggable.Tag(true) {
 

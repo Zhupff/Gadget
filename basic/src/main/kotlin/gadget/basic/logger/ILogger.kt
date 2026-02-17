@@ -1,4 +1,4 @@
-package gadget.basic.log
+package gadget.basic.logger
 
 import gadget.basic.Gadget
 import gadget.basic.tool.singleton

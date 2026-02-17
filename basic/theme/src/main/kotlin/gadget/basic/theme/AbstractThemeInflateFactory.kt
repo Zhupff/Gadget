@@ -4,8 +4,8 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
-import gadget.basic.log.Loggable
-import gadget.basic.log.logW
+import gadget.basic.logger.Loggable
+import gadget.basic.logger.logW
 
 abstract class AbstractThemeInflateFactory(
     protected val factory: LayoutInflater.Factory?,
