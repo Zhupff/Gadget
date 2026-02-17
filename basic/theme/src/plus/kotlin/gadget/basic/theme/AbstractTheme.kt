@@ -4,8 +4,8 @@ import android.graphics.drawable.Drawable
 import androidx.core.graphics.drawable.toDrawable
 import gadget.basic.Gadget
 import gadget.basic.exception.throws
-import gadget.basic.log.Loggable
-import gadget.basic.log.logW
+import gadget.basic.logger.Loggable
+import gadget.basic.logger.logW
 
 internal abstract class AbstractTheme<PARENT : Theme>(
     val name: String,

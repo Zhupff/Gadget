@@ -4,7 +4,7 @@ import com.google.mcu.hct.Hct
 import com.google.mcu.scheme.SchemeTonalSpot
 import gadget.basic.Gadget
 import gadget.basic.exception.throws
-import gadget.basic.log.logW
+import gadget.basic.logger.logW
 
 internal open class NightTheme(
     name: String,

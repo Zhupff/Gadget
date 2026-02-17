@@ -14,6 +14,6 @@ gadget {
 }
 
 dependencies {
-    implementation(project(":basic:basic-log"))
+    implementation(project(":basic:logger"))
     implementation(project(":component-main:internal"))
 }
