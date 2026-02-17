@@ -25,11 +25,7 @@ abstract class GadgetActivity : AppCompatActivity(), Loggable by Loggable.Tag() 
 
         windowInsetsControllerCompat = WindowInsetsControllerCompat(window, window.decorView)
         windowInsetsControllerCompat.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-        if (resources.configuration.orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-            windowInsetsControllerCompat.show(WindowInsetsCompat.Type.systemBars())
-        } else {
-            windowInsetsControllerCompat.hide(WindowInsetsCompat.Type.systemBars())
-        }
+        applyConfiguration()
     }
 
     override fun onRestart() {
@@ -84,11 +80,15 @@ abstract class GadgetActivity : AppCompatActivity(), Loggable by Loggable.Tag() 
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
+        applyConfiguration(newConfig)
+    }
 
-        if (newConfig.orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
+    protected open fun applyConfiguration(configuration: Configuration = resources.configuration) {
+        if (configuration.orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
             windowInsetsControllerCompat.show(WindowInsetsCompat.Type.systemBars())
         } else {
             windowInsetsControllerCompat.hide(WindowInsetsCompat.Type.systemBars())
         }
+        windowInsetsControllerCompat.isAppearanceLightStatusBars = !configuration.isNightModeActive
     }
 }
