@@ -3,7 +3,6 @@ androidGradle = "8.9.0"
 androidxDataStore = "1.1.7"
 autoService = "1.1.1"
 kotlin = "2.0.0"
-kotlin-ksp = "2.0.0-1.0.24"
 squareupWire = "5.4.0"
 
 [plugins]
@@ -12,7 +11,6 @@ android-library = { id = "com.android.library", version.ref = "androidGradle" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
-kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "kotlin-ksp" }
 squareup-wire = { id = "com.squareup.wire", version.ref = "squareupWire" }
 
 [libraries]
@@ -29,9 +27,7 @@ androidx-window = { group = "androidx.window", name = "window", version = "1.5.1
 autoservice-annotation = { group = "com.google.auto.service", name = "auto-service-annotations", version.ref = "autoService" }
 autoservice-processor = { group = "com.google.auto.service", name = "auto-service", version.ref = "autoService" }
 gson = { group = "com.google.code.gson", name = "gson", version = "2.13.2" }
-kotlin-ksp-api = { group = "com.google.devtools.ksp", name = "symbol-processing-api", version.ref = "kotlin-ksp" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version = "1.10.2" }
-squareup-kotlinpoet = { group = "com.squareup", name = "kotlinpoet-ksp", version = "2.2.0" }
 
 # Dependencies for gradle
 android-gradle = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradle" }

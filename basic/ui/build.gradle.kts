@@ -1,6 +1,5 @@
 plugins {
     id("gadget.android.library")
-    alias(libs.plugins.kotlin.ksp)
 }
 
 gadget {
@@ -9,6 +8,7 @@ gadget {
 
 dependencies {
     api(project(":basic:annotation"))
-    ksp(project(":basic:compile"))
+    api(libs.android.material)
+    api(libs.androidx.constraintlayout)
     api(libs.androidx.recyclerview)
 }

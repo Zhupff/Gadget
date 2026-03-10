@@ -26,7 +26,6 @@ include(":app")
 include(
     ":basic",
     ":basic:annotation",
-    ":basic:compile",
     ":basic:logger",
     ":basic:theme",
     ":basic:ui",
