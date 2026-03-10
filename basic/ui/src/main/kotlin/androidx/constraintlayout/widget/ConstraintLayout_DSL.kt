@@ -21,7 +21,7 @@ inline fun <V : ViewGroup> V.ConstraintLayout(
     lp: ViewLayoutParams,
     lambda: (@DslScope ConstraintLayout).(ConstraintLayout) -> Unit,
 ): ConstraintLayout = ConstraintLayout(context).also {
-    this.addView(it, lp)
+    addView(it, lp)
     it.lambda(it)
 }
 

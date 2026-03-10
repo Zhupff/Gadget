@@ -37,7 +37,7 @@ inline fun <V : ViewGroup> V.HorizontalLinearLayout(
     lambda: (@DslScope HorizontalLinearLayout).(HorizontalLinearLayout) -> Unit,
 ): HorizontalLinearLayout = HorizontalLinearLayout(context).also {
     it.orientation = LinearLayout.HORIZONTAL
-    this.addView(it, lp)
+    addView(it, lp)
     it.lambda(it)
 }
 
@@ -46,7 +46,7 @@ inline fun <V : ViewGroup> V.VerticalLinearLayout(
     lambda: (@DslScope VerticalLinearLayout).(VerticalLinearLayout) -> Unit,
 ): VerticalLinearLayout = VerticalLinearLayout(context).also {
     it.orientation = LinearLayout.VERTICAL
-    this.addView(it, lp)
+    addView(it, lp)
     it.lambda(it)
 }
 
