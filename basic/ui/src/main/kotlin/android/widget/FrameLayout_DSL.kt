@@ -20,7 +20,7 @@ inline fun FrameLayout(
 inline fun <V : ViewGroup> V.FrameLayout(
     lp: ViewLayoutParams,
     lambda: (@DslScope FrameLayout).(FrameLayout) -> Unit,
-): FrameLayout = FrameLayout(this.context).also {
+): FrameLayout = FrameLayout(context).also {
     this.addView(it, lp)
     it.lambda(it)
 }
