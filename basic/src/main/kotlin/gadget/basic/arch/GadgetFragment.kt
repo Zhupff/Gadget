@@ -9,8 +9,11 @@ import androidx.fragment.app.Fragment
 import gadget.basic.logger.Loggable
 import gadget.basic.logger.logD
 import gadget.basic.logger.logI
+import gadget.basic.logger.loggable
 
-abstract class GadgetFragment : Fragment(), Loggable by Loggable.Tag() {
+abstract class GadgetFragment : Fragment(), Loggable {
+
+    override val loggable: String by lazy { loggable() }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

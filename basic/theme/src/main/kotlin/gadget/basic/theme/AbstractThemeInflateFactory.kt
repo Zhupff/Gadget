@@ -6,10 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import gadget.basic.logger.Loggable
 import gadget.basic.logger.logW
+import gadget.basic.logger.loggable
 
 abstract class AbstractThemeInflateFactory(
     protected val factory: LayoutInflater.Factory?,
-) : LayoutInflater.Factory2, Loggable by Loggable.Tag() {
+) : LayoutInflater.Factory2, Loggable {
+
+    override val loggable: String by lazy { loggable() }
 
     protected val factory2: LayoutInflater.Factory2? = factory as? LayoutInflater.Factory2
     /** 对曾经解析过的主题资源进行缓存。 */

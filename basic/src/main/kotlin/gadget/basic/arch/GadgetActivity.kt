@@ -9,8 +9,11 @@ import androidx.core.view.WindowInsetsControllerCompat
 import gadget.basic.logger.Loggable
 import gadget.basic.logger.logD
 import gadget.basic.logger.logI
+import gadget.basic.logger.loggable
 
-abstract class GadgetActivity : AppCompatActivity(), Loggable by Loggable.Tag() {
+abstract class GadgetActivity : AppCompatActivity(), Loggable {
+
+    override val loggable: String by lazy { loggable() }
 
     protected open lateinit var windowInsetsControllerCompat: WindowInsetsControllerCompat
 

@@ -13,8 +13,9 @@ import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.LiveData
 import gadget.basic.logger.Loggable
 import gadget.basic.logger.logI
+import gadget.basic.logger.loggable
 
-open class Gadget : Application(), Loggable by Loggable.Tag(true) {
+open class Gadget : Application(), Loggable {
 
     companion object {
         lateinit var application: Gadget
@@ -24,6 +25,8 @@ open class Gadget : Application(), Loggable by Loggable.Tag(true) {
             (application.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0
         }
     }
+
+    override val loggable: String = loggable(true)
 
     init {
         Gadget.application = this
@@ -46,7 +49,9 @@ open class Gadget : Application(), Loggable by Loggable.Tag(true) {
 
     object AppLifecycle : LiveData<AppLifecycle.State>(),
         LifecycleOwner, ActivityLifecycleCallbacks,
-        Loggable by Loggable.Tag(true) {
+        Loggable {
+
+        override val loggable: String = loggable(true)
 
         override val lifecycle: Lifecycle = LifecycleRegistry(this)
 

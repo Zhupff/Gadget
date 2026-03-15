@@ -43,21 +43,21 @@ fun String.logE(cause: Throwable, content: Supplier<String>): String = apply {
 }
 
 fun Loggable.logD(content: Supplier<String>): String {
-    ILogger.d(loggableTag, content)
-    return loggableTag
+    ILogger.d(loggable, content)
+    return loggable
 }
 
 fun Loggable.logI(content: Supplier<String>): String {
-    ILogger.i(loggableTag, content)
-    return loggableTag
+    ILogger.i(loggable, content)
+    return loggable
 }
 
 fun Loggable.logW(cause: Throwable?, content: Supplier<String>): String {
-    ILogger.w(loggableTag, cause, content)
-    return loggableTag
+    ILogger.w(loggable, cause, content)
+    return loggable
 }
 
 fun Loggable.logE(cause: Throwable, content: Supplier<String>): String {
-    ILogger.e(loggableTag, cause, content)
-    return loggableTag
+    ILogger.e(loggable, cause, content)
+    return loggable
 }
