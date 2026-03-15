@@ -10,7 +10,6 @@ import androidx.window.layout.WindowInfoTracker
 import androidx.window.layout.WindowLayoutInfo
 import gadget.basic.arch.GadgetActivity
 import gadget.basic.theme.ThemeInflateFactory
-import gadget.component.main.internal.R
 import gadget.component.main.internal.databinding.ComponentMainActivityBinding
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.launch
@@ -51,36 +50,13 @@ class ComponentMainActivity : GadgetActivity() {
     }
 
     private fun onWindowChanged(folding: Boolean) {
-        val drawerFragment = supportFragmentManager.findFragmentByTag(DrawerFragment::class.java.simpleName)
-        val drawerFragmentTag = DrawerFragment::class.java.simpleName
+        val drawerFragment = supportFragmentManager.findFragmentByTag(DrawerFragment::class.java.simpleName) as? DrawerFragment ?: DrawerFragment()
         if (folding) {
-            if (drawerFragment != null) {
-                supportFragmentManager.beginTransaction()
-                    .remove(drawerFragment)
-                    .commitNow()
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.mainDrawer, drawerFragment, drawerFragmentTag)
-                    .commitAllowingStateLoss()
-            } else {
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.mainDrawer, DrawerFragment(), drawerFragmentTag)
-                    .commitAllowingStateLoss()
-            }
+            drawerFragment.attachTo(this, viewBinding.mainDrawer)
             viewBinding.mainContainer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, viewBinding.mainDrawer)
             viewBinding.sideContainer.isGone = true
         } else {
-            if (drawerFragment != null) {
-                supportFragmentManager.beginTransaction()
-                    .remove(drawerFragment)
-                    .commitNow()
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.sideDrawer, drawerFragment, drawerFragmentTag)
-                    .commitAllowingStateLoss()
-            } else {
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.sideDrawer, DrawerFragment(), drawerFragmentTag)
-                    .commitAllowingStateLoss()
-            }
+            drawerFragment.attachTo(this, viewBinding.sideDrawer)
             viewBinding.mainContainer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, viewBinding.mainDrawer)
             viewBinding.sideContainer.isVisible = true
         }
