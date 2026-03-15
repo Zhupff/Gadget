@@ -95,14 +95,14 @@ abstract class AbstractThemeInflateFactory(
      * 对解析到的疑似和主题相关的资源进行判断，返回true表示该资源有效，返回false会跳过该资源的处理。
      */
     protected open fun filter(resource: Theme.Resource): Boolean = when (resource.id) {
-        gadget.basic.R.color.ThemePrimary,
-        gadget.basic.R.color.ThemeOnPrimary,
-        gadget.basic.R.color.ThemeBackground,
-        gadget.basic.R.color.ThemeForeground,
-        gadget.basic.R.color.ThemeSurface,
-        gadget.basic.R.color.ThemeOutline,
-        gadget.basic.R.color.ThemeError,
-        gadget.basic.R.color.ThemeOnError -> true
+        R.color.ThemePrimary,
+        R.color.ThemeOnPrimary,
+        R.color.ThemeBackground,
+        R.color.ThemeForeground,
+        R.color.ThemeSurface,
+        R.color.ThemeOutline,
+        R.color.ThemeError,
+        R.color.ThemeOnError -> true
         else -> false
     }
 

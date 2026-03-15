@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ⬇ theme-able define ⬇ -->
+    <color name="ThemePrimary">#FF445E91</color>
+    <color name="ThemeOnPrimary">#FFFFFFFF</color>
+    <color name="ThemeBackground">#FFFFFFFF</color>
+    <color name="ThemeForeground">#FF1A1B20</color>
+    <color name="ThemeSurface">#FFEDEDF4</color>
+    <color name="ThemeOutline">#FF74777F</color>
+    <color name="ThemeError">#FFBA1A1A</color>
+    <color name="ThemeOnError">#FFFFFFFF</color>
+    <!-- ⬆ theme-able define ⬆ -->
+</resources>

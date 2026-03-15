@@ -22,14 +22,14 @@ internal abstract class AbstractTheme<PARENT : Theme>(
     abstract val onErrorColor: Int
 
     override fun getColor(r: Theme.Resource): Int = when (r.id) {
-        gadget.basic.R.color.ThemePrimary    -> primaryColor
-        gadget.basic.R.color.ThemeOnPrimary  -> onPrimaryColor
-        gadget.basic.R.color.ThemeBackground -> backgroundColor
-        gadget.basic.R.color.ThemeForeground -> foregroundColor
-        gadget.basic.R.color.ThemeSurface    -> surfaceColor
-        gadget.basic.R.color.ThemeOutline    -> outlineColor
-        gadget.basic.R.color.ThemeError      -> errorColor
-        gadget.basic.R.color.ThemeOnError    -> onErrorColor
+        R.color.ThemePrimary    -> primaryColor
+        R.color.ThemeOnPrimary  -> onPrimaryColor
+        R.color.ThemeBackground -> backgroundColor
+        R.color.ThemeForeground -> foregroundColor
+        R.color.ThemeSurface    -> surfaceColor
+        R.color.ThemeOutline    -> outlineColor
+        R.color.ThemeError      -> errorColor
+        R.color.ThemeOnError    -> onErrorColor
         else -> parent?.getColor(r)
             ?: if (Gadget.debuggable) {
                 IllegalStateException("getColor($r) from $name failed!").throws()
