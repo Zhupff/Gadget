@@ -12,7 +12,7 @@ gadget {
 dependencies {
     implementation(project(":basic"))
     implementation(project(":basic:theme"))
+    implementation(project(":basic:ui"))
     implementation(project(":component-main:external"))
-    implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.window)
 }

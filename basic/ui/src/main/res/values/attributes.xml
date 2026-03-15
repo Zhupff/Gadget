@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="BorderShader" format="color|reference" />
+
+    <attr name="BorderSize" format="dimension" />
+
+    <attr name="ClipCornerGravity" format="enum">
+        <enum name="N" value="0" />
+        <enum name="L" value="1" />
+        <enum name="T" value="2" />
+        <enum name="R" value="4" />
+        <enum name="B" value="8" />
+        <enum name="TL" value="3" />
+        <enum name="TR" value="6" />
+        <enum name="BR" value="12" />
+        <enum name="BL" value="9" />
+        <enum name="A" value="15" />
+    </attr>
+
+    <attr name="ClipCornerRadius" format="dimension" />
+
+    <attr name="FitSide" format="enum">
+        <enum name="L" value="1" />
+        <enum name="T" value="2" />
+        <enum name="R" value="4" />
+        <enum name="B" value="8" />
+    </attr>
+
+    <attr name="FitWindowInsets" format="flags">
+        <flag name="L" value="1" />
+        <flag name="T" value="2" />
+        <flag name="R" value="4" />
+        <flag name="B" value="8" />
+    </attr>
+
+    <attr name="ScrimColor" format="color" />
+
+    <declare-styleable name="FitSideImageView">
+        <attr name="FitSide" />
+    </declare-styleable>
+
+    <declare-styleable name="GadgetConstraintLayout">
+        <attr name="BorderShader" />
+        <attr name="BorderSize" />
+        <attr name="ClipCornerGravity" />
+        <attr name="ClipCornerRadius" />
+        <attr name="FitWindowInsets" />
+    </declare-styleable>
+
+    <declare-styleable name="GadgetFrameLayout">
+        <attr name="BorderShader" />
+        <attr name="BorderSize" />
+        <attr name="ClipCornerGravity" />
+        <attr name="ClipCornerRadius" />
+        <attr name="FitWindowInsets" />
+    </declare-styleable>
+
+</resources>

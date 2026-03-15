@@ -18,3 +18,9 @@ fun Throwable.throws(message: String? = null): Nothing {
         GadgetException(message, this)
     }
 }
+
+inline fun Throwable.throwsIf(message: String? = null, condition: () -> Boolean) {
+    if (condition()) {
+        throws(message)
+    }
+}

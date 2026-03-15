@@ -5,13 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import gadget.basic.arch.GadgetFragment
+import gadget.component.main.internal.databinding.DrawerFragmentBinding
+import kotlin.math.absoluteValue
 
 class DrawerFragment : GadgetFragment() {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return View(requireContext()).also { v ->
-            v.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-            v.setBackgroundColor(0xFFFF0000.toInt())
+    private val viewBinding: DrawerFragmentBinding by lazy(LazyThreadSafetyMode.NONE) {
+        DrawerFragmentBinding.inflate(layoutInflater).also { binding ->
+            binding.appBarLayout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
+                val percent = verticalOffset.absoluteValue.toFloat() / appBarLayout.totalScrollRange.toFloat()
+                binding.userLayout.alpha = percent
+                binding.photoLayout.alpha = 1F - percent
+                binding.vBackgroundMask.alpha = 1F - percent
+            }
         }
     }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View = viewBinding.root
 }
