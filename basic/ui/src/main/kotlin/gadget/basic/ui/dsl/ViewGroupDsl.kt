@@ -12,11 +12,6 @@ class MarginLayoutParams<V : View>(
     initializer, ViewGroup.MarginLayoutParams(size.first, size.second),
 )
 
-fun <L : ViewGroup, V : View> L.LayoutParmas(
-    size: Pair<Int, Int> = WRAP_CONTENT to WRAP_CONTENT,
-    initializer: (@DslScope ViewGroup.MarginLayoutParams).(V) -> Unit = {},
-): MarginLayoutParams<V> = MarginLayoutParams(size, initializer)
-
 inline fun <V : View> V.marginLayoutParams(
     lambda: (@DslScope ViewGroup.MarginLayoutParams).(ViewGroup.MarginLayoutParams) -> Unit = {},
 ): ViewGroup.MarginLayoutParams {

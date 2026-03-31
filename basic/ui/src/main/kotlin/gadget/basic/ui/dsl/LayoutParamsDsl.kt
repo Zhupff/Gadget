@@ -14,4 +14,11 @@ open class LayoutParamsDsl<P : ViewGroup.LayoutParams, V : View>(
             view.layoutParams = this.layoutParams
         }
     }
+
+    fun init(parent: ViewGroup, view: V) {
+        if (view.layoutParams !== this.layoutParams) {
+            initializer(this.layoutParams, view)
+            parent.addView(view, this.layoutParams)
+        }
+    }
 }

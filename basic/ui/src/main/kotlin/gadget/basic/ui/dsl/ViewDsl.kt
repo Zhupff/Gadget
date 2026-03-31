@@ -5,10 +5,16 @@ import android.view.View
 import android.view.ViewGroup
 import gadget.basic.annotation.DslScope
 
-fun <V : View> V.ensureViewId() {
-    if (this.id == View.NO_ID) {
-        this.id = View.generateViewId()
-    }
+object ViewId {
+    operator fun component1(): Int = View.generateViewId()
+    operator fun component2(): Int = View.generateViewId()
+    operator fun component3(): Int = View.generateViewId()
+    operator fun component4(): Int = View.generateViewId()
+    operator fun component5(): Int = View.generateViewId()
+    operator fun component6(): Int = View.generateViewId()
+    operator fun component7(): Int = View.generateViewId()
+    operator fun component8(): Int = View.generateViewId()
+    operator fun component9(): Int = View.generateViewId()
 }
 
 inline fun View(
@@ -18,15 +24,12 @@ inline fun View(
 ): View = View(context).apply {
     params.init(this)
     lambda(this, this)
-    ensureViewId()
 }
 
 inline fun <L : ViewGroup> L.View(
     params: LayoutParamsDsl<*, View>,
     lambda: (@DslScope View).(View) -> Unit = {},
 ): View = View(context).also {
-    params.init(it)
+    params.init(this, it)
     lambda(it, it)
-    addView(it)
-    it.ensureViewId()
 }

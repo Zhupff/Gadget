@@ -16,15 +16,12 @@ inline fun ImageView(
 ): IMAGE_VIEW = IMAGE_VIEW(context).apply {
     params.init(this)
     lambda(this, this)
-    ensureViewId()
 }
 
 inline fun <L : ViewGroup> L.ImageView(
     params: LayoutParamsDsl<*, IMAGE_VIEW>,
     lambda: (@DslScope IMAGE_VIEW).(IMAGE_VIEW) -> Unit = {},
 ): IMAGE_VIEW = IMAGE_VIEW(context).also {
-    params.init(it)
-    addView(it)
+    params.init(this, it)
     lambda(it, it)
-    it.ensureViewId()
 }

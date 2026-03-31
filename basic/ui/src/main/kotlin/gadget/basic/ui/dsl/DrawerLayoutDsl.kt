@@ -12,13 +12,8 @@ class DrawerLayoutParams<V : View>(
     initializer, DrawerLayout.LayoutParams(size.first, size.second),
 )
 
-fun <L : DrawerLayout, V : View> L.LayoutParmas(
-    size: Pair<Int, Int> = WRAP_CONTENT to WRAP_CONTENT,
-    initializer: (@DslScope DrawerLayout.LayoutParams).(V) -> Unit = {},
-): DrawerLayoutParams<V> = DrawerLayoutParams(size, initializer)
-
 inline fun <V : View> V.drawerLayoutParams(
-    lambda: (@DslScope DrawerLayout.LayoutParams).(DrawerLayout.LayoutParams) -> Unit,
+    lambda: (@DslScope DrawerLayout.LayoutParams).(DrawerLayout.LayoutParams) -> Unit = {},
 ): DrawerLayout.LayoutParams {
     val lp = this.layoutParams?.let {
         it as? DrawerLayout.LayoutParams ?: DrawerLayout.LayoutParams(it)

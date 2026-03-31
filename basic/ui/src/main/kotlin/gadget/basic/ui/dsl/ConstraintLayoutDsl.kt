@@ -14,17 +14,14 @@ inline fun ConstraintLayout(
 ): ConstraintLayout = ConstraintLayout(context).apply {
     params.init(this)
     lambda(this, this)
-    ensureViewId()
 }
 
 inline fun <L : ViewGroup> L.ConstraintLayout(
     params: LayoutParamsDsl<*, ConstraintLayout>,
     lambda: (@DslScope ConstraintLayout).(ConstraintLayout) -> Unit = {},
 ): ConstraintLayout = ConstraintLayout(context).also {
-    params.init(it)
-    addView(it)
+    params.init(this, it)
     lambda(it, it)
-    it.ensureViewId()
 }
 
 class ConstraintLayoutParams<V : View>(
@@ -34,19 +31,44 @@ class ConstraintLayoutParams<V : View>(
     initializer, ConstraintLayout.LayoutParams(size.first, size.second),
 )
 
-fun <L : ConstraintLayout, V : View> L.LayoutParams(
-    size: Pair<Int, Int> = MATCH_CONSTRAINT to MATCH_CONSTRAINT,
-    initializer: (@DslScope ConstraintLayout.LayoutParams).(V) -> Unit = {},
-): ConstraintLayoutParams<V> = ConstraintLayoutParams(size, initializer)
-
 inline fun <V : View> V.constraintLayoutParams(
-    lambda: (@DslScope ConstraintLayout.LayoutParams).(ConstraintLayout.LayoutParams) -> Unit,
+    lambda: (@DslScope ConstraintLayout.LayoutParams).(ConstraintLayout.LayoutParams) -> Unit = {},
 ): ConstraintLayout.LayoutParams {
     val lp = this.layoutParams?.let {
         it as? ConstraintLayout.LayoutParams ?: ConstraintLayout.LayoutParams(it)
     } ?: ConstraintLayout.LayoutParams(context, null)
     lambda(lp, lp)
     return lp
+}
+
+fun <P : ConstraintLayout.LayoutParams> P.unsetLeft() {
+    leftToLeft = ConstraintLayout.LayoutParams.UNSET
+    leftToRight = ConstraintLayout.LayoutParams.UNSET
+}
+
+fun <P : ConstraintLayout.LayoutParams> P.unsetRight() {
+    rightToLeft = ConstraintLayout.LayoutParams.UNSET
+    rightToRight = ConstraintLayout.LayoutParams.UNSET
+}
+
+fun <P : ConstraintLayout.LayoutParams> P.unsetTop() {
+    topToTop = ConstraintLayout.LayoutParams.UNSET
+    topToBottom = ConstraintLayout.LayoutParams.UNSET
+}
+
+fun <P : ConstraintLayout.LayoutParams> P.unsetBottom() {
+    bottomToTop = ConstraintLayout.LayoutParams.UNSET
+    bottomToBottom = ConstraintLayout.LayoutParams.UNSET
+}
+
+fun <P : ConstraintLayout.LayoutParams> P.unsetHorizontally() {
+    unsetLeft()
+    unsetRight()
+}
+
+fun <P : ConstraintLayout.LayoutParams> P.unsetVertically() {
+    unsetTop()
+    unsetBottom()
 }
 
 fun <P : ConstraintLayout.LayoutParams> P.leftToLeftOfParent() {
@@ -84,57 +106,57 @@ fun <P : ConstraintLayout.LayoutParams> P.centerOfParent() {
     verticallyCenterOfParent()
 }
 
-fun <P : ConstraintLayout.LayoutParams> P.leftToLeftOf(view: View) {
-    leftToLeft = view.id
+fun <P : ConstraintLayout.LayoutParams> P.leftToLeftOf(id: Int) {
+    leftToLeft = id
     leftToRight = ConstraintLayout.LayoutParams.UNSET
 }
 
-fun <P : ConstraintLayout.LayoutParams> P.leftToRightOf(view: View) {
-    leftToRight = view.id
+fun <P : ConstraintLayout.LayoutParams> P.leftToRightOf(id: Int) {
+    leftToRight = id
     leftToLeft = ConstraintLayout.LayoutParams.UNSET
 }
 
-fun <P : ConstraintLayout.LayoutParams> P.rightToRightOf(view: View) {
-    rightToRight = view.id
+fun <P : ConstraintLayout.LayoutParams> P.rightToRightOf(id: Int) {
+    rightToRight = id
     rightToLeft = ConstraintLayout.LayoutParams.UNSET
 }
 
-fun <P : ConstraintLayout.LayoutParams> P.rightToLeftOf(view: View) {
-    rightToLeft = view.id
+fun <P : ConstraintLayout.LayoutParams> P.rightToLeftOf(id: Int) {
+    rightToLeft = id
     rightToRight = ConstraintLayout.LayoutParams.UNSET
 }
 
-fun <P : ConstraintLayout.LayoutParams> P.topToTopOf(view: View) {
-    topToTop = view.id
+fun <P : ConstraintLayout.LayoutParams> P.topToTopOf(id: Int) {
+    topToTop = id
     topToBottom = ConstraintLayout.LayoutParams.UNSET
 }
 
-fun <P : ConstraintLayout.LayoutParams> P.topToBottomOf(view: View) {
-    topToBottom = view.id
+fun <P : ConstraintLayout.LayoutParams> P.topToBottomOf(id: Int) {
+    topToBottom = id
     topToTop = ConstraintLayout.LayoutParams.UNSET
 }
 
-fun <P : ConstraintLayout.LayoutParams> P.bottomToBottomOf(view: View) {
-    bottomToBottom = view.id
+fun <P : ConstraintLayout.LayoutParams> P.bottomToBottomOf(id: Int) {
+    bottomToBottom = id
     bottomToTop = ConstraintLayout.LayoutParams.UNSET
 }
 
-fun <P : ConstraintLayout.LayoutParams> P.bottomToTopOf(view: View) {
-    bottomToTop = view.id
+fun <P : ConstraintLayout.LayoutParams> P.bottomToTopOf(id: Int) {
+    bottomToTop = id
     bottomToBottom = ConstraintLayout.LayoutParams.UNSET
 }
 
-fun <P : ConstraintLayout.LayoutParams> P.horizontallyCenterOf(view: View) {
-    leftToLeftOf(view)
-    rightToRightOf(view)
+fun <P : ConstraintLayout.LayoutParams> P.horizontallyCenterOf(id: Int) {
+    leftToLeftOf(id)
+    rightToRightOf(id)
 }
 
-fun <P : ConstraintLayout.LayoutParams> P.verticallyCenterOf(view: View) {
-    topToTopOf(view)
-    bottomToBottomOf(view)
+fun <P : ConstraintLayout.LayoutParams> P.verticallyCenterOf(id: Int) {
+    topToTopOf(id)
+    bottomToBottomOf(id)
 }
 
-fun <P : ConstraintLayout.LayoutParams> P.centerOf(view: View) {
-    horizontallyCenterOf(view)
-    verticallyCenterOf(view)
+fun <P : ConstraintLayout.LayoutParams> P.centerOf(id: Int) {
+    horizontallyCenterOf(id)
+    verticallyCenterOf(id)
 }
