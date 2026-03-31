@@ -22,8 +22,8 @@ inline fun <L : ViewGroup> L.ConstraintLayout(
     lambda: (@DslScope ConstraintLayout).(ConstraintLayout) -> Unit = {},
 ): ConstraintLayout = ConstraintLayout(context).also {
     params.init(it)
-    lambda(it, it)
     addView(it)
+    lambda(it, it)
     it.ensureViewId()
 }
 

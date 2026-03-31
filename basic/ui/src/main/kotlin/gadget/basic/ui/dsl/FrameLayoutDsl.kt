@@ -22,8 +22,8 @@ inline fun <L : ViewGroup> L.FrameLayout(
     lambda: (@DslScope FrameLayout).(FrameLayout) -> Unit = {},
 ): FrameLayout = FrameLayout(context).also {
     params.init(it)
-    lambda(it, it)
     addView(it)
+    lambda(it, it)
     it.ensureViewId()
 }
 
