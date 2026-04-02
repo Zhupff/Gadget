@@ -10,8 +10,14 @@ fun Number.dp(resources: Resources = Gadget.application.resources): Float =
 fun Number.sp(resources: Resources = Gadget.application.resources): Float =
     TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, this.toFloat(), resources.displayMetrics)
 
-val Number.dp: Float
+val Float.dp: Float
     get() = this.dp()
 
-val Number.sp: Float
+val Float.sp: Float
     get() = this.sp()
+
+val Int.dp: Int
+    get() = this.dp().toInt()
+
+val Int.sp: Int
+    get() = this.sp().toInt()
