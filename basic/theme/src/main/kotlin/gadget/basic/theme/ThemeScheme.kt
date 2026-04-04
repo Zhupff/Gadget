@@ -4,9 +4,7 @@ import android.view.View
 import androidx.lifecycle.LiveData
 import gadget.basic.annotation.DslScope
 
-interface Theme {
-
-    val id: String
+interface ThemeScheme {
     
     val primaryColor: Int
     
@@ -25,10 +23,15 @@ interface Theme {
     val onErrorColor: Int
 }
 
-fun View.theme(lambda: (@DslScope Theme).() -> Unit) {
+fun View.theme(
+    lambda: (@DslScope ThemeScheme).() -> Unit,
+) {
     ThemeSubscriber.get(this).subscribe(action = lambda)
 }
 
-fun View.subscribeTheme(observable: LiveData<out Theme>?, lambda: (@DslScope Theme).() -> Unit = {}) {
+fun View.subscribeTheme(
+    observable: LiveData<out ThemeScheme>?,
+    lambda: (@DslScope ThemeScheme).() -> Unit = {},
+) {
     ThemeSubscriber.get(this).subscribe(observable, lambda)
 }

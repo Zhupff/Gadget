@@ -12,7 +12,9 @@ import java.util.LinkedList
 
 internal class ThemeSubscriber private constructor(
     view: View,
-) : WeakReference<View>(view), View.OnAttachStateChangeListener, Observer<Theme> {
+) : WeakReference<View>(view),
+    View.OnAttachStateChangeListener,
+    Observer<ThemeScheme> {
 
     companion object {
         fun get(view: View): ThemeSubscriber {
@@ -21,7 +23,7 @@ internal class ThemeSubscriber private constructor(
         fun getOrNull(view: View): ThemeSubscriber? {
             return view.getTag(R.id.ThemeSubscriber) as? ThemeSubscriber
         }
-        private val NO_ACTION: (Theme) -> Unit = {}
+        private val NO_ACTION: (ThemeScheme) -> Unit = {}
     }
 
     init {
@@ -32,13 +34,16 @@ internal class ThemeSubscriber private constructor(
         }
     }
 
-    private var observable: LiveData<out Theme>? = null
+    private var observable: LiveData<out ThemeScheme>? = null
 
-    private var current: Theme? = null
+    private var current: ThemeScheme? = null
 
-    private var action: (Theme) -> Unit = NO_ACTION
+    private var action: (ThemeScheme) -> Unit = NO_ACTION
 
-    fun subscribe(observable: LiveData<out Theme>? = this.observable, action: (Theme) -> Unit = {}) {
+    fun subscribe(
+        observable: LiveData<out ThemeScheme>? = this.observable,
+        action: (ThemeScheme) -> Unit = {},
+    ) {
         this.action = action
         if (this.observable !== observable) {
             this.observable?.removeObserver(this)
@@ -57,32 +62,31 @@ internal class ThemeSubscriber private constructor(
         if (this.observable != null) {
             return
         }
-        var theme: Theme? = null
+        var scheme: ThemeScheme? = null
         var parent = target.parent
         while (parent is View) {
-            theme = getOrNull(parent)?.current
-            if (theme != null) {
+            scheme = getOrNull(parent)?.current
+            if (scheme != null) {
                 break
             } else {
                 parent = parent.parent
             }
         }
-        if (theme != null) {
-            onChanged(theme)
+        if (scheme != null) {
+            onChanged(scheme)
         } else {
-            IllegalStateException("Theme not found!").throws()
+            IllegalStateException("ThemeScheme not found!").throws()
         }
     }
 
     override fun onViewDetachedFromWindow(view: View) {}
 
-    override fun onChanged(value: Theme) {
+    override fun onChanged(value: ThemeScheme) {
         if (this.current === value || get() == null) {
             return
         }
         this.current = value
         this.current?.let(this.action)
-        println("@@@ onChanged ${get()}")
         if (observable != null) {
             val queue = LinkedList<ThemeSubscriber>()
             (get() as? ViewGroup)?.children?.forEach { child ->

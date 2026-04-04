@@ -4,8 +4,7 @@ import androidx.lifecycle.MutableLiveData
 
 object ThemeManager {
 
-    object Light : Theme {
-        override val id: String = "light"
+    object Light : ThemeScheme {
         override val primaryColor: Int = 0xFF445E91.toInt()
         override val onPrimaryColor: Int = 0xFFFFFFFF.toInt()
         override val backgroundColor: Int = 0xFFFFFFFF.toInt()
@@ -16,8 +15,7 @@ object ThemeManager {
         override val onErrorColor: Int = 0xFFFFFFFF.toInt()
     }
 
-    object Night : Theme {
-        override val id: String = "night"
+    object Night : ThemeScheme {
         override val primaryColor: Int = 0xFFADC6FF.toInt()
         override val onPrimaryColor: Int = 0xFF102F60.toInt()
         override val backgroundColor: Int = 0xFF0C0E13.toInt()
@@ -28,7 +26,7 @@ object ThemeManager {
         override val onErrorColor: Int = 0xFF690005.toInt()
     }
 
-    val observable = MutableLiveData<Theme>(Light)
+    val observable = MutableLiveData<ThemeScheme>(Light)
 
     fun switch() {
         if (observable.value === Light) {
