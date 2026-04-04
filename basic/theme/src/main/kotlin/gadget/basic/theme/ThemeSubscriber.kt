@@ -38,7 +38,7 @@ internal class ThemeSubscriber private constructor(
 
     private var action: (Theme) -> Unit = NO_ACTION
 
-    fun subscribe(observable: LiveData<out Theme>?, action: (Theme) -> Unit = {}) {
+    fun subscribe(observable: LiveData<out Theme>? = this.observable, action: (Theme) -> Unit = {}) {
         this.action = action
         if (this.observable !== observable) {
             this.observable?.removeObserver(this)
@@ -82,6 +82,7 @@ internal class ThemeSubscriber private constructor(
         }
         this.current = value
         this.current?.let(this.action)
+        println("@@@ onChanged ${get()}")
         if (observable != null) {
             val queue = LinkedList<ThemeSubscriber>()
             (get() as? ViewGroup)?.children?.forEach { child ->

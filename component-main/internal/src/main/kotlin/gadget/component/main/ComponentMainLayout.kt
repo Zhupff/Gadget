@@ -8,6 +8,7 @@ import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.MATCH_CONS
 import androidx.drawerlayout.widget.DrawerLayout
 import gadget.basic.annotation.DslScope
 import gadget.basic.theme.ThemeManager
+import gadget.basic.theme.subscribeTheme
 import gadget.basic.theme.theme
 import gadget.basic.tool.dp
 import gadget.basic.ui.dsl.ConstraintLayout
@@ -43,8 +44,7 @@ class ComponentMainLayout(context: Context) : DrawerLayout(context) {
 
     private val contentContainer =
         ConstraintLayout(DrawerLayoutParams(MATCH_PARENT to MATCH_PARENT) {
-            it.theme(ThemeManager.observable) {
-            }
+            it.subscribeTheme(ThemeManager.observable)
         }) {
             val (_sideContainer, _divider, _mainContainer) = ViewId
 
@@ -72,6 +72,9 @@ class ComponentMainLayout(context: Context) : DrawerLayout(context) {
                 bottomToBottomOfParent()
                 divider.id = _divider
                 divider.alpha = 0.618F
+                divider.theme {
+                    divider.setBackgroundColor(backgroundColor)
+                }
             })
 
             this@ComponentMainLayout.mainContainer = FrameLayout(ConstraintLayoutParams { mainContainer ->

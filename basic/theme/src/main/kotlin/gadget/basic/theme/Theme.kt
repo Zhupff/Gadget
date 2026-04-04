@@ -25,6 +25,10 @@ interface Theme {
     val onErrorColor: Int
 }
 
-fun View.theme(observable: LiveData<out Theme>? = null, lambda: (@DslScope Theme).() -> Unit) {
+fun View.theme(lambda: (@DslScope Theme).() -> Unit) {
+    ThemeSubscriber.get(this).subscribe(action = lambda)
+}
+
+fun View.subscribeTheme(observable: LiveData<out Theme>?, lambda: (@DslScope Theme).() -> Unit = {}) {
     ThemeSubscriber.get(this).subscribe(observable, lambda)
 }
