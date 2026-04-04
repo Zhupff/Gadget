@@ -12,7 +12,7 @@ class DrawerLayoutParams<V : View>(
     initializer, DrawerLayout.LayoutParams(size.first, size.second),
 )
 
-inline fun <V : View> V.drawerLayoutParams(
+inline fun View.drawerLayoutParams(
     lambda: (@DslScope DrawerLayout.LayoutParams).(DrawerLayout.LayoutParams) -> Unit = {},
 ): DrawerLayout.LayoutParams {
     val lp = this.layoutParams?.let {

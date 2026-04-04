@@ -26,7 +26,7 @@ inline fun View(
     lambda(this, this)
 }
 
-inline fun <L : ViewGroup> L.View(
+inline fun ViewGroup.View(
     params: LayoutParamsDsl<*, View>,
     lambda: (@DslScope View).(View) -> Unit = {},
 ): View = View(context).also {

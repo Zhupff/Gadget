@@ -16,7 +16,7 @@ inline fun FrameLayout(
     lambda(this, this)
 }
 
-inline fun <L : ViewGroup> L.FrameLayout(
+inline fun ViewGroup.FrameLayout(
     params: LayoutParamsDsl<*, FrameLayout>,
     lambda: (@DslScope FrameLayout).(FrameLayout) -> Unit = {},
 ): FrameLayout = FrameLayout(context).also {
@@ -31,7 +31,7 @@ class FrameLayoutParams<V : View>(
     initializer, FrameLayout.LayoutParams(size.first, size.second),
 )
 
-inline fun <V : View> V.frameLayoutParams(
+inline fun View.frameLayoutParams(
     lambda: (@DslScope FrameLayout.LayoutParams).(FrameLayout.LayoutParams) -> Unit = {},
 ): FrameLayout.LayoutParams {
     val lp = this.layoutParams?.let {

@@ -12,7 +12,7 @@ class MarginLayoutParams<V : View>(
     initializer, ViewGroup.MarginLayoutParams(size.first, size.second),
 )
 
-inline fun <V : View> V.marginLayoutParams(
+inline fun View.marginLayoutParams(
     lambda: (@DslScope ViewGroup.MarginLayoutParams).(ViewGroup.MarginLayoutParams) -> Unit = {},
 ): ViewGroup.MarginLayoutParams {
     val lp = this.layoutParams?.let {

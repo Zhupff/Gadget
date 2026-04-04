@@ -18,7 +18,7 @@ inline fun ImageView(
     lambda(this, this)
 }
 
-inline fun <L : ViewGroup> L.ImageView(
+inline fun ViewGroup.ImageView(
     params: LayoutParamsDsl<*, IMAGE_VIEW>,
     lambda: (@DslScope IMAGE_VIEW).(IMAGE_VIEW) -> Unit = {},
 ): IMAGE_VIEW = IMAGE_VIEW(context).also {

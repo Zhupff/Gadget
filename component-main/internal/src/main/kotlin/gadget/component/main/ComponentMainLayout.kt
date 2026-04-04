@@ -42,56 +42,55 @@ class ComponentMainLayout(context: Context) : DrawerLayout(context) {
     lateinit var mainContainer: FrameLayout
         private set
 
-    private val contentContainer =
-        ConstraintLayout(DrawerLayoutParams(MATCH_PARENT to MATCH_PARENT) {
-            it.subscribeTheme(ThemeManager.observable)
+    private val contentContainer = ConstraintLayout(DrawerLayoutParams(MATCH_PARENT to MATCH_PARENT) {
+        it.subscribeTheme(ThemeManager.observable)
+    }) {
+        val (_sideContainer, _divider, _mainContainer) = ViewId
+
+        this@ComponentMainLayout.sideContainer = FrameLayout(ConstraintLayoutParams { sideContainer ->
+            leftToLeftOfParent()
+            rightToLeftOf(_divider)
+            topToTopOfParent()
+            bottomToBottomOfParent()
+            horizontalWeight = 618F
+            horizontalChainStyle = ConstraintLayout.LayoutParams.CHAIN_PACKED
+            sideContainer.id = _sideContainer
+            sideContainer.theme {
+                sideContainer.setBackgroundColor(primaryColor)
+            }
         }) {
-            val (_sideContainer, _divider, _mainContainer) = ViewId
-
-            this@ComponentMainLayout.sideContainer = FrameLayout(ConstraintLayoutParams { sideContainer ->
-                leftToLeftOfParent()
-                rightToLeftOf(_divider)
-                topToTopOfParent()
-                bottomToBottomOfParent()
-                horizontalWeight = 618F
-                horizontalChainStyle = ConstraintLayout.LayoutParams.CHAIN_PACKED
-                sideContainer.id = _sideContainer
-                sideContainer.theme {
-                    sideContainer.setBackgroundColor(primaryColor)
-                }
-            }) {
-                setOnClickListener {
-                    ThemeManager.switch()
-                }
-            }
-
-            View(ConstraintLayoutParams(1.dp to MATCH_CONSTRAINT) { divider ->
-                leftToRightOf(_sideContainer)
-                rightToLeftOf(_mainContainer)
-                topToTopOfParent()
-                bottomToBottomOfParent()
-                divider.id = _divider
-                divider.alpha = 0.618F
-                divider.theme {
-                    divider.setBackgroundColor(backgroundColor)
-                }
-            })
-
-            this@ComponentMainLayout.mainContainer = FrameLayout(ConstraintLayoutParams { mainContainer ->
-                leftToRightOf(_divider)
-                rightToRightOfParent()
-                topToTopOfParent()
-                bottomToBottomOfParent()
-                horizontalWeight = 1000F
-                horizontalChainStyle = ConstraintLayout.LayoutParams.CHAIN_PACKED
-                mainContainer.id = _mainContainer
-                mainContainer.theme {
-                    mainContainer.setBackgroundColor(errorColor)
-                }
-            }) {
-            }
-
-            onLayout { l1, t1, r1, b1, l2, t2, r2, b2 ->
+            setOnClickListener {
+                ThemeManager.switch()
             }
         }
+
+        View(ConstraintLayoutParams(1.dp to MATCH_CONSTRAINT) { divider ->
+            leftToRightOf(_sideContainer)
+            rightToLeftOf(_mainContainer)
+            topToTopOfParent()
+            bottomToBottomOfParent()
+            divider.id = _divider
+            divider.alpha = 0.618F
+            divider.theme {
+                divider.setBackgroundColor(backgroundColor)
+            }
+        })
+
+        this@ComponentMainLayout.mainContainer = FrameLayout(ConstraintLayoutParams { mainContainer ->
+            leftToRightOf(_divider)
+            rightToRightOfParent()
+            topToTopOfParent()
+            bottomToBottomOfParent()
+            horizontalWeight = 1000F
+            horizontalChainStyle = ConstraintLayout.LayoutParams.CHAIN_PACKED
+            mainContainer.id = _mainContainer
+            mainContainer.theme {
+                mainContainer.setBackgroundColor(errorColor)
+            }
+        }) {
+        }
+
+        onLayout { l1, t1, r1, b1, l2, t2, r2, b2 ->
+        }
+    }
 }
