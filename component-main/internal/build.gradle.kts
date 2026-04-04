@@ -11,6 +11,7 @@ gadget {
 
 dependencies {
     implementation(project(":basic"))
+    implementation(project(":basic:annotation"))
     implementation(project(":basic:theme"))
     implementation(project(":basic:ui"))
     implementation(project(":component-main:external"))

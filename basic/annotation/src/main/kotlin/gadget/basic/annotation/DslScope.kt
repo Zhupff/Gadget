@@ -1,5 +1,5 @@
 package gadget.basic.annotation
 
 @DslMarker
-@Target(AnnotationTarget.TYPE)
+@Target(AnnotationTarget.CLASS, AnnotationTarget.TYPE)
 annotation class DslScope

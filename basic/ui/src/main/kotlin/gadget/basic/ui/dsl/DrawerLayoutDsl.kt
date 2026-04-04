@@ -17,7 +17,7 @@ inline fun <V : View> V.drawerLayoutParams(
 ): DrawerLayout.LayoutParams {
     val lp = this.layoutParams?.let {
         it as? DrawerLayout.LayoutParams ?: DrawerLayout.LayoutParams(it)
-    } ?: DrawerLayout.LayoutParams(context, null)
+    } ?: DrawerLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT)
     lambda(lp, lp)
     return lp
 }

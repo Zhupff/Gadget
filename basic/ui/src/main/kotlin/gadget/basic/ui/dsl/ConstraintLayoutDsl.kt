@@ -36,7 +36,7 @@ inline fun <V : View> V.constraintLayoutParams(
 ): ConstraintLayout.LayoutParams {
     val lp = this.layoutParams?.let {
         it as? ConstraintLayout.LayoutParams ?: ConstraintLayout.LayoutParams(it)
-    } ?: ConstraintLayout.LayoutParams(context, null)
+    } ?: ConstraintLayout.LayoutParams(MATCH_CONSTRAINT, MATCH_CONSTRAINT)
     lambda(lp, lp)
     return lp
 }

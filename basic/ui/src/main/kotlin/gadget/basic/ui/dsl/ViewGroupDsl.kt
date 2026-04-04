@@ -17,7 +17,7 @@ inline fun <V : View> V.marginLayoutParams(
 ): ViewGroup.MarginLayoutParams {
     val lp = this.layoutParams?.let {
         it as? ViewGroup.MarginLayoutParams ?: ViewGroup.MarginLayoutParams(it)
-    } ?: ViewGroup.MarginLayoutParams(context, null)
+    } ?: ViewGroup.MarginLayoutParams(WRAP_CONTENT, WRAP_CONTENT)
     lambda(lp, lp)
     return lp
 }

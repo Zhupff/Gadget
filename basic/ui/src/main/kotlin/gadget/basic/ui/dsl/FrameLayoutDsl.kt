@@ -36,7 +36,7 @@ inline fun <V : View> V.frameLayoutParams(
 ): FrameLayout.LayoutParams {
     val lp = this.layoutParams?.let {
         it as? FrameLayout.LayoutParams ?: FrameLayout.LayoutParams(it)
-    } ?: FrameLayout.LayoutParams(context, null)
+    } ?: FrameLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT)
     lambda(lp, lp)
     return lp
 }
