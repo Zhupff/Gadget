@@ -138,17 +138,9 @@ fun ConstraintLayout.LayoutParams.bottomToTopOf(id: Int) {
     bottomToBottom = ConstraintLayout.LayoutParams.UNSET
 }
 
-fun ConstraintLayout.LayoutParams.horizontallyCenterOf(id: Int) {
+fun ConstraintLayout.LayoutParams.centerOf(id: Int) {
     leftToLeftOf(id)
     rightToRightOf(id)
-}
-
-fun ConstraintLayout.LayoutParams.verticallyCenterOf(id: Int) {
     topToTopOf(id)
     bottomToBottomOf(id)
-}
-
-fun ConstraintLayout.LayoutParams.centerOf(id: Int) {
-    horizontallyCenterOf(id)
-    verticallyCenterOf(id)
 }
