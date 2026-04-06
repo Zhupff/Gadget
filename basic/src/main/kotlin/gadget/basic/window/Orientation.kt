@@ -10,16 +10,5 @@ interface Orientation {
     /**
      * 横屏
      */
-    interface Landscape {
-
-        /**
-         * 设备顶部朝向左侧
-         */
-        interface L : Landscape
-
-        /**
-         * 设备顶部朝向右侧
-         */
-        interface R : Landscape
-    }
+    interface Landscape
 }

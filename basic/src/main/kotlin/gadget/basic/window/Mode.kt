@@ -10,5 +10,5 @@ interface Mode {
     /**
      * 长边 : 短边 <= 4 : 3
      */
-    interface Pad
+    interface Tablet
 }
