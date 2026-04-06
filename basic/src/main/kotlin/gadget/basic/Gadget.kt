@@ -51,7 +51,7 @@ open class Gadget : Application(), Loggable {
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        configuration.mutable().value = resources.configuration
+        configuration.mutable().value = newConfig
     }
 
     object AppLifecycle : LifecycleOwner, ActivityLifecycleCallbacks, Loggable {
