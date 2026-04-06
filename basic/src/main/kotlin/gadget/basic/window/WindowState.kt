@@ -1,5 +1,6 @@
 package gadget.basic.window
 
+import android.content.res.Configuration
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -21,14 +22,10 @@ sealed class WindowState(
 
         fun init() {
             if (once.compareAndSet(false, true)) {
-                Gadget.AppLifecycle.observe(Gadget.AppLifecycle, object : Observer<Gadget.AppLifecycle.State> {
-                    override fun onChanged(value: Gadget.AppLifecycle.State) {
-                        if (value !is Gadget.AppLifecycle.State.OnAppConfigurationChanged) {
-                            return
-                        }
-                        val configuration = value.newConfiguration
-                        val width = configuration.screenWidthDp.dp
-                        val height = configuration.screenHeightDp.dp
+                Gadget.configuration.observe(Gadget.AppLifecycle, object : Observer<Configuration> {
+                    override fun onChanged(value: Configuration) {
+                        val width = value.screenWidthDp.dp
+                        val height = value.screenHeightDp.dp
                         val oldState = observable.value
                         if (oldState != null && oldState.width == width && oldState.height == height) {
                             return

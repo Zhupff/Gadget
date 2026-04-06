@@ -2,7 +2,8 @@ package gadget.basic.logger
 
 import android.system.Os
 import android.util.Log
-import androidx.lifecycle.Observer
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import gadget.basic.Gadget
 import gadget.basic.exception.throws
 import gadget.basic.tool.DateTime
@@ -21,7 +22,7 @@ import java.io.FileWriter
 import java.io.PrintWriter
 import java.util.concurrent.atomic.AtomicLong
 
-internal object FilePrinter : Logger.Printer, Observer<Gadget.AppLifecycle.State>, Mutex by Mutex() {
+internal object FilePrinter : Logger.Printer, DefaultLifecycleObserver, Mutex by Mutex() {
 
     /** 日志存放目录 */
     private val logDir = Gadget.application.filesDir.resolve("_LOG_").also(File::mkdirs)
@@ -54,7 +55,7 @@ internal object FilePrinter : Logger.Printer, Observer<Gadget.AppLifecycle.State
                 }
             }
             withContext(Dispatchers.Main) {
-                Gadget.AppLifecycle.observe(Gadget.AppLifecycle, this@FilePrinter)
+                Gadget.AppLifecycle.lifecycle.addObserver(this@FilePrinter)
             }
             while (true) {
                 loggable.receive().invoke()
@@ -108,17 +109,11 @@ internal object FilePrinter : Logger.Printer, Observer<Gadget.AppLifecycle.State
         }
     }
 
-    override fun onChanged(value: Gadget.AppLifecycle.State) {
-        when (value) {
-            is Gadget.AppLifecycle.State.OnAppBackground -> {
-                flushFlag = true
-            }
-            is Gadget.AppLifecycle.State.OnAppDestroyed -> {
-                releaseFlag = true
-            }
-            else -> {
-                // ignore
-            }
-        }
+    override fun onStop(owner: LifecycleOwner) {
+        flushFlag = true
+    }
+
+    override fun onDestroy(owner: LifecycleOwner) {
+        releaseFlag = true
     }
 }

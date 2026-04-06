@@ -1,5 +1,6 @@
 package gadget.basic
 
+import android.R.attr.value
 import android.app.Activity
 import android.app.ActivityManager
 import android.app.Application
@@ -11,9 +12,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import gadget.basic.logger.Loggable
 import gadget.basic.logger.logI
 import gadget.basic.logger.loggable
+import gadget.basic.tool.mutable
 
 open class Gadget : Application(), Loggable {
 
@@ -24,6 +27,8 @@ open class Gadget : Application(), Loggable {
         val debuggable: Boolean by lazy {
             (application.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0
         }
+
+        val configuration: LiveData<Configuration> = MutableLiveData()
     }
 
     override val loggable: String = loggable(true)
@@ -35,21 +40,21 @@ open class Gadget : Application(), Loggable {
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
         logI { "attachBaseContext(${base})" }
+        registerActivityLifecycleCallbacks(AppLifecycle)
     }
 
     override fun onCreate() {
         super.onCreate()
         logI { "onCreate" }
+        configuration.mutable().value = resources.configuration
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        AppLifecycle.onConfigurationChanged(newConfig)
+        configuration.mutable().value = resources.configuration
     }
 
-    object AppLifecycle : LiveData<AppLifecycle.State>(),
-        LifecycleOwner, ActivityLifecycleCallbacks,
-        Loggable {
+    object AppLifecycle : LifecycleOwner, ActivityLifecycleCallbacks, Loggable {
 
         override val loggable: String = loggable(true)
 
@@ -69,7 +74,6 @@ open class Gadget : Application(), Loggable {
             if (0 == startedActivities++) {
                 logI { "onAppForeground" }
                 (lifecycle as LifecycleRegistry).handleLifecycleEvent(Lifecycle.Event.ON_START)
-                value = State.OnAppForeground
             }
         }
 
@@ -89,7 +93,6 @@ open class Gadget : Application(), Loggable {
             if (0 == --startedActivities) {
                 logI { "onAppBackground" }
                 (lifecycle as LifecycleRegistry).handleLifecycleEvent(Lifecycle.Event.ON_STOP)
-                value = State.OnAppBackground
             }
         }
 
@@ -97,23 +100,10 @@ open class Gadget : Application(), Loggable {
             if (0 == --createdActivities) {
                 logI { "onAppDestroyed" }
                 (lifecycle as LifecycleRegistry).handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-                value = State.OnAppDestroyed
             }
         }
 
         override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
-        }
-
-        fun onConfigurationChanged(newConfiguration: Configuration) {
-            logI { "onAppConfigurationChanged(${newConfiguration})" }
-            value = State.OnAppConfigurationChanged(newConfiguration)
-        }
-
-        sealed class State {
-            object OnAppForeground : State()
-            object OnAppBackground : State()
-            object OnAppDestroyed : State()
-            class OnAppConfigurationChanged(val newConfiguration: Configuration) : State()
         }
     }
 
