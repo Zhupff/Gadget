@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.MATCH_CONSTRAINT
+import androidx.constraintlayout.widget.Group
 import gadget.basic.annotation.DslScope
 
 inline fun ConstraintLayout(
@@ -22,6 +23,10 @@ inline fun ViewGroup.ConstraintLayout(
 ): ConstraintLayout = ConstraintLayout(context).also {
     params.init(this, it)
     lambda(it, it)
+}
+
+fun ConstraintLayout.group(vararg ids: Int): Group = Group(context).also {
+    it.referencedIds = ids
 }
 
 class ConstraintLayoutParams<V : View>(
