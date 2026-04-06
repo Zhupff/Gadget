@@ -17,6 +17,7 @@ import gadget.basic.logger.Loggable
 import gadget.basic.logger.logI
 import gadget.basic.logger.loggable
 import gadget.basic.tool.mutable
+import gadget.basic.window.WindowState
 
 open class Gadget : Application(), Loggable {
 
@@ -47,6 +48,7 @@ open class Gadget : Application(), Loggable {
         super.onCreate()
         logI { "onCreate" }
         configuration.mutable().value = resources.configuration
+        WindowState.init()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
