@@ -1,6 +1,5 @@
 package gadget.basic.ui.dsl
 
-import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -8,41 +7,27 @@ import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.MATCH_CONS
 import androidx.constraintlayout.widget.Group
 import gadget.basic.annotation.DslScope
 
-inline fun ConstraintLayout(
-    context: Context,
-    params: LayoutParamsDsl<*, ConstraintLayout>,
-    lambda: (@DslScope ConstraintLayout).(ConstraintLayout) -> Unit = {},
-): ConstraintLayout = ConstraintLayout(context).apply {
-    params.init(this)
-    lambda(this, this)
-}
-
 inline fun ViewGroup.ConstraintLayout(
-    params: LayoutParamsDsl<*, ConstraintLayout>,
-    lambda: (@DslScope ConstraintLayout).(ConstraintLayout) -> Unit = {},
+    params: (@DslScope ConstraintLayout).() -> ViewGroup.LayoutParams = { marginLayoutParams() },
+    lambda: (@DslScope ConstraintLayout).() -> Unit = {},
 ): ConstraintLayout = ConstraintLayout(context).also {
-    params.init(this, it)
-    lambda(it, it)
+    addView(it, params(it))
+    lambda(it)
 }
 
 fun ConstraintLayout.group(vararg ids: Int): Group = Group(context).also {
     it.referencedIds = ids
 }
 
-class ConstraintLayoutParams<V : View>(
-    size: Pair<Int, Int> = MATCH_CONSTRAINT to MATCH_CONSTRAINT,
-    initializer: (@DslScope ConstraintLayout.LayoutParams).(V) -> Unit = {},
-) : LayoutParamsDsl<ConstraintLayout.LayoutParams, V>(
-    initializer, ConstraintLayout.LayoutParams(size.first, size.second),
-)
-
 inline fun View.constraintLayoutParams(
-    lambda: (@DslScope ConstraintLayout.LayoutParams).(ConstraintLayout.LayoutParams) -> Unit = {},
+    width: Int = layoutParams?.width ?: MATCH_CONSTRAINT,
+    height: Int = layoutParams?.height ?: MATCH_CONSTRAINT,
+    lambda: (ConstraintLayout.LayoutParams).() -> Unit = {},
 ): ConstraintLayout.LayoutParams {
     val lp = this.layoutParams?.let {
         it as? ConstraintLayout.LayoutParams ?: ConstraintLayout.LayoutParams(it)
-    } ?: ConstraintLayout.LayoutParams(MATCH_CONSTRAINT, MATCH_CONSTRAINT)
-    lambda(lp, lp)
+    } ?: ConstraintLayout.LayoutParams(width, height)
+    lambda(lp)
     return lp
 }
 

@@ -1,8 +1,8 @@
 package gadget.basic.ui.dsl
 
-import android.content.Context
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import gadget.basic.annotation.DslScope
 
 object ViewId {
@@ -17,21 +17,24 @@ object ViewId {
     operator fun component9(): Int = View.generateViewId()
 }
 
-inline fun View(
-    context: Context,
-    params: LayoutParamsDsl<*, View>,
-    lambda: (@DslScope View).(View) -> Unit = {},
-): View = View(context).apply {
-    params.init(this)
-    lambda(this, this)
+inline fun ViewGroup.View(
+    params: (@DslScope View).() -> ViewGroup.LayoutParams = { marginLayoutParams() },
+    lambda: (@DslScope View).() -> Unit = {},
+): View = View(context).also {
+    addView(it, params(it))
+    lambda(it)
 }
 
-inline fun ViewGroup.View(
-    params: LayoutParamsDsl<*, View>,
-    lambda: (@DslScope View).(View) -> Unit = {},
-): View = View(context).also {
-    params.init(this, it)
-    lambda(it, it)
+inline fun View.marginLayoutParams(
+    width: Int = layoutParams?.width ?: WRAP_CONTENT,
+    height: Int = layoutParams?.height ?: WRAP_CONTENT,
+    lambda: (ViewGroup.MarginLayoutParams).() -> Unit = {},
+): ViewGroup.MarginLayoutParams {
+    val lp = this.layoutParams?.let {
+        it as? ViewGroup.MarginLayoutParams ?: ViewGroup.MarginLayoutParams(it)
+    } ?: ViewGroup.MarginLayoutParams(width, height)
+    lambda(lp)
+    return lp
 }
 
 inline fun View.onLayout(crossinline action: (l1: Int, t1: Int, r1: Int, b1: Int, l2: Int, t2: Int, r2: Int, b2: Int) -> Unit): View.OnLayoutChangeListener =

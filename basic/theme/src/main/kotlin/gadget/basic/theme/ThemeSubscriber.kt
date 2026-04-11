@@ -88,21 +88,19 @@ internal class ThemeSubscriber private constructor(
         this.current = value
         this.current?.let(this.action)
         if (observable != null) {
-            val queue = LinkedList<ThemeSubscriber>()
-            (get() as? ViewGroup)?.children?.forEach { child ->
-                getOrNull(child)?.let(queue::offer)
-            }
+            val queue = LinkedList<View>()
+            (get() as? ViewGroup)?.children?.let(queue::addAll)
             while (queue.isNotEmpty()) {
-                val subscriber = queue.poll() ?: continue
-                if (subscriber.observable != null) {
-                    continue
-                }
-                subscriber.onChanged(value)
-                val view = subscriber.get() ?: continue
-                if (view is ViewGroup) {
-                    view.children.forEach { child ->
-                        getOrNull(child)?.let(queue::offer)
+                val view = queue.poll() ?: continue
+                val subscriber = getOrNull(view)
+                if (subscriber != null) {
+                    if (subscriber.observable != null) {
+                        continue
                     }
+                    subscriber.onChanged(value)
+                }
+                if (view is ViewGroup) {
+                    queue.addAll(view.children)
                 }
             }
         }

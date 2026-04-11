@@ -24,14 +24,14 @@ interface ThemeScheme {
 }
 
 fun View.theme(
-    lambda: (@DslScope ThemeScheme).() -> Unit,
+    lambda: (ThemeScheme).() -> Unit,
 ) {
     ThemeSubscriber.get(this).subscribe(action = lambda)
 }
 
 fun View.subscribeTheme(
     observable: LiveData<out ThemeScheme>?,
-    lambda: (@DslScope ThemeScheme).() -> Unit = {},
+    lambda: (ThemeScheme).() -> Unit = {},
 ) {
     ThemeSubscriber.get(this).subscribe(observable, lambda)
 }
