@@ -10,6 +10,7 @@ import androidx.window.layout.WindowInfoTracker
 import androidx.window.layout.WindowLayoutInfo
 import gadget.basic.arch.GadgetActivity
 import gadget.component.main.internal.databinding.ComponentMainActivityBinding
+import gadget.component.main.layout.ComponentMainLayout
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.launch
 

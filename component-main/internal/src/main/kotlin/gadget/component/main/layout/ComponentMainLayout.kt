@@ -1,9 +1,8 @@
-package gadget.component.main
+package gadget.component.main.layout
 
 import android.content.Context
 import android.view.Gravity
 import android.view.View
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.MATCH_CONSTRAINT
@@ -45,11 +44,11 @@ class ComponentMainLayout(context: Context) : DrawerLayout(context) {
     lateinit var drawer: FrameLayout
         private set
 
-    private val scope = scope({ marginLayoutParams(MATCH_PARENT, MATCH_PARENT) {
+    private val scope = scope({ marginLayoutParams {
         subscribeTheme(ThemeManager.observable)
     }}) {
 
-        ConstraintLayout({ drawerLayoutParams(MATCH_PARENT, MATCH_PARENT) }) {
+        ConstraintLayout {
             val (_sideContainer, _divider, _mainContainer) = ViewId
 
             this@ComponentMainLayout.sideContainer = FrameLayout({ constraintLayoutParams {
@@ -96,7 +95,7 @@ class ComponentMainLayout(context: Context) : DrawerLayout(context) {
             }
         }
 
-        this@ComponentMainLayout.drawer = FrameLayout({ drawerLayoutParams(MATCH_PARENT, MATCH_PARENT) {
+        this@ComponentMainLayout.drawer = FrameLayout({ drawerLayoutParams {
             gravity = Gravity.LEFT
             setBackgroundColor(0xFF00FF00.toInt())
         }}) {
