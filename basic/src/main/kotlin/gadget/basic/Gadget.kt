@@ -1,6 +1,5 @@
 package gadget.basic
 
-import android.R.attr.value
 import android.app.Activity
 import android.app.ActivityManager
 import android.app.Application
@@ -17,7 +16,6 @@ import gadget.basic.logger.Loggable
 import gadget.basic.logger.logI
 import gadget.basic.logger.loggable
 import gadget.basic.tool.mutable
-import gadget.basic.window.WindowState
 
 open class Gadget : Application(), Loggable {
 
@@ -48,7 +46,6 @@ open class Gadget : Application(), Loggable {
         super.onCreate()
         logI { "onCreate" }
         configuration.mutable().value = resources.configuration
-        WindowState.init()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {

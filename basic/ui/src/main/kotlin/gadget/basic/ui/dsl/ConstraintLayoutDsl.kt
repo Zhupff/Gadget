@@ -1,11 +1,20 @@
 package gadget.basic.ui.dsl
 
+import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.MATCH_CONSTRAINT
-import androidx.constraintlayout.widget.Group
 import gadget.basic.annotation.DslScope
+
+inline fun ConstraintLayout(
+    context: Context,
+    params: (@DslScope ConstraintLayout).() -> ViewGroup.LayoutParams = { marginLayoutParams() },
+    lambda: (@DslScope ViewScope<ConstraintLayout>).() -> Unit = {},
+): ConstraintLayout = ConstraintLayout(context).also {
+    params(it)
+    lambda(ViewScope.get(it))
+}
 
 inline fun <V : ViewGroup> ViewScope<V>.ConstraintLayout(
     params: (@DslScope ConstraintLayout).() -> ViewGroup.LayoutParams = { marginLayoutParams() },
@@ -13,10 +22,6 @@ inline fun <V : ViewGroup> ViewScope<V>.ConstraintLayout(
 ): ConstraintLayout = ConstraintLayout(get()!!.context).also {
     get()!!.addView(it, params(it))
     lambda(ViewScope.get(it))
-}
-
-fun ConstraintLayout.group(vararg ids: Int): Group = Group(context).also {
-    it.referencedIds = ids
 }
 
 inline fun View.constraintLayoutParams(
@@ -28,6 +33,9 @@ inline fun View.constraintLayoutParams(
         it as? ConstraintLayout.LayoutParams ?: ConstraintLayout.LayoutParams(it)
     } ?: ConstraintLayout.LayoutParams(width, height)
     lambda(lp)
+    if (this.layoutParams != null) {
+        this.layoutParams = lp
+    }
     return lp
 }
 
