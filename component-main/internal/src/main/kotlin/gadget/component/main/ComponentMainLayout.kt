@@ -1,6 +1,7 @@
 package gadget.component.main
 
 import android.content.Context
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
@@ -26,6 +27,8 @@ import gadget.basic.ui.dsl.rightToLeftOf
 import gadget.basic.ui.dsl.rightToRightOfParent
 import gadget.basic.ui.dsl.scope
 import gadget.basic.ui.dsl.topToTopOfParent
+import kotlin.math.max
+import kotlin.math.min
 
 @DslScope
 class ComponentMainLayout(context: Context) : DrawerLayout(context) {
@@ -37,6 +40,9 @@ class ComponentMainLayout(context: Context) : DrawerLayout(context) {
         private set
 
     lateinit var mainContainer: FrameLayout
+        private set
+
+    lateinit var drawer: FrameLayout
         private set
 
     private val scope = scope({ marginLayoutParams(MATCH_PARENT, MATCH_PARENT) {
@@ -89,6 +95,12 @@ class ComponentMainLayout(context: Context) : DrawerLayout(context) {
             }}) {
             }
         }
+
+        this@ComponentMainLayout.drawer = FrameLayout({ drawerLayoutParams(MATCH_PARENT, MATCH_PARENT) {
+            gravity = Gravity.LEFT
+            setBackgroundColor(0xFF00FF00.toInt())
+        }}) {
+        }
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
@@ -96,18 +108,23 @@ class ComponentMainLayout(context: Context) : DrawerLayout(context) {
         if (changed) {
             val w = r - l
             val h = b - t
-            if (w > h) {
-                sideContainer.visibility = VISIBLE
-                divider.visibility = VISIBLE
-                mainContainer.constraintLayoutParams {
-                    leftToRightOf(divider.id)
-                }
-            } else {
+            closeDrawer(drawer, false)
+            if (max(w, h).toFloat() / min(w, h).toFloat() > 4F / 3F && h >= w) {
                 sideContainer.visibility = GONE
                 divider.visibility = GONE
                 mainContainer.constraintLayoutParams {
                     leftToLeftOfParent()
                 }
+                drawer.visibility = VISIBLE
+                setDrawerLockMode(LOCK_MODE_UNLOCKED, drawer)
+            } else {
+                sideContainer.visibility = VISIBLE
+                divider.visibility = VISIBLE
+                mainContainer.constraintLayoutParams {
+                    leftToRightOf(divider.id)
+                }
+                drawer.visibility = INVISIBLE
+                setDrawerLockMode(LOCK_MODE_LOCKED_CLOSED, drawer)
             }
         }
     }
