@@ -12,6 +12,7 @@ import gadget.basic.theme.ThemeManager
 import gadget.basic.theme.subscribeTheme
 import gadget.basic.theme.theme
 import gadget.basic.tool.dp
+import gadget.basic.ui.common.moveTo
 import gadget.basic.ui.dsl.ConstraintLayout
 import gadget.basic.ui.dsl.FrameLayout
 import gadget.basic.ui.dsl.View
@@ -45,7 +46,9 @@ class ComponentMainLayout(context: Context) : DrawerLayout(context) {
         private set
 
     private val scope = scope({ marginLayoutParams {
-        subscribeTheme(ThemeManager.observable)
+        subscribeTheme(ThemeManager.observable) {
+            setScrimColor(backgroundColor and 0x00FFFFFF or 0x99000000.toInt())
+        }
     }}) {
 
         ConstraintLayout {
@@ -65,8 +68,7 @@ class ComponentMainLayout(context: Context) : DrawerLayout(context) {
                 setOnClickListener {
                     ThemeManager.switch()
                 }
-            }}) {
-            }
+            }})
 
             this@ComponentMainLayout.divider = View({ constraintLayoutParams(1.dp, MATCH_CONSTRAINT) {
                 id = _divider
@@ -91,16 +93,15 @@ class ComponentMainLayout(context: Context) : DrawerLayout(context) {
                 theme {
                     setBackgroundColor(errorColor)
                 }
-            }}) {
-            }
+            }})
         }
 
         this@ComponentMainLayout.drawer = FrameLayout({ drawerLayoutParams {
             gravity = Gravity.LEFT
-            setBackgroundColor(0xFF00FF00.toInt())
-        }}) {
-        }
+        }})
     }
+
+    private val sideLayout: ComponentSideLayout by lazy { ComponentSideLayout(context) }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
         super.onLayout(changed, l, t, r, b)
@@ -115,6 +116,7 @@ class ComponentMainLayout(context: Context) : DrawerLayout(context) {
                     leftToLeftOfParent()
                 }
                 drawer.visibility = VISIBLE
+                sideLayout.moveTo(drawer)
                 setDrawerLockMode(LOCK_MODE_UNLOCKED, drawer)
             } else {
                 sideContainer.visibility = VISIBLE
@@ -123,6 +125,7 @@ class ComponentMainLayout(context: Context) : DrawerLayout(context) {
                     leftToRightOf(divider.id)
                 }
                 drawer.visibility = INVISIBLE
+                sideLayout.moveTo(sideContainer)
                 setDrawerLockMode(LOCK_MODE_LOCKED_CLOSED, drawer)
             }
         }
