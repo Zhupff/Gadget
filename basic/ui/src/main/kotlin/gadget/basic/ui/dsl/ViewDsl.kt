@@ -34,6 +34,9 @@ inline fun View.marginLayoutParams(
         it as? ViewGroup.MarginLayoutParams ?: ViewGroup.MarginLayoutParams(it)
     } ?: ViewGroup.MarginLayoutParams(width, height)
     lambda(lp)
+    if (this.layoutParams != null) {
+        this.layoutParams = lp
+    }
     return lp
 }
 

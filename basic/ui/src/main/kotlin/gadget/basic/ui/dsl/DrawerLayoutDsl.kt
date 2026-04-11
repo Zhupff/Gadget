@@ -13,5 +13,8 @@ inline fun View.drawerLayoutParams(
         it as? DrawerLayout.LayoutParams ?: DrawerLayout.LayoutParams(it)
     } ?: DrawerLayout.LayoutParams(width, height)
     lambda(lp)
+    if (this.layoutParams != null) {
+        this.layoutParams = lp
+    }
     return lp
 }

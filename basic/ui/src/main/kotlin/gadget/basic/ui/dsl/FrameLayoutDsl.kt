@@ -23,5 +23,8 @@ inline fun View.frameLayoutParams(
         it as? FrameLayout.LayoutParams ?: FrameLayout.LayoutParams(it)
     } ?: FrameLayout.LayoutParams(width, height)
     lambda(lp)
+    if (this.layoutParams != null) {
+        this.layoutParams = lp
+    }
     return lp
 }
