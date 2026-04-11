@@ -17,12 +17,12 @@ object ViewId {
     operator fun component9(): Int = View.generateViewId()
 }
 
-inline fun ViewGroup.View(
+inline fun <V : ViewGroup> ViewScope<V>.View(
     params: (@DslScope View).() -> ViewGroup.LayoutParams = { marginLayoutParams() },
-    lambda: (@DslScope View).() -> Unit = {},
-): View = View(context).also {
-    addView(it, params(it))
-    lambda(it)
+    lambda: (@DslScope ViewScope<View>).() -> Unit = {},
+): View = View(get()!!.context).also {
+    get()!!.addView(it, params(it))
+    lambda(ViewScope.get(it))
 }
 
 inline fun View.marginLayoutParams(

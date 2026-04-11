@@ -7,12 +7,12 @@ import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.MATCH_CONS
 import androidx.constraintlayout.widget.Group
 import gadget.basic.annotation.DslScope
 
-inline fun ViewGroup.ConstraintLayout(
+inline fun <V : ViewGroup> ViewScope<V>.ConstraintLayout(
     params: (@DslScope ConstraintLayout).() -> ViewGroup.LayoutParams = { marginLayoutParams() },
-    lambda: (@DslScope ConstraintLayout).() -> Unit = {},
-): ConstraintLayout = ConstraintLayout(context).also {
-    addView(it, params(it))
-    lambda(it)
+    lambda: (@DslScope ViewScope<ConstraintLayout>).() -> Unit = {},
+): ConstraintLayout = ConstraintLayout(get()!!.context).also {
+    get()!!.addView(it, params(it))
+    lambda(ViewScope.get(it))
 }
 
 fun ConstraintLayout.group(vararg ids: Int): Group = Group(context).also {

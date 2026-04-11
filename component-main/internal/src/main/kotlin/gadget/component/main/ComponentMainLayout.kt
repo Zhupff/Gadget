@@ -2,7 +2,6 @@ package gadget.component.main
 
 import android.content.Context
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import android.widget.FrameLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.MATCH_CONSTRAINT
 import androidx.drawerlayout.widget.DrawerLayout
@@ -23,66 +22,61 @@ import gadget.basic.ui.dsl.leftToRightOf
 import gadget.basic.ui.dsl.marginLayoutParams
 import gadget.basic.ui.dsl.rightToLeftOf
 import gadget.basic.ui.dsl.rightToRightOfParent
+import gadget.basic.ui.dsl.scope
 import gadget.basic.ui.dsl.topToTopOfParent
 
 @DslScope
 class ComponentMainLayout(context: Context) : DrawerLayout(context) {
 
-    init {
-        marginLayoutParams(MATCH_PARENT, MATCH_PARENT)
+    private val scope = scope({ marginLayoutParams(MATCH_PARENT, MATCH_PARENT) {
         subscribeTheme(ThemeManager.observable)
-    }
+    }}) {
 
-    lateinit var sideContainer: FrameLayout
-        private set
+        ConstraintLayout({ drawerLayoutParams(MATCH_PARENT, MATCH_PARENT) }) {
+            val (_sideContainer, _divider, _mainContainer) = ViewId
 
-    lateinit var mainContainer: FrameLayout
-        private set
-
-    private val contentContainer = ConstraintLayout({ drawerLayoutParams(MATCH_PARENT, MATCH_PARENT) }) {
-        val (_sideContainer, _divider, _mainContainer) = ViewId
-
-        this@ComponentMainLayout.sideContainer = FrameLayout({ constraintLayoutParams {
-            id = _sideContainer
-            leftToLeftOfParent()
-            rightToLeftOf(_divider)
-            topToTopOfParent()
-            bottomToBottomOfParent()
-            horizontalWeight = 618F
-            horizontalChainStyle = ConstraintLayout.LayoutParams.CHAIN_PACKED
-            theme {
-                setBackgroundColor(primaryColor)
+            FrameLayout({ constraintLayoutParams {
+                id = _sideContainer
+                leftToLeftOfParent()
+                rightToLeftOf(_divider)
+                topToTopOfParent()
+                bottomToBottomOfParent()
+                horizontalWeight = 618F
+                horizontalChainStyle = ConstraintLayout.LayoutParams.CHAIN_PACKED
+                theme {
+                    setBackgroundColor(primaryColor)
+                }
+                setOnClickListener {
+                    ThemeManager.switch()
+                }
+            }}) {
             }
-            setOnClickListener {
-                ThemeManager.switch()
-            }
-        }}) {
-        }
 
-        View({ constraintLayoutParams(1.dp, MATCH_CONSTRAINT) {
-            id = _divider
-            leftToRightOf(_sideContainer)
-            rightToLeftOf(_mainContainer)
-            topToTopOfParent()
-            bottomToBottomOfParent()
-            alpha = 0.618F
-            theme {
-                setBackgroundColor(backgroundColor)
-            }
-        }})
+            View({ constraintLayoutParams(1.dp, MATCH_CONSTRAINT) {
+                id = _divider
+                leftToRightOf(_sideContainer)
+                rightToLeftOf(_mainContainer)
+                topToTopOfParent()
+                bottomToBottomOfParent()
+                alpha = 0.618F
+                theme {
+                    setBackgroundColor(backgroundColor)
+                }
+            }})
 
-        this@ComponentMainLayout.mainContainer = FrameLayout({ constraintLayoutParams {
-            id = _mainContainer
-            leftToRightOf(_divider)
-            rightToRightOfParent()
-            topToTopOfParent()
-            bottomToBottomOfParent()
-            horizontalWeight = 1000F
-            horizontalChainStyle = ConstraintLayout.LayoutParams.CHAIN_PACKED
-            theme {
-                setBackgroundColor(errorColor)
+            FrameLayout({ constraintLayoutParams {
+                id = _mainContainer
+                leftToRightOf(_divider)
+                rightToRightOfParent()
+                topToTopOfParent()
+                bottomToBottomOfParent()
+                horizontalWeight = 1000F
+                horizontalChainStyle = ConstraintLayout.LayoutParams.CHAIN_PACKED
+                theme {
+                    setBackgroundColor(errorColor)
+                }
+            }}) {
             }
-        }}) {
         }
     }
 }

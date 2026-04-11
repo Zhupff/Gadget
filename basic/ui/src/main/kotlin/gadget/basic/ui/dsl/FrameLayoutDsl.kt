@@ -6,12 +6,12 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.FrameLayout
 import gadget.basic.annotation.DslScope
 
-inline fun ViewGroup.FrameLayout(
+inline fun <V : ViewGroup> ViewScope<V>.FrameLayout(
     params: (@DslScope FrameLayout).() -> ViewGroup.LayoutParams = { marginLayoutParams() },
-    lambda: (@DslScope FrameLayout).() -> Unit = {},
-): FrameLayout = FrameLayout(context).also {
-    addView(it, params(it))
-    lambda(it)
+    lambda: (@DslScope ViewScope<FrameLayout>).() -> Unit = {},
+): FrameLayout = FrameLayout(get()!!.context).also {
+    get()!!.addView(it, params(it))
+    lambda(ViewScope.get(it))
 }
 
 inline fun View.frameLayoutParams(

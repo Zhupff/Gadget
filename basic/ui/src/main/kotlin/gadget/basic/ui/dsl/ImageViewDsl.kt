@@ -9,10 +9,10 @@ import gadget.basic.annotation.DslScope
 private typealias IMAGE_VIEW = AppCompatImageView
 
 
-inline fun ViewGroup.ImageView(
+inline fun <V : ViewGroup> ViewScope<V>.ImageView(
     params: (@DslScope IMAGE_VIEW).() -> ViewGroup.LayoutParams = { marginLayoutParams() },
-    lambda: (@DslScope IMAGE_VIEW).() -> Unit = {},
-): IMAGE_VIEW = IMAGE_VIEW(context).also {
-    addView(it, params(it))
-    lambda(it)
+    lambda: (@DslScope ViewScope<IMAGE_VIEW>).() -> Unit = {},
+): IMAGE_VIEW = IMAGE_VIEW(get()!!.context).also {
+    get()!!.addView(it, params(it))
+    lambda(ViewScope.get(it))
 }
