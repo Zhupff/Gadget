@@ -26,3 +26,10 @@ inline fun <V : View> V.recyclerViewLayoutParams(
     }
     return lp
 }
+
+open class SimpleRecyclerViewHolder<V : View>(
+    val view: V,
+) : RecyclerView.ViewHolder(view)
+
+abstract class SimpleRecyclerViewAdapter<V : View> : RecyclerView.Adapter<SimpleRecyclerViewHolder<V>>() {
+}

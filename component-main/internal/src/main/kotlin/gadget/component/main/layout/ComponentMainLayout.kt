@@ -1,6 +1,5 @@
 package gadget.component.main.layout
 
-import android.content.Context
 import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
@@ -27,11 +26,14 @@ import gadget.basic.ui.dsl.rightToLeftOf
 import gadget.basic.ui.dsl.rightToRightOfParent
 import gadget.basic.ui.dsl.scope
 import gadget.basic.ui.dsl.topToTopOfParent
+import gadget.component.main.ComponentMainActivity
 import kotlin.math.max
 import kotlin.math.min
 
 @DslScope
-class ComponentMainLayout(context: Context) : DrawerLayout(context) {
+class ComponentMainLayout(
+    private val activity: ComponentMainActivity,
+) : DrawerLayout(activity) {
 
     lateinit var sideContainer: FrameLayout
         private set
@@ -98,7 +100,7 @@ class ComponentMainLayout(context: Context) : DrawerLayout(context) {
         }})
     }
 
-    private val sideLayout: SideLayout by lazy { SideLayout(context) }
+    private val sideLayout: SideLayout by lazy { SideLayout(activity) }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
         super.onLayout(changed, l, t, r, b)

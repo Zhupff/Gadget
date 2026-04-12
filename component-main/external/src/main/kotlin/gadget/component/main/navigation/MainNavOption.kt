@@ -2,13 +2,7 @@ package gadget.component.main.navigation
 
 import gadget.basic.tool.iteration
 
-abstract class MainNavOption(
-    val id: OptionID,
-    /** drawable res id */
-    val icon: Int,
-    /** string res id */
-    val name: Int,
-) {
+interface MainNavOption {
     companion object {
         val ALL: List<MainNavOption> = iteration<MainNavOption>().sortedBy { it.id }
     }
@@ -23,11 +17,15 @@ abstract class MainNavOption(
         ;
     }
 
-    open fun isClickable(): Boolean = true
+    val id: OptionID
+    /** drawable res id */
+    val icon: Int
+    /** string res id */
+    val name: Int
 
-    open fun isSelectable(): Boolean = true
+    fun isClickable(): Boolean = true
 
-    open fun onClick() {}
+    fun isSelectable(): Boolean = true
 
-    override fun toString(): String = id.name
+    fun onClick() {}
 }
