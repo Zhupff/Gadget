@@ -24,14 +24,14 @@ interface ThemeScheme {
 }
 
 fun View.theme(
-    lambda: (ThemeScheme).() -> Unit,
+    lambda: ((ThemeScheme).() -> Unit)?,
 ) {
-    ThemeSubscriber.get(this).subscribe(action = lambda)
+    ThemeSubscriber.get(this).subscribe(action = lambda ?: ThemeSubscriber.NO_ACTION)
 }
 
 fun View.subscribeTheme(
     observable: LiveData<out ThemeScheme>?,
-    lambda: (ThemeScheme).() -> Unit = {},
+    lambda: ((ThemeScheme).() -> Unit)? = null,
 ) {
-    ThemeSubscriber.get(this).subscribe(observable, lambda)
+    ThemeSubscriber.get(this).subscribe(observable, lambda ?: ThemeSubscriber.NO_ACTION)
 }

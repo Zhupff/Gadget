@@ -65,9 +65,6 @@ class ComponentMainLayout(context: Context) : DrawerLayout(context) {
                 theme {
                     setBackgroundColor(primaryColor)
                 }
-                setOnClickListener {
-                    ThemeManager.switch()
-                }
             }})
 
             this@ComponentMainLayout.divider = View({ constraintLayoutParams(1.dp, MATCH_CONSTRAINT) {
@@ -101,7 +98,7 @@ class ComponentMainLayout(context: Context) : DrawerLayout(context) {
         }})
     }
 
-    private val sideLayout: ComponentSideLayout by lazy { ComponentSideLayout(context) }
+    private val sideLayout: SideLayout by lazy { SideLayout(context) }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
         super.onLayout(changed, l, t, r, b)

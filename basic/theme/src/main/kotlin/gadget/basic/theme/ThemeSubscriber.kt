@@ -23,7 +23,7 @@ internal class ThemeSubscriber private constructor(
         fun getOrNull(view: View): ThemeSubscriber? {
             return view.getTag(R.id.ThemeSubscriber) as? ThemeSubscriber
         }
-        private val NO_ACTION: (ThemeScheme) -> Unit = {}
+        val NO_ACTION: (ThemeScheme) -> Unit = {}
     }
 
     init {
