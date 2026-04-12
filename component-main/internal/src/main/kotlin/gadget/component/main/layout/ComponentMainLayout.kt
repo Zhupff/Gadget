@@ -49,6 +49,7 @@ class ComponentMainLayout(
 
     private val scope = scope({ marginLayoutParams {
         subscribeTheme(ThemeManager.observable) {
+            setBackgroundColor(backgroundColor)
             setScrimColor(backgroundColor and 0x00FFFFFF or 0x99000000.toInt())
         }
     }}) {
@@ -64,9 +65,6 @@ class ComponentMainLayout(
                 bottomToBottomOfParent()
                 horizontalWeight = 618F
                 horizontalChainStyle = ConstraintLayout.LayoutParams.CHAIN_PACKED
-                theme {
-                    setBackgroundColor(primaryColor)
-                }
             }})
 
             this@ComponentMainLayout.divider = View({ constraintLayoutParams(1.dp, MATCH_CONSTRAINT) {
@@ -77,7 +75,7 @@ class ComponentMainLayout(
                 bottomToBottomOfParent()
                 alpha = 0.618F
                 theme {
-                    setBackgroundColor(backgroundColor)
+                    setBackgroundColor(outlineColor)
                 }
             }})
 
@@ -89,9 +87,6 @@ class ComponentMainLayout(
                 bottomToBottomOfParent()
                 horizontalWeight = 1000F
                 horizontalChainStyle = ConstraintLayout.LayoutParams.CHAIN_PACKED
-                theme {
-                    setBackgroundColor(errorColor)
-                }
             }})
         }
 
