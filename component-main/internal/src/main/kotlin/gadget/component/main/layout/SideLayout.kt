@@ -33,6 +33,7 @@ import gadget.basic.ui.dsl.constraintLayoutParams
 import gadget.basic.ui.dsl.coordinatorLayoutParams
 import gadget.basic.ui.dsl.frameLayoutParams
 import gadget.basic.ui.dsl.leftToLeftOfParent
+import gadget.basic.ui.dsl.onLayout
 import gadget.basic.ui.dsl.rightToRightOfParent
 import gadget.basic.ui.dsl.scope
 import gadget.basic.ui.dsl.toolbarLayoutParams
@@ -72,6 +73,7 @@ internal class SideLayout(context: Context) : FrameLayout(context) {
                     this@SideLayout.userLayout.alpha = percent
                     this@SideLayout.backgroundMask.alpha = 1F - percent
                 }
+                onLayout { _, _, _, _, _, _, _, _ -> setExpanded(true) }
             }}) {
 
                 CollapsingToolbarLayout({ appBarLayoutParams(MATCH_PARENT, WRAP_CONTENT) {
