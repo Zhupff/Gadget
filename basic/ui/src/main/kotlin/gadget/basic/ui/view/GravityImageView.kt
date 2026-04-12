@@ -24,6 +24,7 @@ class GravityImageView(context: Context) : AppCompatImageView(context) {
                 } else {
                     ScaleType.MATRIX
                 }
+                postInvalidate()
             }
         }
 
