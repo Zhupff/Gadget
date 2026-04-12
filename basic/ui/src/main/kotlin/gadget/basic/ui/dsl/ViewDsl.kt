@@ -21,10 +21,7 @@ object ViewId {
 inline fun <V : ViewGroup> ViewScope<V>.View(
     params: (@DslScope View).() -> ViewGroup.LayoutParams = { marginLayoutParams() },
     lambda: (@DslScope ViewScope<View>).() -> Unit = {},
-): View = View(get()!!.context).also {
-    get()!!.addView(it, params(it))
-    lambda(ViewScope.get(it))
-}
+): View = scope(View(context), params, lambda)
 
 inline fun <V : View> V.marginLayoutParams(
     width: Int = layoutParams?.width ?: if (this is ViewGroup) MATCH_PARENT else WRAP_CONTENT,

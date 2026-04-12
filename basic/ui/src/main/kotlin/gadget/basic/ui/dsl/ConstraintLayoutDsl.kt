@@ -19,10 +19,7 @@ inline fun ConstraintLayout(
 inline fun <V : ViewGroup> ViewScope<V>.ConstraintLayout(
     params: (@DslScope ConstraintLayout).() -> ViewGroup.LayoutParams = { marginLayoutParams() },
     lambda: (@DslScope ViewScope<ConstraintLayout>).() -> Unit = {},
-): ConstraintLayout = ConstraintLayout(get()!!.context).also {
-    get()!!.addView(it, params(it))
-    lambda(ViewScope.get(it))
-}
+): ConstraintLayout = scope(ConstraintLayout(context), params, lambda)
 
 inline fun View.constraintLayoutParams(
     width: Int = layoutParams?.width ?: MATCH_CONSTRAINT,

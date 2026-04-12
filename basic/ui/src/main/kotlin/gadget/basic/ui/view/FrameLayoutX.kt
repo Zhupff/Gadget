@@ -19,6 +19,7 @@ import gadget.basic.exception.throws
 import gadget.basic.ui.common.GravityX
 import gadget.basic.ui.dsl.ViewScope
 import gadget.basic.ui.dsl.marginLayoutParams
+import gadget.basic.ui.dsl.scope
 import kotlin.math.max
 import kotlin.math.min
 
@@ -282,7 +283,4 @@ class FrameLayoutX(context: Context) : FrameLayout(context) {
 inline fun <V : ViewGroup> ViewScope<V>.FrameLayoutX(
     params: (@DslScope FrameLayoutX).() -> ViewGroup.LayoutParams = { marginLayoutParams() },
     lambda: (@DslScope ViewScope<FrameLayoutX>).() -> Unit = {},
-): FrameLayoutX = FrameLayoutX(get()!!.context).also {
-    get()!!.addView(it, params(it))
-    lambda(ViewScope.get(it))
-}
+): FrameLayoutX = scope(FrameLayoutX(context), params, lambda)

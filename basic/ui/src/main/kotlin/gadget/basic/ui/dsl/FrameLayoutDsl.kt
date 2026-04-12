@@ -10,10 +10,7 @@ import gadget.basic.annotation.DslScope
 inline fun <V : ViewGroup> ViewScope<V>.FrameLayout(
     params: (@DslScope FrameLayout).() -> ViewGroup.LayoutParams = { marginLayoutParams() },
     lambda: (@DslScope ViewScope<FrameLayout>).() -> Unit = {},
-): FrameLayout = FrameLayout(get()!!.context).also {
-    get()!!.addView(it, params(it))
-    lambda(ViewScope.get(it))
-}
+): FrameLayout = scope(FrameLayout(context), params, lambda)
 
 inline fun <V : View> V.frameLayoutParams(
     width: Int = layoutParams?.width ?: if (this is ViewGroup) MATCH_PARENT else WRAP_CONTENT,

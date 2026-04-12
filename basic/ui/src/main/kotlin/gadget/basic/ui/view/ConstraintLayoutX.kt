@@ -19,6 +19,7 @@ import gadget.basic.exception.throws
 import gadget.basic.ui.common.GravityX
 import gadget.basic.ui.dsl.ViewScope
 import gadget.basic.ui.dsl.marginLayoutParams
+import gadget.basic.ui.dsl.scope
 import kotlin.math.max
 import kotlin.math.min
 
@@ -282,7 +283,4 @@ class ConstraintLayoutX(context: Context) : ConstraintLayout(context) {
 inline fun <V : ViewGroup> ViewScope<V>.ConstraintLayoutX(
     params: (@DslScope ConstraintLayoutX).() -> ViewGroup.LayoutParams = { marginLayoutParams() },
     lambda: (@DslScope ViewScope<ConstraintLayoutX>).() -> Unit = {},
-): ConstraintLayoutX = ConstraintLayoutX(get()!!.context).also {
-    get()!!.addView(it, params(it))
-    lambda(ViewScope.get(it))
-}
+): ConstraintLayoutX = scope(ConstraintLayoutX(context), params, lambda)

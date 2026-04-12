@@ -2,10 +2,14 @@ package gadget.basic.ui.view
 
 import android.content.Context
 import android.graphics.Canvas
+import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
 import gadget.basic.annotation.DslScope
 import gadget.basic.exception.throws
 import gadget.basic.ui.common.GravityX
+import gadget.basic.ui.dsl.ViewScope
+import gadget.basic.ui.dsl.marginLayoutParams
+import gadget.basic.ui.dsl.scope
 
 @DslScope
 class GravityImageView(context: Context) : AppCompatImageView(context) {
@@ -54,3 +58,8 @@ class GravityImageView(context: Context) : AppCompatImageView(context) {
         super.onDraw(canvas)
     }
 }
+
+inline fun <V : ViewGroup> ViewScope<V>.GravityImageView(
+    params: (@DslScope GravityImageView).() -> ViewGroup.LayoutParams = { marginLayoutParams() },
+    lambda: (@DslScope ViewScope<GravityImageView>).() -> Unit = {},
+): GravityImageView = scope(GravityImageView(context), params, lambda)

@@ -12,7 +12,4 @@ private typealias IMAGE_VIEW = AppCompatImageView
 inline fun <V : ViewGroup> ViewScope<V>.ImageView(
     params: (@DslScope IMAGE_VIEW).() -> ViewGroup.LayoutParams = { marginLayoutParams() },
     lambda: (@DslScope ViewScope<IMAGE_VIEW>).() -> Unit = {},
-): IMAGE_VIEW = IMAGE_VIEW(get()!!.context).also {
-    get()!!.addView(it, params(it))
-    lambda(ViewScope.get(it))
-}
+): IMAGE_VIEW = scope(IMAGE_VIEW(context), params, lambda)

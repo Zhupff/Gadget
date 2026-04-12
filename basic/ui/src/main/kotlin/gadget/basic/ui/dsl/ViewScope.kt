@@ -1,5 +1,6 @@
 package gadget.basic.ui.dsl
 
+import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import gadget.basic.annotation.DslScope
@@ -31,6 +32,9 @@ class ViewScope<V : View> private constructor(
         view.setTag(R.id.ViewScope, this)
     }
 
+    val context: Context
+        get() = get()!!.context
+
     override fun get(): V? {
         val target = super.get()
         if (target == null) {
@@ -46,4 +50,14 @@ inline fun <V : View> V.scope(
 ): ViewScope<V> {
     this.layoutParams = params()
     return ViewScope.get(this).apply(lambda)
+}
+
+inline fun <V : ViewGroup, T : View> ViewScope<V>.scope(
+    view: T,
+    params: (@DslScope T).() -> ViewGroup.LayoutParams,
+    lambda: (@DslScope ViewScope<T>).() -> Unit,
+): T {
+    get()!!.addView(view, params(view))
+    lambda(ViewScope.get(view))
+    return view
 }
