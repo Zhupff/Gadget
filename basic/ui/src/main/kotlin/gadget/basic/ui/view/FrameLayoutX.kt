@@ -1,13 +1,17 @@
 package gadget.basic.ui.view
 
 import android.content.Context
+import android.graphics.Canvas
 import android.graphics.Outline
+import android.graphics.Path
+import android.graphics.drawable.Drawable
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewOutlineProvider
 import android.view.WindowInsets
 import android.widget.FrameLayout
 import androidx.annotation.UiThread
+import androidx.core.graphics.withSave
 import androidx.core.view.WindowInsetsCompat
 import gadget.basic.Gadget
 import gadget.basic.annotation.DslScope
@@ -15,6 +19,7 @@ import gadget.basic.exception.throws
 import gadget.basic.ui.common.GravityX
 import gadget.basic.ui.dsl.ViewScope
 import gadget.basic.ui.dsl.marginLayoutParams
+import kotlin.math.max
 import kotlin.math.min
 
 @DslScope
@@ -76,7 +81,7 @@ class FrameLayoutX(context: Context) : FrameLayout(context) {
             }
             if (field != target) {
                 field = target
-                invalidateOutline()
+                postInvalidate()
             }
         }
 
@@ -86,11 +91,38 @@ class FrameLayoutX(context: Context) : FrameLayout(context) {
             val target = if (value < 0F) -1F else value
             if (field != target) {
                 field = target
-                invalidateOutline()
+                postInvalidate()
             }
         }
 
     private val clipCornerRadiusArray = FloatArray(8)
+
+    var borderSize: Float = 0F
+        @UiThread
+        set(value) {
+            val target = if (value < 0F) 0F else value
+            if (field != target) {
+                field = target
+                if (borderShader != null) {
+                    postInvalidate()
+                }
+            }
+        }
+
+    var borderShader: Drawable? = null
+        @UiThread
+        set(value) {
+            if (field != value) {
+                field = value
+                if (borderSize > 0F) {
+                    postInvalidate()
+                }
+            }
+        }
+
+    private val borderCornerRadiusArray = FloatArray(8)
+
+    private val borderClipPath = Path()
 
     init {
         clipToOutline = true
@@ -99,7 +131,6 @@ class FrameLayoutX(context: Context) : FrameLayout(context) {
                 val diameter = min(width, height)
                 val r = if (clipCornerRadius < 0F) diameter / 2F else min(clipCornerRadius, diameter / 2F)
                 clipCornerRadiusArray.fill(0F)
-                println("@@@ ${clipCornerGravity} ${clipCornerRadius} ${r}")
                 when (clipCornerGravity) {
                     GravityX.N -> {
                         outline.setRect(0, 0, width, height)
@@ -157,6 +188,42 @@ class FrameLayoutX(context: Context) : FrameLayout(context) {
                         outline.setRoundRect(0, 0, width, height, r)
                     }
                 }
+                if (borderSize <= 0F || borderShader == null) {
+                    borderCornerRadiusArray.fill(0F)
+                    borderClipPath.reset()
+                } else {
+                    val s = min(r / 2F, borderSize)
+                    for (i in borderCornerRadiusArray.indices) {
+                        borderCornerRadiusArray[i] = max(0F, clipCornerRadiusArray[i] - s)
+                    }
+                    borderClipPath.reset()
+                    borderClipPath.addRoundRect(s, s, width - s, height - s, borderCornerRadiusArray, Path.Direction.CW)
+                    val shaderWidth = borderShader!!.intrinsicWidth
+                    val shaderHeight = borderShader!!.intrinsicHeight
+                    if (shaderWidth <= 0 || shaderHeight <= 0) {
+                        if (width > height) {
+                            borderShader!!.setBounds(0, -(width - height) / 2, width, height + (width - height) / 2)
+                        } else {
+                            borderShader!!.setBounds(-(height - width) / 2, 0, width + (height - width) / 2, height)
+                        }
+                    } else {
+                        if (width * shaderHeight > height * shaderWidth) {
+                            val diff = if (width > shaderWidth) {
+                                width * shaderHeight / shaderWidth - shaderHeight
+                            } else {
+                                shaderHeight - width * shaderHeight / shaderWidth
+                            } / 2
+                            borderShader!!.setBounds(0, -diff, width, height + diff)
+                        } else {
+                            val diff = if (height > shaderHeight) {
+                                height * shaderWidth / shaderHeight - shaderWidth
+                            } else {
+                                shaderWidth - height * shaderWidth / shaderHeight
+                            } / 2
+                            borderShader!!.setBounds(-diff, 0, width + diff, height)
+                        }
+                    }
+                }
             }
         }
     }
@@ -199,6 +266,16 @@ class FrameLayoutX(context: Context) : FrameLayout(context) {
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         applyWindowInsets()
+    }
+
+    override fun dispatchDraw(canvas: Canvas) {
+        super.dispatchDraw(canvas)
+        if (borderSize > 0F && borderShader != null) {
+            canvas.withSave {
+                clipOutPath(borderClipPath)
+                borderShader?.draw(this)
+            }
+        }
     }
 }
 
