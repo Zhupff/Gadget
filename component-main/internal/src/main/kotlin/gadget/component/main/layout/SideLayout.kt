@@ -40,11 +40,16 @@ import gadget.basic.ui.dsl.topToBottomOf
 import gadget.basic.ui.dsl.topToTopOfParent
 import gadget.basic.ui.view.ConstraintLayoutX
 import gadget.basic.ui.view.GravityImageView
+import kotlin.math.absoluteValue
 
 @DslScope
 internal class SideLayout(context: Context) : FrameLayout(context) {
 
     private lateinit var backgroundMask: View
+
+    private lateinit var photoLayout: View
+
+    private lateinit var userLayout: View
 
     private val scope = scope {
 
@@ -61,33 +66,24 @@ internal class SideLayout(context: Context) : FrameLayout(context) {
                 isLiftOnScroll = false
                 stateListAnimator = null
                 setBackgroundColor(Color.TRANSPARENT)
+                addOnOffsetChangedListener { appBarLayout, verticalOffset ->
+                    val percent = verticalOffset.absoluteValue.toFloat() / appBarLayout.totalScrollRange.toFloat()
+                    this@SideLayout.photoLayout.alpha = 1F - percent
+                    this@SideLayout.userLayout.alpha = percent
+                    this@SideLayout.backgroundMask.alpha = 1F - percent
+                }
             }}) {
 
                 CollapsingToolbarLayout({ appBarLayoutParams(MATCH_PARENT, WRAP_CONTENT) {
                     scrollFlags = SCROLL_FLAG_SCROLL or SCROLL_FLAG_SNAP or SCROLL_FLAG_EXIT_UNTIL_COLLAPSED
                 }}) {
 
-                    ConstraintLayout({ collapsingToolbarLayoutParams(MATCH_PARENT, WRAP_CONTENT) }) {
-                        GravityImageView({ constraintLayoutParams {
-                            leftToLeftOfParent()
-                            rightToRightOfParent()
-                            topToTopOfParent()
-                            dimensionRatio = "4:3"
-                            gravity = GravityX.T
-                            setImageResource(gadget.basic.R.drawable.ic_splash_logo)
-                            theme {
-                                imageTintList = ColorStateList.valueOf(foregroundColor)
-                            }
-                        }})
-                    }
-
                     Toolbar({ collapsingToolbarLayoutParams(MATCH_PARENT, WRAP_CONTENT) {
                         setContentInsetsAbsolute(0, 0)
                         collapseMode = COLLAPSE_MODE_PIN
-                        setBackgroundColor(Color.GREEN)
                     }}) {
 
-                        ConstraintLayoutX({ toolbarLayoutParams(MATCH_PARENT, WRAP_CONTENT) {
+                        this@SideLayout.userLayout = ConstraintLayoutX({ toolbarLayoutParams(MATCH_PARENT, WRAP_CONTENT) {
                             fitWindowInsetGravity = GravityX.T
                         }}) {
                             val (_userName, _userId) = ViewId
@@ -118,6 +114,20 @@ internal class SideLayout(context: Context) : FrameLayout(context) {
                                 }
                             }})
                         }
+                    }
+
+                    this@SideLayout.photoLayout = ConstraintLayout({ collapsingToolbarLayoutParams(MATCH_PARENT, WRAP_CONTENT) }) {
+                        GravityImageView({ constraintLayoutParams {
+                            leftToLeftOfParent()
+                            rightToRightOfParent()
+                            topToTopOfParent()
+                            dimensionRatio = "4:3"
+                            gravity = GravityX.T
+                            setImageResource(gadget.basic.R.drawable.ic_splash_logo)
+                            theme {
+                                imageTintList = ColorStateList.valueOf(foregroundColor)
+                            }
+                        }})
                     }
                 }
             }
