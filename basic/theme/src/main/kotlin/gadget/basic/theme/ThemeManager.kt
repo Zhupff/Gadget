@@ -1,6 +1,9 @@
 package gadget.basic.theme
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import gadget.basic.Gadget
+import gadget.basic.tool.mutable
 
 object ThemeManager {
 
@@ -26,13 +29,14 @@ object ThemeManager {
         override val onErrorColor: Int = 0xFF690005.toInt()
     }
 
-    val observable = MutableLiveData<ThemeScheme>(Light)
+    val observable: LiveData<ThemeScheme> = MutableLiveData(if (Gadget.configuration.value?.isNightModeActive == true) Night else Light)
 
-    fun switch() {
-        if (observable.value === Light) {
-            observable.value = Night
-        } else {
-            observable.value = Light
+    init {
+        Gadget.configuration.observeForever { configuration ->
+            val target = if (configuration.isNightModeActive) Night else Light
+            if (target != observable.value) {
+                observable.mutable().postValue(target)
+            }
         }
     }
 }
