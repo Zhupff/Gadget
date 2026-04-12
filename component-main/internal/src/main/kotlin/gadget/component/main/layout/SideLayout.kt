@@ -150,7 +150,7 @@ internal class SideLayout(
                             rightToRightOfParent()
                             topToTopOfParent()
                             dimensionRatio = "4:3"
-                            gravity = GravityX.T
+//                            gravity = GravityX.T
                             setImageResource(gadget.basic.R.drawable.ic_splash_logo)
                             theme {
                                 imageTintList = ColorStateList.valueOf(foregroundColor)
@@ -213,7 +213,7 @@ internal class SideLayout(
             holder.view.name.setText(optionState.option.name)
             holder.view.onSingleClick {
                 mainNavOptionVM.select(optionState.option)
-                if (optionState.option.isClickable()) {
+                if (optionState.option.isClickable() && !optionState.selected) {
                     optionState.option.onClick()
                 }
                 500L

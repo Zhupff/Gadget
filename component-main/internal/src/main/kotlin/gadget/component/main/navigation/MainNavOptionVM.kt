@@ -13,6 +13,7 @@ class MainNavOptionVM : ViewModel() {
 
     fun select(option: MainNavOption) {
         if (option != current.value) {
+            // 只能用 post，不然会打断点击或其他串行逻辑
             current.mutable().postValue(option)
         }
     }
