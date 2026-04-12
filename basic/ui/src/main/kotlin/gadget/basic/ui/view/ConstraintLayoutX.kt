@@ -1,0 +1,288 @@
+package gadget.basic.ui.view
+
+import android.content.Context
+import android.graphics.Canvas
+import android.graphics.Outline
+import android.graphics.Path
+import android.graphics.drawable.Drawable
+import android.view.View
+import android.view.ViewGroup
+import android.view.ViewOutlineProvider
+import android.view.WindowInsets
+import androidx.annotation.UiThread
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.graphics.withSave
+import androidx.core.view.WindowInsetsCompat
+import gadget.basic.Gadget
+import gadget.basic.annotation.DslScope
+import gadget.basic.exception.throws
+import gadget.basic.ui.common.GravityX
+import gadget.basic.ui.dsl.ViewScope
+import gadget.basic.ui.dsl.marginLayoutParams
+import kotlin.math.max
+import kotlin.math.min
+
+@DslScope
+class ConstraintLayoutX(context: Context) : ConstraintLayout(context) {
+
+    var fitWindowInsetGravity: Int = GravityX.N
+        @UiThread
+        set(value) {
+            var target = GravityX.N
+            if (value and GravityX.A == GravityX.A) {
+                target = GravityX.A
+            } else {
+                if (value and GravityX.L == GravityX.L) {
+                    target = target or GravityX.L
+                }
+                if (value and GravityX.T == GravityX.T) {
+                    target = target or GravityX.T
+                }
+                if (value and GravityX.R == GravityX.R) {
+                    target = target or GravityX.R
+                }
+                if (value and GravityX.B == GravityX.B) {
+                    target = target or GravityX.B
+                }
+            }
+            if (field != target) {
+                field = target
+                applyWindowInsets()
+            }
+        }
+
+    var clipCornerGravity: Int = GravityX.N
+        @UiThread
+        set(value) {
+            var target = GravityX.N
+            if (value and GravityX.A == GravityX.A) {
+                target = GravityX.A
+            } else if (value and GravityX.L == GravityX.L) {
+                target = GravityX.L
+            } else if (value and GravityX.T == GravityX.T) {
+                target = GravityX.T
+            } else if (value and GravityX.R == GravityX.R) {
+                target = GravityX.R
+            } else if (value and GravityX.B == GravityX.B) {
+                target = GravityX.B
+            } else if (value and GravityX.TL == GravityX.TL) {
+                target = GravityX.TL
+            } else if (value and GravityX.TR == GravityX.TR) {
+                target = GravityX.TR
+            } else if (value and GravityX.BR == GravityX.BR) {
+                target = GravityX.BR
+            } else if (value and GravityX.BL == GravityX.BL) {
+                target = GravityX.BL
+            } else {
+                target = GravityX.N
+            }
+            if (target != value && Gadget.debuggable) {
+                IllegalArgumentException("Illegal clipCornerGravity value: $value!").throws()
+            }
+            if (field != target) {
+                field = target
+                postInvalidate()
+            }
+        }
+
+    var clipCornerRadius: Float = 0F
+        @UiThread
+        set(value) {
+            val target = if (value < 0F) -1F else value
+            if (field != target) {
+                field = target
+                postInvalidate()
+            }
+        }
+
+    private val clipCornerRadiusArray = FloatArray(8)
+
+    var borderSize: Float = 0F
+        @UiThread
+        set(value) {
+            val target = if (value < 0F) 0F else value
+            if (field != target) {
+                field = target
+                if (borderShader != null) {
+                    postInvalidate()
+                }
+            }
+        }
+
+    var borderShader: Drawable? = null
+        @UiThread
+        set(value) {
+            if (field != value) {
+                field = value
+                if (borderSize > 0F) {
+                    postInvalidate()
+                }
+            }
+        }
+
+    private val borderCornerRadiusArray = FloatArray(8)
+
+    private val borderClipPath = Path()
+
+    init {
+        clipToOutline = true
+        outlineProvider = object : ViewOutlineProvider() {
+            override fun getOutline(view: View, outline: Outline) {
+                val diameter = min(width, height)
+                val r = if (clipCornerRadius < 0F) diameter / 2F else min(clipCornerRadius, diameter / 2F)
+                clipCornerRadiusArray.fill(0F)
+                when (clipCornerGravity) {
+                    GravityX.N -> {
+                        outline.setRect(0, 0, width, height)
+                    }
+                    GravityX.L -> {
+                        clipCornerRadiusArray[0] = r
+                        clipCornerRadiusArray[1] = r
+                        clipCornerRadiusArray[6] = r
+                        clipCornerRadiusArray[7] = r
+                        outline.setRoundRect(0, 0, width + r.toInt(), height, r)
+                    }
+                    GravityX.T -> {
+                        clipCornerRadiusArray[0] = r
+                        clipCornerRadiusArray[1] = r
+                        clipCornerRadiusArray[2] = r
+                        clipCornerRadiusArray[3] = r
+                        outline.setRoundRect(0, 0, width, height + r.toInt(), r)
+                    }
+                    GravityX.R -> {
+                        clipCornerRadiusArray[2] = r
+                        clipCornerRadiusArray[3] = r
+                        clipCornerRadiusArray[4] = r
+                        clipCornerRadiusArray[5] = r
+                        outline.setRoundRect(0 - r.toInt(), 0, width, height, r)
+                    }
+                    GravityX.B -> {
+                        clipCornerRadiusArray[4] = r
+                        clipCornerRadiusArray[5] = r
+                        clipCornerRadiusArray[6] = r
+                        clipCornerRadiusArray[7] = r
+                        outline.setRoundRect(0, 0 - r.toInt(), width, height, r)
+                    }
+                    GravityX.TL -> {
+                        clipCornerRadiusArray[0] = r
+                        clipCornerRadiusArray[1] = r
+                        outline.setRoundRect(0, 0, width + r.toInt(), height + r.toInt(), r)
+                    }
+                    GravityX.TR -> {
+                        clipCornerRadiusArray[2] = r
+                        clipCornerRadiusArray[3] = r
+                        outline.setRoundRect(0 - r.toInt(), 0, width, height + r.toInt(), r)
+                    }
+                    GravityX.BR -> {
+                        clipCornerRadiusArray[4] = r
+                        clipCornerRadiusArray[5] = r
+                        outline.setRoundRect(0 - r.toInt(), 0 - r.toInt(), width, height, r)
+                    }
+                    GravityX.BL -> {
+                        clipCornerRadiusArray[6] = r
+                        clipCornerRadiusArray[7] = r
+                        outline.setRoundRect(0, 0 - r.toInt(), width + r.toInt(), height, r)
+                    }
+                    GravityX.A -> {
+                        clipCornerRadiusArray.fill(r)
+                        outline.setRoundRect(0, 0, width, height, r)
+                    }
+                }
+                if (borderSize <= 0F || borderShader == null) {
+                    borderCornerRadiusArray.fill(0F)
+                    borderClipPath.reset()
+                } else {
+                    val s = min(r / 2F, borderSize)
+                    for (i in borderCornerRadiusArray.indices) {
+                        borderCornerRadiusArray[i] = max(0F, clipCornerRadiusArray[i] - s)
+                    }
+                    borderClipPath.reset()
+                    borderClipPath.addRoundRect(s, s, width - s, height - s, borderCornerRadiusArray, Path.Direction.CW)
+                    val shaderWidth = borderShader!!.intrinsicWidth
+                    val shaderHeight = borderShader!!.intrinsicHeight
+                    if (shaderWidth <= 0 || shaderHeight <= 0) {
+                        if (width > height) {
+                            borderShader!!.setBounds(0, -(width - height) / 2, width, height + (width - height) / 2)
+                        } else {
+                            borderShader!!.setBounds(-(height - width) / 2, 0, width + (height - width) / 2, height)
+                        }
+                    } else {
+                        if (width * shaderHeight > height * shaderWidth) {
+                            val diff = if (width > shaderWidth) {
+                                width * shaderHeight / shaderWidth - shaderHeight
+                            } else {
+                                shaderHeight - width * shaderHeight / shaderWidth
+                            } / 2
+                            borderShader!!.setBounds(0, -diff, width, height + diff)
+                        } else {
+                            val diff = if (height > shaderHeight) {
+                                height * shaderWidth / shaderHeight - shaderWidth
+                            } else {
+                                shaderWidth - height * shaderWidth / shaderHeight
+                            } / 2
+                            borderShader!!.setBounds(-diff, 0, width + diff, height)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onApplyWindowInsets(insets: WindowInsets?): WindowInsets? {
+        return super.onApplyWindowInsets(insets).also {
+            applyWindowInsets()
+        }
+    }
+
+    private fun applyWindowInsets() {
+        if (rootWindowInsets == null) {
+            return
+        }
+        val windowInsetsCompat = WindowInsetsCompat.toWindowInsetsCompat(rootWindowInsets, this)
+        val systemBarInsets = windowInsetsCompat.getInsets(WindowInsetsCompat.Type.systemBars())
+        val targetPaddingLeft   = if (fitWindowInsetGravity and GravityX.L == GravityX.L) systemBarInsets.left   else 0
+        val targetPaddingTop    = if (fitWindowInsetGravity and GravityX.T == GravityX.T) systemBarInsets.top    else 0
+        val targetPaddingRight  = if (fitWindowInsetGravity and GravityX.R == GravityX.R) systemBarInsets.right  else 0
+        val targetPaddingBottom = if (fitWindowInsetGravity and GravityX.B == GravityX.B) systemBarInsets.bottom else 0
+        if (paddingLeft   != targetPaddingLeft  ||
+            paddingTop    != targetPaddingTop   ||
+            paddingRight  != targetPaddingRight ||
+            paddingBottom != targetPaddingBottom) {
+            setPadding(targetPaddingLeft, targetPaddingTop, targetPaddingRight, targetPaddingBottom)
+        }
+    }
+
+    override fun setClipToOutline(clipToOutline: Boolean) {
+        if (!clipToOutline) {
+            if (Gadget.debuggable) {
+                IllegalArgumentException("Must support clipToOutline!").throws()
+            } else {
+                return
+            }
+        }
+        super.setClipToOutline(true)
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        applyWindowInsets()
+    }
+
+    override fun dispatchDraw(canvas: Canvas) {
+        super.dispatchDraw(canvas)
+        if (borderSize > 0F && borderShader != null) {
+            canvas.withSave {
+                clipOutPath(borderClipPath)
+                borderShader?.draw(this)
+            }
+        }
+    }
+}
+
+inline fun <V : ViewGroup> ViewScope<V>.ConstraintLayoutX(
+    params: (@DslScope ConstraintLayoutX).() -> ViewGroup.LayoutParams = { marginLayoutParams() },
+    lambda: (@DslScope ViewScope<ConstraintLayoutX>).() -> Unit = {},
+): ConstraintLayoutX = ConstraintLayoutX(get()!!.context).also {
+    get()!!.addView(it, params(it))
+    lambda(ViewScope.get(it))
+}
