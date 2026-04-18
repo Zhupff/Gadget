@@ -52,7 +52,6 @@ class ComponentMainLayout(
 
     private val scope = scope({ marginLayoutParams {
         subscribeTheme(GlobalTheme.current) {
-            setBackgroundColor(backgroundColor)
             setScrimColor(backgroundColor and 0x00FFFFFF or 0x99000000.toInt())
         }
     }}) {
