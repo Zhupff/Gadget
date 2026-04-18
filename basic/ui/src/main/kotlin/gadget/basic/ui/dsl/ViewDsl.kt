@@ -42,3 +42,19 @@ inline fun View.onLayout(crossinline action: (l1: Int, t1: Int, r1: Int, b1: Int
     View.OnLayoutChangeListener { _, l1, t1, r1, b1, l2, t2, r2, b2 ->
         action(l1, t1, r1, b1, l2, t2, r2, b2)
     }.also(this::addOnLayoutChangeListener)
+
+inline fun View.OnAttachStateChanged(
+    crossinline onAttached: () -> Unit = {},
+    crossinline onDetached: () -> Unit = {},
+): View.OnAttachStateChangeListener = object : View.OnAttachStateChangeListener {
+    override fun onViewAttachedToWindow(view: View) {
+        if (view === this@OnAttachStateChanged) {
+            onAttached()
+        }
+    }
+    override fun onViewDetachedFromWindow(view: View) {
+        if (view === this@OnAttachStateChanged) {
+            onDetached()
+        }
+    }
+}.also(this::addOnAttachStateChangeListener)
