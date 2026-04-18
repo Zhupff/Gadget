@@ -4,6 +4,7 @@ plugins {
 
 gadget {
     android("gadget.component.role.external")
+    enableProtobuf()
 }
 
 dependencies {
