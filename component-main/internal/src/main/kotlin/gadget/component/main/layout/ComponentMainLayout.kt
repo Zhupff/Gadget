@@ -35,6 +35,9 @@ class ComponentMainLayout(
     private val activity: ComponentMainActivity,
 ) : DrawerLayout(activity) {
 
+    lateinit var backgroundContainer: FrameLayout
+        private set
+
     lateinit var sideContainer: FrameLayout
         private set
 
@@ -53,6 +56,10 @@ class ComponentMainLayout(
             setScrimColor(backgroundColor and 0x00FFFFFF or 0x99000000.toInt())
         }
     }}) {
+
+        this@ComponentMainLayout.backgroundContainer = FrameLayout({ marginLayoutParams {
+            id = generateViewId()
+        }})
 
         ConstraintLayout {
             val (_sideContainer, _divider, _mainContainer) = ViewId

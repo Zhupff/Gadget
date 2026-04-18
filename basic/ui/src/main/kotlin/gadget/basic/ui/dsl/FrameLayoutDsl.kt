@@ -1,11 +1,21 @@
 package gadget.basic.ui.dsl
 
+import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.FrameLayout
 import gadget.basic.annotation.DslScope
+
+inline fun FrameLayout(
+    context: Context,
+    params: (@DslScope FrameLayout).() -> ViewGroup.LayoutParams = { marginLayoutParams() },
+    lambda: (@DslScope ViewScope<FrameLayout>).() -> Unit = {},
+): FrameLayout = FrameLayout(context).also {
+    params(it)
+    lambda(ViewScope.get(it))
+}
 
 inline fun <V : ViewGroup> ViewScope<V>.FrameLayout(
     params: (@DslScope FrameLayout).() -> ViewGroup.LayoutParams = { marginLayoutParams() },
