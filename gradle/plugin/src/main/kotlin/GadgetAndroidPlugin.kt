@@ -8,7 +8,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 abstract class GadgetAndroidPlugin<E : CommonExtension<*, *, *, *, *, *>> : GadgetPlugin() {
 
     protected open val dimensions2flavors: Map<String, List<String>> = mapOf(
-        "tier" to listOf("lite", "plus"),
+        "tier" to listOf("lite", "apex"),
     )
 
     protected abstract val androidExtension: E

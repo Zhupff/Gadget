@@ -9,9 +9,9 @@ gadget {
             versionName = "1.0.0"
         }
         sourceSets {
-            getByName("plus") {
+            getByName("apex") {
                 res.srcDirs(
-                    "src/plus/res-language",
+                    "src/apex/res-language",
                 )
             }
         }
