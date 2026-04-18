@@ -6,7 +6,6 @@ plugins {
 gadget {
     android("gadget.component.main.internal")
     enableAutoService()
-    enableViewBinding()
 }
 
 dependencies {

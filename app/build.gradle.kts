@@ -17,7 +17,6 @@ gadget {
         }
     }
     enableJunitTest()
-    enableViewBinding()
 }
 
 dependencies {
