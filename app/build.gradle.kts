@@ -22,4 +22,5 @@ gadget {
 dependencies {
     implementation(project(":basic:logger"))
     implementation(project(":component-main:internal"))
+    "apexImplementation"(project(":component-role:internal"))
 }

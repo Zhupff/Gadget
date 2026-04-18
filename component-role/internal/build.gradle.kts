@@ -14,4 +14,5 @@ dependencies {
     implementation(project(":basic:theme"))
     implementation(project(":basic:ui"))
     implementation(project(":component-main:external"))
+    implementation(project(":component-role:external"))
 }

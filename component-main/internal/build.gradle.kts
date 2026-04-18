@@ -14,4 +14,5 @@ dependencies {
     implementation(project(":basic:theme"))
     implementation(project(":basic:ui"))
     implementation(project(":component-main:external"))
+    "apexImplementation"(project(":component-role:external"))
 }
