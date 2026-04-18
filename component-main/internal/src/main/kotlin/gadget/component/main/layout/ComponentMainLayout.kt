@@ -7,7 +7,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.MATCH_CONSTRAINT
 import androidx.drawerlayout.widget.DrawerLayout
 import gadget.basic.annotation.DslScope
-import gadget.basic.theme.ThemeManager
+import gadget.basic.theme.GlobalTheme
 import gadget.basic.theme.subscribeTheme
 import gadget.basic.theme.theme
 import gadget.basic.tool.dp
@@ -48,7 +48,7 @@ class ComponentMainLayout(
         private set
 
     private val scope = scope({ marginLayoutParams {
-        subscribeTheme(ThemeManager.observable) {
+        subscribeTheme(GlobalTheme.current) {
             setBackgroundColor(backgroundColor)
             setScrimColor(backgroundColor and 0x00FFFFFF or 0x99000000.toInt())
         }
