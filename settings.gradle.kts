@@ -35,4 +35,9 @@ include(
     ":component-main:external",
     ":component-main:internal",
 )
+
+include(
+    ":component-role:external",
+    ":component-role:internal",
+)
  

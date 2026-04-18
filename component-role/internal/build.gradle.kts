@@ -4,7 +4,7 @@ plugins {
 }
 
 gadget {
-    android("gadget.component.main.internal")
+    android("gadget.component.role.internal")
     enableAutoService()
 }
 
