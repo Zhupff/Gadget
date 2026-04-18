@@ -1,10 +1,15 @@
 package gadget.component.main.navigation
 
+import android.view.View
+import android.view.ViewGroup
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import gadget.basic.tool.iteration
 
 interface MainNavOption {
     companion object {
-        val ALL: List<MainNavOption> = iteration<MainNavOption>().sortedBy { it.id }
+        val all: List<MainNavOption> = iteration<MainNavOption>().sortedBy { it.id }
+        val current: LiveData<MainNavOption> = MutableLiveData(all.find { it.id == OptionID.HOME })
     }
 
     enum class OptionID {
@@ -23,9 +28,7 @@ interface MainNavOption {
     /** string res id */
     val name: Int
 
-    fun isClickable(): Boolean = true
+    fun createView(parent: ViewGroup): View? = null
 
-    fun isSelectable(): Boolean = true
-
-    fun onClick() {}
+    fun onClick(): Boolean = true
 }

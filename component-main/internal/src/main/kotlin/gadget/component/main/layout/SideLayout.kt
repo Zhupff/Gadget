@@ -13,7 +13,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,6 +25,7 @@ import com.google.android.material.appbar.CollapsingToolbarLayout.LayoutParams.C
 import gadget.basic.annotation.DslScope
 import gadget.basic.theme.theme
 import gadget.basic.tool.dp
+import gadget.basic.tool.mutable
 import gadget.basic.ui.common.GravityX
 import gadget.basic.ui.dsl.AppBarLayout
 import gadget.basic.ui.dsl.CollapsingToolbarLayout
@@ -59,7 +60,6 @@ import gadget.basic.ui.view.GradientTransparentL2R
 import gadget.basic.ui.view.GravityImageView
 import gadget.component.main.ComponentMainActivity
 import gadget.component.main.navigation.MainNavOption
-import gadget.component.main.navigation.MainNavOptionVM
 import kotlin.math.absoluteValue
 
 @DslScope
@@ -72,10 +72,6 @@ internal class SideLayout(
     private lateinit var photoLayout: View
 
     private lateinit var userLayout: View
-
-    private val mainNavOptionVM: MainNavOptionVM by lazy {
-        ViewModelProvider(activity)[MainNavOptionVM::class.java]
-    }
 
     private val scope = scope {
 
@@ -163,7 +159,8 @@ internal class SideLayout(
             RecyclerView({ coordinatorLayoutParams {
                 behavior = AppBarLayout.ScrollingViewBehavior(context, null)
                 layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-                adapter = MainNavOptionAdapter(this@SideLayout.activity, this@SideLayout.mainNavOptionVM)
+                adapter = MainNavOptionAdapter(this@SideLayout.activity)
+                itemAnimator = null
             }}) {
             }
         }
@@ -171,9 +168,8 @@ internal class SideLayout(
 
     private class MainNavOptionAdapter(
         private val activity: ComponentMainActivity,
-        private val mainNavOptionVM: MainNavOptionVM,
-    ) : SimpleRecyclerViewAdapter<MainNavOptionAdapter.MainNavOptionView>() {
-        private val mainNavOptionStates: List<MainNavOptionState> = MainNavOption.ALL.map {
+    ) : SimpleRecyclerViewAdapter<FrameLayout>() {
+        private val mainNavOptionStates: List<MainNavOptionState> = MainNavOption.all.map {
             MainNavOptionState(it)
         }
         private var snapshots: List<Pair<MainNavOption.OptionID, Boolean>> = mainNavOptionStates.map {
@@ -181,7 +177,7 @@ internal class SideLayout(
         }
 
         init {
-            mainNavOptionVM.current.observe(activity) { selected ->
+            MainNavOption.current.observe(activity) { selected ->
                 mainNavOptionStates.forEach { it.selected = it.option === selected }
                 val newSnapshots = mainNavOptionStates.map {
                     it.option.id to it.selected
@@ -199,28 +195,35 @@ internal class SideLayout(
             }
         }
 
-        override fun getItemCount(): Int = MainNavOption.ALL.size
+        override fun getItemCount(): Int = MainNavOption.all.size
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SimpleRecyclerViewHolder<MainNavOptionView> {
-            return SimpleRecyclerViewHolder(MainNavOptionView(parent.context))
+        override fun getItemViewType(position: Int): Int = snapshots[position].first.ordinal
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SimpleRecyclerViewHolder<FrameLayout> {
+            val optionId = snapshots.find { it.first.ordinal == viewType }!!.first
+            val option = MainNavOption.all.find { it.id == optionId }!!
+            val container = FrameLayout(parent.context).apply {
+                layoutParams = marginLayoutParams(MATCH_PARENT, WRAP_CONTENT)
+            }
+            container.addView(option.createView(container) ?: MainNavOptionView(container.context, option))
+            return SimpleRecyclerViewHolder(container)
         }
 
-        override fun onBindViewHolder(holder: SimpleRecyclerViewHolder<MainNavOptionView>, position: Int) {
+        override fun onBindViewHolder(holder: SimpleRecyclerViewHolder<FrameLayout>, position: Int) {
             val optionState = mainNavOptionStates[position]
-            holder.view.mask.isVisible = optionState.selected
-            holder.view.icon.setImageResource(optionState.option.icon)
-            holder.view.icon.isSelected = optionState.selected
-            holder.view.name.setText(optionState.option.name)
+            val option = optionState.option
             holder.view.onSingleClick {
-                mainNavOptionVM.select(optionState.option)
-                if (optionState.option.isClickable() && !optionState.selected) {
-                    optionState.option.onClick()
+                if (!optionState.selected && option.onClick()) {
+                    MainNavOption.current.mutable().postValue(option)
                 }
                 500L
             }
         }
 
-        class MainNavOptionView(context: Context) : ConstraintLayout(context) {
+        class MainNavOptionView(
+            context: Context,
+            private val option: MainNavOption,
+        ) : ConstraintLayout(context), Observer<MainNavOption> {
 
             lateinit var mask: View
                 private set
@@ -255,6 +258,7 @@ internal class SideLayout(
                     theme {
                         imageTintList = ColorStateList.valueOf(foregroundColor)
                     }
+                    setImageResource(option.icon)
                 }})
 
                 this@MainNavOptionView.name = TextView({ constraintLayoutParams {
@@ -268,8 +272,29 @@ internal class SideLayout(
                     theme {
                         setTextColor(foregroundColor)
                     }
+                    setText(option.name)
                 }})
             }}
+
+            override fun onAttachedToWindow() {
+                super.onAttachedToWindow()
+                MainNavOption.current.observeForever(this)
+            }
+
+            override fun onDetachedFromWindow() {
+                super.onDetachedFromWindow()
+                MainNavOption.current.removeObserver(this)
+            }
+
+            override fun onChanged(value: MainNavOption) {
+                if (value === option) {
+                    mask.isVisible = true
+                    icon.isSelected = true
+                } else {
+                    mask.isVisible = false
+                    icon.isSelected = false
+                }
+            }
         }
 
         class MainNavOptionState(
