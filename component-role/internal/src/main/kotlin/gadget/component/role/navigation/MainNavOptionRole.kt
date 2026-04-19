@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer
 import com.google.auto.service.AutoService
 import gadget.basic.theme.theme
 import gadget.basic.tool.dp
+import gadget.basic.ui.common.GravityX
 import gadget.basic.ui.dsl.ImageView
 import gadget.basic.ui.dsl.OnAttachStateChanged
 import gadget.basic.ui.dsl.TextView
@@ -24,8 +25,10 @@ import gadget.basic.ui.dsl.marginLayoutParams
 import gadget.basic.ui.dsl.rightToRightOfParent
 import gadget.basic.ui.dsl.scope
 import gadget.basic.ui.dsl.topToTopOfParent
+import gadget.basic.ui.view.FrameLayoutX
 import gadget.basic.ui.view.GradientTransparentL2R
 import gadget.component.main.navigation.MainNavOption
+import gadget.component.role.ComponentRole
 import gadget.component.role.internal.R
 
 @AutoService(MainNavOption.Provider::class)
@@ -49,9 +52,18 @@ class MainNavOptionRole(
 
     override val view: View = ItemView()
 
+    override fun onClick(): Boolean {
+        if (ComponentRole.checkResourcesExist()) {
+            return true
+        }
+        ComponentRole.loadResources()
+        return false
+    }
+
     private inner class ItemView : ConstraintLayout(context), Observer<MainNavOption.OptionID> {
         private lateinit var mask: GradientTransparentL2R
         private lateinit var icon: ImageView
+        private lateinit var load: View
         private val scope = scope({ marginLayoutParams(MATCH_PARENT, 50.dp) {
             OnAttachStateChanged({
                 selection.observeForever(this@ItemView)
@@ -93,6 +105,17 @@ class MainNavOptionRole(
                     setTextColor(foregroundColor)
                 }
                 setText(this@MainNavOptionRole.name)
+            }})
+            load = FrameLayoutX({ constraintLayoutParams(16.dp, 16.dp) {
+                rightToRightOfParent()
+                topToTopOfParent()
+                bottomToBottomOfParent()
+                setMargins(leftMargin, topMargin, 16.dp, bottomMargin)
+                theme {
+                    setBackgroundColor(primaryColor)
+                }
+                clipCornerRadius = 8F.dp
+                clipCornerGravity = GravityX.A
             }})
         }
 
