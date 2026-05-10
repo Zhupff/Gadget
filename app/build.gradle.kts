@@ -23,4 +23,5 @@ dependencies {
     implementation(project(":basic:logger"))
     implementation(project(":component-main:internal"))
     "apexImplementation"(project(":component-role:internal"))
+    implementation(project(":component-setting:internal"))
 }

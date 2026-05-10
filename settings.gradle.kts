@@ -40,4 +40,9 @@ include(
     ":component-role:external",
     ":component-role:internal",
 )
+
+include(
+    ":component-setting:external",
+    ":component-setting:internal",
+)
  
