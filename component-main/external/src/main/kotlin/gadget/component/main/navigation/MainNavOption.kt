@@ -26,7 +26,7 @@ interface MainNavOption {
     /** string res id */
     val name: Int
 
-    val view: View
+    val view: View?
 
     fun onClick(): Boolean = true
 }
