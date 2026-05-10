@@ -31,7 +31,7 @@ import kotlin.math.max
 import kotlin.math.min
 
 @DslScope
-class ComponentMainLayout(
+class MainLayout(
     private val activity: ComponentMainActivity,
 ) : DrawerLayout(activity) {
 
@@ -54,16 +54,24 @@ class ComponentMainLayout(
         subscribeTheme(GlobalTheme.current) {
             setScrimColor(backgroundColor and 0x00FFFFFF or 0x99000000.toInt())
         }
+        addDrawerListener(object : SimpleDrawerListener() {
+            override fun onDrawerClosed(drawerView: View) {
+                super.onDrawerClosed(drawerView)
+                if (drawerView === drawer && sideLayout.parent === drawer) {
+                    sideLayout.appBarLayout.setExpanded(true)
+                }
+            }
+        })
     }}) {
 
-        this@ComponentMainLayout.backgroundContainer = FrameLayout({ marginLayoutParams {
+        this@MainLayout.backgroundContainer = FrameLayout({ marginLayoutParams {
             id = generateViewId()
         }})
 
         ConstraintLayout {
             val (_sideContainer, _divider, _mainContainer) = ViewId
 
-            this@ComponentMainLayout.sideContainer = FrameLayout({ constraintLayoutParams {
+            this@MainLayout.sideContainer = FrameLayout({ constraintLayoutParams {
                 id = _sideContainer
                 leftToLeftOfParent()
                 rightToLeftOf(_divider)
@@ -73,7 +81,7 @@ class ComponentMainLayout(
                 horizontalChainStyle = ConstraintLayout.LayoutParams.CHAIN_PACKED
             }})
 
-            this@ComponentMainLayout.divider = View({ constraintLayoutParams(1.dp, MATCH_CONSTRAINT) {
+            this@MainLayout.divider = View({ constraintLayoutParams(1.dp, MATCH_CONSTRAINT) {
                 id = _divider
                 leftToRightOf(_sideContainer)
                 rightToLeftOf(_mainContainer)
@@ -85,7 +93,7 @@ class ComponentMainLayout(
                 }
             }})
 
-            this@ComponentMainLayout.mainContainer = FrameLayout({ constraintLayoutParams {
+            this@MainLayout.mainContainer = FrameLayout({ constraintLayoutParams {
                 id = _mainContainer
                 leftToRightOf(_divider)
                 rightToRightOfParent()
@@ -96,7 +104,7 @@ class ComponentMainLayout(
             }})
         }
 
-        this@ComponentMainLayout.drawer = FrameLayout({ drawerLayoutParams {
+        this@MainLayout.drawer = FrameLayout({ drawerLayoutParams {
             gravity = Gravity.LEFT
         }})
     }

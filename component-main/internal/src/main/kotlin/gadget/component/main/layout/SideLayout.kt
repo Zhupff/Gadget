@@ -69,6 +69,9 @@ internal class SideLayout(
 
     private lateinit var backgroundMask: View
 
+    lateinit var appBarLayout: AppBarLayout
+        private set
+
     private lateinit var photoLayout: View
 
     private lateinit var userLayout: View
@@ -83,7 +86,7 @@ internal class SideLayout(
 
         CoordinatorLayout {
 
-            AppBarLayout({ coordinatorLayoutParams(MATCH_PARENT, WRAP_CONTENT) {
+            this@SideLayout.appBarLayout = AppBarLayout({ coordinatorLayoutParams(MATCH_PARENT, WRAP_CONTENT) {
                 elevation = 0F
                 isLiftOnScroll = false
                 stateListAnimator = null

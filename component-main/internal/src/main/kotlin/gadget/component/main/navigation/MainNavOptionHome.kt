@@ -6,14 +6,6 @@ import androidx.lifecycle.LiveData
 import com.google.auto.service.AutoService
 import gadget.component.main.internal.R
 
-@AutoService(MainNavOption.Provider::class)
-class MainNavOptionHomeProvider : MainNavOption.Provider {
-    override fun provide(
-        context: Context,
-        selection: LiveData<MainNavOption.OptionID>
-    ): MainNavOption = MainNavOptionHome(context, selection)
-}
-
 class MainNavOptionHome(
     private val context: Context,
     private val selection: LiveData<MainNavOption.OptionID>,
@@ -26,4 +18,12 @@ class MainNavOptionHome(
     override val name: Int = R.string.main_nav_option_home
 
     override val view: View? = null
+
+    @AutoService(MainNavOption.Provider::class)
+    class Provider : MainNavOption.Provider {
+        override fun provide(
+            context: Context,
+            selection: LiveData<MainNavOption.OptionID>
+        ): MainNavOption = MainNavOptionHome(context, selection)
+    }
 }

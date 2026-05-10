@@ -8,14 +8,6 @@ import gadget.basic.tool.singleToastS
 import gadget.component.main.navigation.MainNavOption
 import gadget.component.role.internal.R
 
-@AutoService(MainNavOption.Provider::class)
-class MainNavOptionRoleProvider : MainNavOption.Provider {
-    override fun provide(
-        context: Context,
-        selection: LiveData<MainNavOption.OptionID>
-    ): MainNavOption = MainNavOptionRole(context, selection)
-}
-
 class MainNavOptionRole(
     private val context: Context,
     private val selection: LiveData<MainNavOption.OptionID>,
@@ -32,5 +24,13 @@ class MainNavOptionRole(
     override fun onClick(): Boolean {
         gadget.basic.R.string.feature_not_supported.singleToastS()
         return false
+    }
+
+    @AutoService(MainNavOption.Provider::class)
+    class Provider : MainNavOption.Provider {
+        override fun provide(
+            context: Context,
+            selection: LiveData<MainNavOption.OptionID>
+        ): MainNavOption = MainNavOptionRole(context, selection)
     }
 }
