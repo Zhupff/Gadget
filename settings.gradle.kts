@@ -27,6 +27,7 @@ include(
     ":basic",
     ":basic:annotation",
     ":basic:logger",
+    ":basic:notice",
     ":basic:theme",
     ":basic:ui",
 )
