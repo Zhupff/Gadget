@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="main_nav_option_home">Home</string>
-    <string name="main_nav_option_audio">Audio</string>
-    <string name="main_nav_option_video">Video</string>
+    <string name="main_nav_option_proxy">Proxy</string>
     <string name="main_nav_option_role">Role</string>
     <string name="main_nav_option_setting">Setting</string>
     <string name="main_nav_option_about">About</string>

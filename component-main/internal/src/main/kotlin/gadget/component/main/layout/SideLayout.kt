@@ -206,7 +206,12 @@ internal class SideLayout(
             val container = FrameLayout(parent.context).apply {
                 layoutParams = marginLayoutParams(MATCH_PARENT, WRAP_CONTENT)
             }
-            container.addView(option.view ?: DefaultItemView(activity, option))
+            val itemView = if (option is MainNavOption.Simple) {
+                SimpleItemView(activity, option)
+            } else {
+                option.view
+            }
+            container.addView(itemView)
             return SimpleRecyclerViewHolder(container)
         }
 
@@ -221,18 +226,18 @@ internal class SideLayout(
             }
         }
 
-        private class DefaultItemView(
+        private class SimpleItemView(
             private val activity: ComponentMainActivity,
-            private val option: MainNavOption,
+            private val option: MainNavOption.Simple,
         ) : ConstraintLayout(activity), Observer<MainNavOption.OptionID> {
             private val mainNavOptionVM = ViewModelProvider(activity)[MainNavOptionVM::class.java]
             private lateinit var mask: GradientTransparentL2R
             private lateinit var icon: ImageView
             private val scope = scope({ marginLayoutParams(MATCH_PARENT, 50.dp) {
                 OnAttachStateChanged({
-                    mainNavOptionVM.current.observeForever(this@DefaultItemView)
+                    mainNavOptionVM.current.observeForever(this@SimpleItemView)
                 }, {
-                    mainNavOptionVM.current.removeObserver(this@DefaultItemView)
+                    mainNavOptionVM.current.removeObserver(this@SimpleItemView)
                 })
             }}) {
                 mask = GradientTransparentL2R({ constraintLayoutParams {
@@ -255,7 +260,7 @@ internal class SideLayout(
                     theme {
                         imageTintList = ColorStateList.valueOf(foregroundColor)
                     }
-                    setImageResource(this@DefaultItemView.option.icon)
+                    setImageResource(this@SimpleItemView.option.icon)
                 }})
                 TextView({ constraintLayoutParams {
                     leftToRightOf(icon.id)
@@ -268,12 +273,12 @@ internal class SideLayout(
                     theme {
                         setTextColor(foregroundColor)
                     }
-                    setText(this@DefaultItemView.option.name)
+                    setText(this@SimpleItemView.option.name)
                 }})
             }
 
             override fun onChanged(value: MainNavOption.OptionID) {
-                if (value == this@DefaultItemView.option.id) {
+                if (value == this@SimpleItemView.option.id) {
                     mask.isVisible = true
                     icon.isSelected = true
                 } else {
