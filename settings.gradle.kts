@@ -33,16 +33,25 @@ include(
 )
 
 include(
+    ":component-main",
     ":component-main:external",
     ":component-main:internal",
 )
 
 include(
+    ":component-proxy",
+    ":component-proxy:external",
+    ":component-proxy:internal",
+)
+
+include(
+    ":component-role",
     ":component-role:external",
     ":component-role:internal",
 )
 
 include(
+    ":component-setting",
     ":component-setting:external",
     ":component-setting:internal",
 )
