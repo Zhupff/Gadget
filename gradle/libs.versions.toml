@@ -1,0 +1,24 @@
+[versions]
+agp = "9.1.1"
+kotlin = "2.4.0"
+ktor = "3.5.0"
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
+
+[libraries]
+android-material = { group = "com.google.android.material", name = "material", version = "1.14.0" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version = "1.19.0" }
+androidx-apcompat = { group = "androidx.appcompat", name = "appcompat", version = "1.7.1" }
+androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version = "2.2.1" }
+ktor-server-core = { group = "io.ktor", name = "ktor-server-core-jvm", version.ref = "ktor" }
+ktor-server-netty = { group = "io.ktor", name = "ktor-server-netty-jvm", version.ref = "ktor" }
+
+# Dependencies for gradle
+android-gradle = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
+kotlin-gradle = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
