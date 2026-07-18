@@ -15,16 +15,10 @@ open class GadgetException @JvmOverloads constructor(
     }
 }
 
-fun Throwable.throws(message: String? = null): Nothing {
+fun Throwable.throws(message: String? = null, uncaught: ((Thread) -> Unit)? = null): Nothing {
     throw if (message.isNullOrBlank()) {
-        GadgetException(this.message, this)
+        GadgetException(this.message, this, uncaught)
     } else {
-        GadgetException(message, this)
-    }
-}
-
-inline fun Throwable.throwsIf(message: String? = null, condition: () -> Boolean) {
-    if (condition()) {
-        throws(message)
+        GadgetException(message, this, uncaught)
     }
 }

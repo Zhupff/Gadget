@@ -1,6 +1,6 @@
 package gadget
 
-import gadget.basic.Gadget
+import gadget.basic.GadgetApplication
 
-class Alyx : Gadget() {
+class Alyx : GadgetApplication() {
 }
