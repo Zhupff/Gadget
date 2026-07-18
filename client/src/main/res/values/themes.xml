@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.Gadget.Application" parent="Theme.Gadget">
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/splash_logo</item>
+        <item name="android:windowSplashScreenIconBackgroundColor">@color/SplashBackground</item>
+        <item name="android:windowSplashScreenBackground">@color/SplashBackground</item>
+        <item name="android:windowSplashScreenBrandingImage">@drawable/splash_brand</item>
+    </style>
+
+</resources>

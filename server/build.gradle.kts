@@ -4,7 +4,7 @@ plugins {
 }
 
 application {
-    mainClass = "AlyxKt"
+    mainClass = "gadget.AlyxKt"
 }
 
 dependencies {

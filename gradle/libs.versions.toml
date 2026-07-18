@@ -15,7 +15,7 @@ ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
 [libraries]
 android-material = { group = "com.google.android.material", name = "material", version = "1.14.0" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version = "1.15.0" }
-androidx-apcompat = { group = "androidx.appcompat", name = "appcompat", version = "1.7.1" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version = "1.7.1" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version = "2.2.1" }
 autoservice-annotation = { group = "com.google.auto.service", name = "auto-service-annotations", version.ref = "autoService" }
 autoservice-processor = { group = "com.google.auto.service", name = "auto-service", version.ref = "autoService" }

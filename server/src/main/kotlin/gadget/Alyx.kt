@@ -1,3 +1,5 @@
+package gadget
+
 import gadget.basic.logger.Logger
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
