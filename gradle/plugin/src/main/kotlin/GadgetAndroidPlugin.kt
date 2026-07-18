@@ -1,7 +1,7 @@
 import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.JavaVersion
 
-abstract class GadgetAndroidPlugin<E : CommonExtension> : GadgetPlugin() {
+abstract class GadgetAndroidPlugin<E : CommonExtension<*, *, *, *, *, *>> : GadgetPlugin() {
 
     protected abstract val androidExtension: E
 
@@ -10,16 +10,26 @@ abstract class GadgetAndroidPlugin<E : CommonExtension> : GadgetPlugin() {
             namespace = ns
             compileSdk = 36
             defaultConfig.minSdk = 32
-            compileOptions.apply {
+            compileOptions {
                 sourceCompatibility = JavaVersion.VERSION_17
                 targetCompatibility = JavaVersion.VERSION_17
             }
-            sourceSets.apply {
-                getByName("main").kotlin.directories += "src/main/kotlin"
-                getByName("debug").kotlin.directories += "src/debug/kotlin"
-                getByName("release").kotlin.directories += "src/release/kotlin"
+            sourceSets {
+                getByName("main") {
+                    java.srcDir("src/main/kotlin")
+                }
+                getByName("debug") {
+                    java.srcDir("src/debug/kotlin")
+                }
+                getByName("release") {
+                    java.srcDir("src/release/kotlin")
+                }
             }
-            packaging.resources.excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            packaging {
+                resources {
+                    excludes += "/META-INF/{AL2.0,LGPL2.1}"
+                }
+            }
         }
     }
 

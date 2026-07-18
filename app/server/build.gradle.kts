@@ -10,4 +10,7 @@ application {
 dependencies {
     implementation(libs.ktor.server.core)
     implementation(libs.ktor.server.netty)
+
+    implementation(project(":basic"))
+    implementation(project(":basic:logger:server"))
 }

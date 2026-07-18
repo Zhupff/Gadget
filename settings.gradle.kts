@@ -20,3 +20,9 @@ rootProject.name = "Gadget"
 include(
     ":app:server",
 )
+
+include(
+    ":basic",
+    ":basic:logger:client",
+    ":basic:logger:server",
+)

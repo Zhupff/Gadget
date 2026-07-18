@@ -21,4 +21,9 @@ abstract class GadgetPlugin : Plugin<Project> {
         this.project = target
         target.extensions.add(this.javaClass, "gadget", this)
     }
+
+    fun enableAutoService() {
+        this.project.dependencies.add("implementation", libs.findLibrary("autoservice-annotation").get())
+        this.project.dependencies.add("kapt", libs.findLibrary("autoservice-processor").get())
+    }
 }
