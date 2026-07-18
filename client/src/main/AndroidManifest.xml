@@ -7,6 +7,18 @@
         android:theme="@style/Theme.Gadget.Application"
         android:largeHeap="true"
         android:name="gadget.Alyx">
+
+        <activity
+            android:name="gadget.MainActivity"
+            android:launchMode="singleTask"
+            android:configChanges="uiMode|keyboard|keyboardHidden|navigation|orientation|screenLayout|screenSize|smallestScreenSize"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>
