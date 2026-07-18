@@ -1,5 +1,6 @@
 package gadget
 
+import alyx.gadget.R
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import gadget.basic.activity.GadgetActivity
@@ -16,5 +17,6 @@ class MainActivity : GadgetActivity() {
             }
         }
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.main_activity)
     }
 }
