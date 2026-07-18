@@ -18,11 +18,11 @@ dependencyResolutionManagement {
 rootProject.name = "Gadget"
 
 include(
-    ":app:server",
+    ":server",
+    ":server:basic",
+    ":server:basic:logger",
 )
 
 include(
-    ":basic",
-    ":basic:logger:client",
-    ":basic:logger:server",
+    ":common",
 )

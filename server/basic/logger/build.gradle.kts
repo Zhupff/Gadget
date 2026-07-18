@@ -8,5 +8,6 @@ gadget {
 }
 
 dependencies {
-    implementation(project(":basic"))
+    implementation(project(":common"))
+    implementation(project(":server:basic"))
 }

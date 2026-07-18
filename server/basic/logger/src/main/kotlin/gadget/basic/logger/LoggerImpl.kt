@@ -3,7 +3,7 @@ package gadget.basic.logger
 import com.google.auto.service.AutoService
 
 @AutoService(Logger::class)
-class LoggerImpl : Logger {
+internal class LoggerImpl : Logger {
 
     override fun d(label: String, message: () -> String): String {
         println("[D] %-32s: %s".format(label, message()))
