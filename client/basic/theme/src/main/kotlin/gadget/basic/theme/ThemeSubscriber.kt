@@ -125,7 +125,7 @@ internal class ThemeSubscriber private constructor(
 }
 
 fun <V : View> V.theme(
-    action: ((ThemeScheme) -> Unit)? = null,
+    action: ((ThemeScheme).() -> Unit)? = null,
 ) {
     ThemeSubscriber.get(this).subscribe(action = action ?: ThemeSubscriber.NO_ACTION)
 }

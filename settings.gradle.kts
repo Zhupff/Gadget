@@ -24,6 +24,9 @@ include(
     ":client:basic:logger",
     ":client:basic:theme",
     ":client:basic:ui",
+    ":client:component-main",
+    ":client:component-main:external",
+    ":client:component-main:internal",
 )
 
 include(
