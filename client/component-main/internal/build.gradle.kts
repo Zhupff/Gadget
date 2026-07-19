@@ -9,8 +9,10 @@ gadget {
 }
 
 dependencies {
+    implementation(libs.androidx.media3.exoplayer)
     implementation(project(":client:basic"))
     implementation(project(":client:basic:annotation"))
+    implementation(project(":client:basic:http"))
     implementation(project(":client:basic:theme"))
     implementation(project(":client:basic:ui"))
     implementation(project(":client:component-main:external"))

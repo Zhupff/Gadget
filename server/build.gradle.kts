@@ -8,6 +8,7 @@ application {
 }
 
 dependencies {
+    implementation(libs.google.gson)
     implementation(libs.ktor.server.core)
     implementation(libs.ktor.server.netty)
 

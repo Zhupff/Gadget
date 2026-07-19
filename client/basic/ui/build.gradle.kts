@@ -8,6 +8,7 @@ gadget {
 
 dependencies {
     api(libs.android.material)
+    api(libs.androidx.media3.ui)
     implementation(project(":client:basic"))
     implementation(project(":client:basic:annotation"))
 }

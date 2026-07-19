@@ -13,8 +13,7 @@ gadget {
 
 dependencies {
     implementation(project(":client:basic"))
+    debugImplementation(project(":client:basic:http"))
     implementation(project(":client:basic:logger"))
-    implementation(project(":client:basic:theme"))
-    implementation(project(":client:basic:ui"))
     implementation(project(":client:component-main"))
 }

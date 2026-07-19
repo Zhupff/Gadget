@@ -10,4 +10,5 @@ dependencies {
     api(project(":common"))
     api(libs.androidx.appcompat)
     api(libs.androidx.core.ktx)
+    api(libs.google.gson)
 }
