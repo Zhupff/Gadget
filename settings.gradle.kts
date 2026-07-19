@@ -22,6 +22,7 @@ include(
     ":client:basic",
     ":client:basic:annotation",
     ":client:basic:logger",
+    ":client:basic:theme",
     ":client:basic:ui",
 )
 
