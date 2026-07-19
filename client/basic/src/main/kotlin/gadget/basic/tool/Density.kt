@@ -2,12 +2,12 @@ package gadget.basic.tool
 
 import android.content.res.Resources
 import android.util.TypedValue
-import gadget.basic.GadgetApplication
+import gadget.Alyx
 
-fun Number.dp(resources: Resources = GadgetApplication.alyx.resources): Float =
+fun Number.dp(resources: Resources = Alyx.application.resources): Float =
     resources.displayMetrics.density * this.toFloat()
 
-fun Number.sp(resources: Resources = GadgetApplication.alyx.resources): Float =
+fun Number.sp(resources: Resources = Alyx.application.resources): Float =
     TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, this.toFloat(), resources.displayMetrics)
 
 val Float.dp: Float

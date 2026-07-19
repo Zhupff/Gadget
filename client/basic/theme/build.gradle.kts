@@ -7,5 +7,6 @@ gadget {
 }
 
 dependencies {
+    implementation(libs.android.material)
     implementation(project(":client:basic"))
 }
