@@ -23,7 +23,7 @@ fun main() {
                 call.respondText("GADGET")
             }
             get("/videos") {
-                val files = videoDir.list().toList()
+                val files = videoDir.list().toList().shuffled()
                 call.respondText(Gson().toJson(files))
             }
             get("/video/{file}") {
