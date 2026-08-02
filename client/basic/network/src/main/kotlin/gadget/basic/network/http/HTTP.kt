@@ -1,11 +1,10 @@
 package gadget.basic.network.http
 
 import gadget.basic.exception.throws
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withTimeout
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
+import java.io.IOException
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 
@@ -43,11 +42,7 @@ object HTTP {
                     return@addInterceptor chain.proceed(oldRequest)
                 }
                 val baseUrl = try {
-                    runBlocking {
-                        withTimeout(5_000L) {
-                            BASE_URL
-                        }
-                    }
+                    awaitBaseUrl()
                 } catch (throwable: Throwable) {
                     throwable.throws("BASE_URL not discovered!")
                 }
@@ -78,5 +73,12 @@ object HTTP {
     fun updateBaseUrl(url: String) {
         val httpUrl = url.toHttpUrl()
         updateBaseUrl(httpUrl.scheme, httpUrl.host, httpUrl.port)
+    }
+
+    private fun awaitBaseUrl(timeout: Long = 5_000L): Triple<String, String, Int> {
+        if (!hostLatch.await(timeout, TimeUnit.MILLISECONDS)) {
+            throw IOException("BASE_URL not discovered!")
+        }
+        return BASE_URL
     }
 }
