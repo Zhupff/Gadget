@@ -1,7 +1,11 @@
-package gadget.basic.udp
+package gadget.basic.network.udp
 
 import com.google.gson.Gson
 import gadget.basic.logger.Logger
+import gadget.basic.network.http.HTTP
+import gadget.basic.udp.UdpDiscoverProtocol
+import gadget.basic.udp.UdpDiscoverRequest
+import gadget.basic.udp.UdpDiscoverResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
@@ -82,6 +86,12 @@ class UdpDiscover {
                         Logger.d("@@@") {
                             "serverIp=${packet.address.hostAddress} encrypted=${encrypted} decrypted=$decrypted"
                         }
+                        val udpDiscoverResponse = Gson().fromJson(decrypted, UdpDiscoverResponse::class.java)
+                        if (udpDiscoverResponse.clientId != udpDiscoverRequest.clientId) {
+                            continue
+                        }
+                        HTTP.BASE_URL = "http://${packet.address.hostAddress}:${udpDiscoverResponse.httpPort}/"
+                        break
                     }
                     stop()
                 }

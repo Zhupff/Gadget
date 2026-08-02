@@ -14,8 +14,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import gadget.basic.fragment.GadgetFragment
-import gadget.basic.http.BASE_URL
-import gadget.basic.http.HTTP
+import gadget.basic.network.http.HTTP
 import gadget.basic.theme.GlobalTheme
 import gadget.basic.theme.subscribeTheme
 import gadget.basic.ui.dsl.PlayerView
@@ -37,29 +36,29 @@ class ComponentMainFragment : GadgetFragment() {
                 setBackgroundColor(backgroundColor)
             }
             lifecycleScope.launch {
-                val response: List<String> = withContext(Dispatchers.IO) {
-                    while (BASE_URL.isNullOrBlank()) {
-                        delay(7000L)
-                    }
-                    HTTP.newCall(
-                        Request.Builder()
-                            .url("${BASE_URL}/videos")
-                            .get()
-                            .build()
-                    ).execute().let { rep ->
-                        if (rep.isSuccessful) {
-                            val json = rep.body.string() ?: ""
-                            Gson().fromJson(json, object : TypeToken<List<String>>() {}.type)
-                        } else emptyList()
-                    }
-                }
-                adapter = object : FragmentStateAdapter(this@ComponentMainFragment) {
-                    private val videos: List<String> = response.map {
-                        "${BASE_URL}/video/${it}"
-                    }
-                    override fun createFragment(position: Int): Fragment = PlayerFragment(videos[position])
-                    override fun getItemCount(): Int = videos.size
-                }
+//                val response: List<String> = withContext(Dispatchers.IO) {
+//                    while (BASE_URL.isNullOrBlank()) {
+//                        delay(7000L)
+//                    }
+//                    HTTP.newCall(
+//                        Request.Builder()
+//                            .url("${BASE_URL}/videos")
+//                            .get()
+//                            .build()
+//                    ).execute().let { rep ->
+//                        if (rep.isSuccessful) {
+//                            val json = rep.body.string() ?: ""
+//                            Gson().fromJson(json, object : TypeToken<List<String>>() {}.type)
+//                        } else emptyList()
+//                    }
+//                }
+//                adapter = object : FragmentStateAdapter(this@ComponentMainFragment) {
+//                    private val videos: List<String> = response.map {
+//                        "${BASE_URL}/video/${it}"
+//                    }
+//                    override fun createFragment(position: Int): Fragment = PlayerFragment(videos[position])
+//                    override fun getItemCount(): Int = videos.size
+//                }
             }
         }}) {
         }

@@ -4,7 +4,7 @@ import android.content.ContentProvider
 import android.content.ContentValues
 import android.database.Cursor
 import android.net.Uri
-import gadget.basic.http.BASE_URL
+import gadget.basic.network.http.HTTP
 import java.io.FileDescriptor
 import java.io.PrintWriter
 import java.util.LinkedList
@@ -32,9 +32,9 @@ class HiAlyx : ContentProvider() {
         }
         while (cmds.isNotEmpty()) {
             when (val cmd = cmds.pop()) {
-                "--httpurl" -> {
+                "--baseurl" -> {
                     val value = cmds.pop()
-                    BASE_URL = value
+                    HTTP.BASE_URL = value
                 }
             }
         }
