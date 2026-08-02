@@ -17,43 +17,47 @@ import java.net.SocketTimeoutException
 class UdpDiscoverImpl : UdpDiscover {
 
     @Volatile
-    private var discovering: Boolean = false
+    private var discovering: Job? = null
 
     private var socket: DatagramSocket? = null
-
-    private var job: Job? = null
 
     private val gson = Gson()
 
     override fun start() {
         synchronized(this) {
-            if (discovering) {
+            if (discovering != null) {
                 return
             }
-            discovering = true
             socket = DatagramSocket(null).apply {
                 reuseAddress = true
                 broadcast = true
                 bind(InetSocketAddress("0.0.0.0", Alyx.getUdpPort()))
                 soTimeout = 5_000
             }
-            job = GlobalScope.launch(Dispatchers.IO) {
+            discovering = GlobalScope.launch(Dispatchers.IO) {
                 val socket = socket!!
-                while (discovering) {
+                while (discovering?.isActive == true) {
                     try {
                         val buffer = ByteArray(UdpDiscoverProtocol.MAX_PACKET_SIZE)
                         val packet = DatagramPacket(buffer, buffer.size)
                         socket.receive(packet)
-                        val json = String(packet.data, packet.offset, packet.length, Charsets.UTF_8)
-                        Logger.i("UdpDiscover") {
-                            "json=$json"
+                        val encrypted = String(packet.data, packet.offset, packet.length, Charsets.UTF_8)
+                        val decrypted = UdpDiscoverProtocol.decrypt(Alyx.getServerSecret(), encrypted)
+                        Logger.d("UdpDiscover") {
+                            "encrypted=$encrypted decrypted=$decrypted"
                         }
+                        val udpDiscoverRequest = gson.fromJson(decrypted, UdpDiscoverRequest::class.java)
+                        val udpDiscoverResponse = UdpDiscoverResponse(
+                            clientId = udpDiscoverRequest.clientId,
+                            serverId = Alyx.getServerId(),
+                            httpPort = Alyx.getHttpPort(),
+                        )
+                        val responseBytes = UdpDiscoverProtocol.encrypt(udpDiscoverRequest.secret, gson.toJson(udpDiscoverResponse)).toByteArray(Charsets.UTF_8)
+                        socket.send(DatagramPacket(responseBytes, responseBytes.size, packet.address, packet.port))
                     } catch (_: SocketTimeoutException) {
                         // ignore
                     } catch (throwable: Throwable) {
-                        Logger.w("UdpDiscover", throwable) {
-                            ""
-                        }
+                        Logger.w("UdpDiscover", throwable) { "" }
                     }
                 }
             }
@@ -62,13 +66,12 @@ class UdpDiscoverImpl : UdpDiscover {
 
     override fun stop() {
         synchronized(this) {
-            if (!discovering) {
+            if (discovering == null) {
                 return
             }
-            discovering = false
             socket?.close()
             socket = null
-            job?.cancel()
+            discovering?.cancel()
         }
     }
 }

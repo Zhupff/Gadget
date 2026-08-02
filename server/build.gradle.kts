@@ -25,9 +25,12 @@ Properties().let { localProperties ->
         ?: error("Missing alyx.udp.port in local.properties")
     val httpPort = localProperties.getProperty("alyx.http.port")
         ?: error("Missing alyx.http.port in local.properties")
+    val serverSecret = localProperties.getProperty("alyx.server.secret")
+        ?: error("Missing alyx.server.secret in local.properties")
 
     tasks.withType<JavaExec>().configureEach {
         systemProperty("alyx.udp.port", udpPort)
         systemProperty("alyx.http.port", httpPort)
+        systemProperty("alyx.server.secret", serverSecret)
     }
 }
