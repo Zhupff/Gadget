@@ -34,6 +34,7 @@ include(
     ":server",
     ":server:basic",
     ":server:basic:logger",
+    ":server:basic:udp",
 )
 
 include(
