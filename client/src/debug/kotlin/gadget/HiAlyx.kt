@@ -34,7 +34,7 @@ class HiAlyx : ContentProvider() {
             when (val cmd = cmds.pop()) {
                 "--baseurl" -> {
                     val value = cmds.pop()
-                    HTTP.BASE_URL = value
+                    HTTP.updateBaseUrl(value)
                 }
             }
         }
