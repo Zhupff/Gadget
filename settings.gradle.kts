@@ -24,6 +24,7 @@ include(
     ":client:basic:http",
     ":client:basic:logger",
     ":client:basic:theme",
+    ":client:basic:udp",
     ":client:basic:ui",
     ":client:component-main",
     ":client:component-main:external",

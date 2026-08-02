@@ -16,10 +16,6 @@ import java.net.SocketTimeoutException
 @AutoService(UdpDiscover::class)
 class UdpDiscoverImpl : UdpDiscover {
 
-    companion object {
-        const val MAX_PACKET_SIZE = 1024
-    }
-
     @Volatile
     private var discovering: Boolean = false
 
@@ -45,7 +41,7 @@ class UdpDiscoverImpl : UdpDiscover {
                 val socket = socket!!
                 while (discovering) {
                     try {
-                        val buffer = ByteArray(MAX_PACKET_SIZE)
+                        val buffer = ByteArray(UdpDiscoverProtocol.MAX_PACKET_SIZE)
                         val packet = DatagramPacket(buffer, buffer.size)
                         socket.receive(packet)
                         val json = String(packet.data, packet.offset, packet.length, Charsets.UTF_8)

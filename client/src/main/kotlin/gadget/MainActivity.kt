@@ -4,6 +4,7 @@ import alyx.gadget.R
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import gadget.basic.activity.GadgetActivity
+import gadget.basic.udp.UdpDiscover
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -18,5 +19,6 @@ class MainActivity : GadgetActivity() {
         }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
+        UdpDiscover().start()
     }
 }
