@@ -87,7 +87,7 @@ class UdpDiscover {
                         if (udpDiscoverResponse.clientId != udpDiscoverRequest.clientId) {
                             continue
                         }
-                        HTTP.BASE_URL = "http://${packet.address.hostAddress}:${udpDiscoverResponse.httpPort}/"
+                        HTTP.updateBaseUrl("http", packet.address.hostAddress, udpDiscoverResponse.httpPort)
                         break
                     }
                     stop()
