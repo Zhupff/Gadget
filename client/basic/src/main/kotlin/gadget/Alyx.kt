@@ -15,7 +15,7 @@ import androidx.lifecycle.MutableLiveData
 import gadget.basic.logger.Logger
 import gadget.basic.tool.mutable
 
-class Alyx : Application() {
+abstract class Alyx : Application() {
 
     companion object {
         lateinit var application: Alyx

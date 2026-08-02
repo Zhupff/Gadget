@@ -8,7 +8,7 @@
         android:label="Gadget"
         android:theme="@style/Theme.Gadget.Application"
         android:largeHeap="true"
-        android:name="gadget.Alyx">
+        android:name="gadget.RealAlyx">
 
         <activity
             android:name="gadget.MainActivity"
