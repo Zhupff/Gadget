@@ -14,7 +14,7 @@ dependencies {
 
     implementation(project(":server:basic"))
     implementation(project(":server:basic:logger"))
-    implementation(project(":server:basic:udp"))
+    implementation(project(":server:basic:network"))
 }
 
 Properties().let { localProperties ->

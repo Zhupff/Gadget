@@ -1,4 +1,4 @@
-package gadget.basic.udp
+package gadget.basic.network.udp
 
 import java.security.MessageDigest
 import java.security.SecureRandom

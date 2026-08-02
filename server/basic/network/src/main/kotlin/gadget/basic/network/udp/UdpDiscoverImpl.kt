@@ -1,4 +1,4 @@
-package gadget.basic.udp
+package gadget.basic.network.udp
 
 import com.google.auto.service.AutoService
 import com.google.gson.Gson

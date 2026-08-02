@@ -1,4 +1,4 @@
-package gadget.basic.udp
+package gadget.basic.network.udp
 
 import gadget.basic.tool.singleton
 

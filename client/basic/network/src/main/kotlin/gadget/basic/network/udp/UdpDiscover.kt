@@ -3,9 +3,6 @@ package gadget.basic.network.udp
 import com.google.gson.Gson
 import gadget.basic.logger.Logger
 import gadget.basic.network.http.HTTP
-import gadget.basic.udp.UdpDiscoverProtocol
-import gadget.basic.udp.UdpDiscoverRequest
-import gadget.basic.udp.UdpDiscoverResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
