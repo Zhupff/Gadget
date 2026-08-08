@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package gadget.basic.network;
+
+message LocalServerConfig {
+  string id = 1;
+  string secret = 2;
+  string host = 3;
+  int32 udpPort = 4;
+  int32 httpPort = 5;
+}

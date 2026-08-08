@@ -1,6 +1,8 @@
 import com.android.build.api.dsl.CommonExtension
-import com.squareup.wire.gradle.WireExtension
 import org.gradle.api.JavaVersion
+import org.gradle.kotlin.dsl.withType
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
 abstract class GadgetAndroidPlugin<E : CommonExtension<*, *, *, *, *, *>> : GadgetPlugin() {
 
@@ -32,15 +34,19 @@ abstract class GadgetAndroidPlugin<E : CommonExtension<*, *, *, *, *, *>> : Gadg
                 }
             }
         }
+        project.tasks.withType<KotlinJvmCompile>().configureEach {
+            compilerOptions {
+                jvmTarget.set(JvmTarget.JVM_17)
+                freeCompilerArgs.addAll(
+                    "-module-name",
+                    this@GadgetAndroidPlugin.project.path.replaceFirst(":", "").replace(":", "-"),
+                )
+            }
+        }
     }
 
     open fun android(ns: String, closure: E.() -> Unit) {
         android(ns)
         closure(androidExtension)
-    }
-
-    fun enableProtobuf() {
-        project.pluginManager.apply(libs.findPlugin("squareup-wire").get().get().pluginId)
-        project.extensions.getByType(WireExtension::class.java).kotlin {}
     }
 }

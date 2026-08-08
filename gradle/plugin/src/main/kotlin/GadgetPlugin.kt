@@ -1,3 +1,4 @@
+import com.squareup.wire.gradle.WireExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalog
@@ -25,5 +26,10 @@ abstract class GadgetPlugin : Plugin<Project> {
     fun enableAutoService() {
         this.project.dependencies.add("implementation", libs.findLibrary("autoservice-annotation").get())
         this.project.dependencies.add("kapt", libs.findLibrary("autoservice-processor").get())
+    }
+
+    fun enableProtobuf() {
+        project.pluginManager.apply(libs.findPlugin("squareup-wire").get().get().pluginId)
+        project.extensions.getByType(WireExtension::class.java).kotlin {}
     }
 }

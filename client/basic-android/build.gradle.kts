@@ -13,7 +13,6 @@ dependencies {
     api(libs.android.material)
     api(libs.androidx.appcompat)
     api(libs.androidx.core.ktx)
+    api(libs.androidx.datastore)
     api(libs.androidx.media3.ui)
-    api(libs.squareup.okhttp3)
-    api(libs.squareup.retrofit2)
 }

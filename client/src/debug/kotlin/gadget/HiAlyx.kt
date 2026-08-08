@@ -4,7 +4,6 @@ import android.content.ContentProvider
 import android.content.ContentValues
 import android.database.Cursor
 import android.net.Uri
-import gadget.basic.network.HTTP
 import java.io.FileDescriptor
 import java.io.PrintWriter
 import java.util.LinkedList
@@ -32,9 +31,8 @@ class HiAlyx : ContentProvider() {
         }
         while (cmds.isNotEmpty()) {
             when (val cmd = cmds.pop()) {
-                "--baseurl" -> {
-                    val value = cmds.pop()
-                    HTTP.updateBaseUrl(value)
+                else -> {
+                    throw IllegalArgumentException("Unknown command: $cmd")
                 }
             }
         }
