@@ -97,7 +97,7 @@ interface ILocalServiceConfigDataStoreProvider : DataStoreProvider<LocalServerCo
                         val encrypted = String(packet.data, packet.offset, packet.length, Charsets.UTF_8)
                         val decrypted = UdpDiscoverProtocol.decrypt(udpDiscoverRequest.secret, encrypted)
                         val udpDiscoverResponse = GSON.fromJson(decrypted, UdpDiscoverResponse::class.java)
-                        if (udpDiscoverResponse.clientId != udpDiscoverRequest.clientId) {
+                        if (udpDiscoverResponse.clientId != udpDiscoverRequest.clientId || udpDiscoverResponse.serverId != localServerConfig.id) {
                             continue
                         }
                         serverCert = udpDiscoverResponse.certificate
