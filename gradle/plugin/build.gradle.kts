@@ -16,6 +16,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile>().configureEa
 dependencies {
     compileOnly(libs.android.gradle)
     compileOnly(libs.kotlin.gradle)
+    compileOnly(libs.squareup.wire.gradle)
 }
 
 gradlePlugin {

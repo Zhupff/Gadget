@@ -7,5 +7,5 @@ gadget {
 }
 
 dependencies {
-    implementation(project(":client:basic"))
+    implementation(project(":client:basic-android"))
 }

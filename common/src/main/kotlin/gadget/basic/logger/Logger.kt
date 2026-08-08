@@ -1,14 +1,49 @@
 package gadget.basic.logger
 
-import gadget.basic.tool.singleton
+import gadget.basic.tool.iteration
 
-interface Logger {
+object Logger {
 
-    companion object : Logger by singleton()
+    interface Printer {
+        fun filter(level: Char, label: String): Boolean
+        fun print(level: Char, label: String, cause: Throwable?, message: String)
+    }
 
-    fun d(label: String, message: () -> String): String
+    private val printers = iteration<Printer>()
 
-    fun i(label: String, message: () -> String): String
+    fun d(label: String, message: () -> String) {
+        var content: String? = null
+        printers.forEach { printer ->
+            if (printer.filter('D', label)) {
+                if (content == null) {
+                    content = message()
+                }
+                printer.print('D', label, null, content)
+            }
+        }
+    }
 
-    fun w(label: String, cause: Throwable? = null, message: () -> String): String
+    fun i(label: String, message: () -> String) {
+        var content: String? = null
+        printers.forEach { printer ->
+            if (printer.filter('I', label)) {
+                if (content == null) {
+                    content = message()
+                }
+                printer.print('I', label, null, content)
+            }
+        }
+    }
+
+    fun w(label: String, cause: Throwable? = null, message: () -> String) {
+        var content: String? = null
+        printers.forEach { printer ->
+            if (printer.filter('W', label)) {
+                if (content == null) {
+                    content = message()
+                }
+                printer.print('W', label, cause, content)
+            }
+        }
+    }
 }

@@ -1,7 +1,7 @@
 package gadget
 
 import com.google.gson.Gson
-import gadget.basic.network.udp.UdpDiscover
+import gadget.basic.network.UdpDiscover
 import io.ktor.server.application.ApplicationStopped
 import io.ktor.server.application.ServerReady
 import io.ktor.server.engine.embeddedServer

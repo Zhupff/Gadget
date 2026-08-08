@@ -19,12 +19,8 @@ rootProject.name = "Gadget"
 
 include(
     ":client",
-    ":client:basic",
-    ":client:basic:annotation",
-    ":client:basic:logger",
-    ":client:basic:network",
-    ":client:basic:theme",
-    ":client:basic:ui",
+    ":client:basic-jvm",
+    ":client:basic-android",
     ":client:component-main",
     ":client:component-main:external",
     ":client:component-main:internal",
@@ -33,8 +29,6 @@ include(
 include(
     ":server",
     ":server:basic",
-    ":server:basic:logger",
-    ":server:basic:network",
 )
 
 include(

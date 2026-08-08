@@ -1,4 +1,5 @@
 import com.android.build.api.dsl.CommonExtension
+import com.squareup.wire.gradle.WireExtension
 import org.gradle.api.JavaVersion
 
 abstract class GadgetAndroidPlugin<E : CommonExtension<*, *, *, *, *, *>> : GadgetPlugin() {
@@ -36,5 +37,10 @@ abstract class GadgetAndroidPlugin<E : CommonExtension<*, *, *, *, *, *>> : Gadg
     open fun android(ns: String, closure: E.() -> Unit) {
         android(ns)
         closure(androidExtension)
+    }
+
+    fun enableProtobuf() {
+        project.pluginManager.apply(libs.findPlugin("squareup-wire").get().get().pluginId)
+        project.extensions.getByType(WireExtension::class.java).kotlin {}
     }
 }

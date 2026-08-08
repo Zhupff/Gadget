@@ -12,8 +12,6 @@ gadget {
 }
 
 dependencies {
-    implementation(project(":client:basic"))
-    implementation(project(":client:basic:logger"))
-    implementation(project(":client:basic:network"))
+    implementation(project(":client:basic-android"))
     implementation(project(":client:component-main"))
 }

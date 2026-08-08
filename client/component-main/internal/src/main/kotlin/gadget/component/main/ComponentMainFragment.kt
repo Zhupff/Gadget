@@ -14,7 +14,6 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import gadget.basic.fragment.GadgetFragment
-import gadget.basic.network.http.HTTP
 import gadget.basic.theme.GlobalTheme
 import gadget.basic.theme.subscribeTheme
 import gadget.basic.ui.dsl.PlayerView

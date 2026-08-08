@@ -4,7 +4,7 @@ import android.content.ContentProvider
 import android.content.ContentValues
 import android.database.Cursor
 import android.net.Uri
-import gadget.basic.network.http.HTTP
+import gadget.basic.network.HTTP
 import java.io.FileDescriptor
 import java.io.PrintWriter
 import java.util.LinkedList

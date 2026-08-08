@@ -8,9 +8,9 @@ object Alyx {
 
     private val config = Config(
         serverId = UUID.randomUUID().toString(),
-        serverSecret = System.getProperty("alyx.server.secret"),
-        udpPort = System.getProperty("alyx.udp.port").toInt(),
-        httpPort = System.getProperty("alyx.http.port").toInt(),
+        serverSecret = System.getProperty("[server]secret"),
+        udpPort = System.getProperty("[server]udp.port").toInt(),
+        httpPort = System.getProperty("[server]http.port").toInt(),
     )
 
     init {
