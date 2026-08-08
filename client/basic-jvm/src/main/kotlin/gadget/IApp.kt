@@ -1,9 +1,9 @@
 package gadget
 
-interface Alyx {
+interface IApp {
 
     companion object {
-        private lateinit var instance: Alyx
+        private lateinit var instance: IApp
     }
 
     val debuggable: Boolean

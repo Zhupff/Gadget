@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.android.material.color.utilities.Hct
 import com.google.android.material.color.utilities.SchemeTonalSpot
-import gadget.AlyxApplication
+import gadget.App
 import gadget.basic.exception.throws
 import gadget.basic.tool.mutable
 
@@ -19,7 +19,7 @@ object GlobalTheme {
         light.night = night
         night.light = light
 
-        AlyxApplication.instance.configuration.observeForever { configuration ->
+        App.instance.configuration.observeForever { configuration ->
             switch(Light, configuration.isNightModeActive)
         }
     }
@@ -38,7 +38,7 @@ object GlobalTheme {
 
     private fun switch(
         scheme: ThemeScheme,
-        isNightMode: Boolean = AlyxApplication.instance.resources.configuration.isNightModeActive,
+        isNightMode: Boolean = App.instance.resources.configuration.isNightModeActive,
     ) {
         val oldScheme = current.value
         val newScheme = if (isNightMode) {
@@ -73,7 +73,7 @@ object GlobalTheme {
         @SuppressLint("RestrictedApi")
         fun create(seed: Int, night: Night? = null): Light {
             if (seed == 0) {
-                if (AlyxApplication.instance.debuggable) {
+                if (App.instance.debuggable) {
                     IllegalArgumentException("seed should not be 0!").throws()
                 } else {
                     return Light
@@ -115,7 +115,7 @@ object GlobalTheme {
         @SuppressLint("RestrictedApi")
         fun create(seed: Int, light: Light? = null): Night {
             if (seed == 0) {
-                if (AlyxApplication.instance.debuggable) {
+                if (App.instance.debuggable) {
                     IllegalArgumentException("seed should not be 0!").throws()
                 } else {
                     return Night

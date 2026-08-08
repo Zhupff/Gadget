@@ -5,14 +5,11 @@ import android.content.pm.ApplicationInfo
 import android.content.res.Configuration
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import java.util.concurrent.atomic.AtomicBoolean
 
-abstract class AlyxApplication : Application(), Alyx {
+abstract class App : Application(), IApp {
 
     companion object {
-        private val once = AtomicBoolean(false)
-
-        lateinit var instance: AlyxApplication
+        lateinit var instance: App
             private set
     }
 

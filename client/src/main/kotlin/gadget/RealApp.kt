@@ -2,7 +2,7 @@ package gadget
 
 import gadget.basic.network.UdpDiscover
 
-class RealAlyxApplication : AlyxApplication() {
+class RealApp : App() {
 
     override fun onCreate() {
         super.onCreate()
