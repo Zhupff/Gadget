@@ -42,4 +42,5 @@ data class UdpDiscoverResponse(
     val clientId: String,
     val serverId: String,
     val httpPort: Int,
+    val certificate: String,
 )

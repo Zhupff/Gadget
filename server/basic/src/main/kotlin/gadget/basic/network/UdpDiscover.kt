@@ -1,7 +1,7 @@
 package gadget.basic.network
 
 import com.google.gson.Gson
-import gadget.Alyx
+import gadget.basic.config.ServerConfiguration
 import gadget.basic.logger.Logger
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -29,7 +29,7 @@ object UdpDiscover {
             socket = DatagramSocket(null).apply {
                 reuseAddress = true
                 broadcast = true
-                bind(InetSocketAddress("0.0.0.0", Alyx.getUdpPort()))
+                bind(InetSocketAddress("0.0.0.0", ServerConfiguration.udpPort))
                 soTimeout = 5_000
             }
             discovering = GlobalScope.launch(Dispatchers.IO) {
@@ -40,15 +40,16 @@ object UdpDiscover {
                         val packet = DatagramPacket(buffer, buffer.size)
                         socket.receive(packet)
                         val encrypted = String(packet.data, packet.offset, packet.length, Charsets.UTF_8)
-                        val decrypted = UdpDiscoverProtocol.decrypt(Alyx.getServerSecret(), encrypted)
+                        val decrypted = UdpDiscoverProtocol.decrypt(ServerConfiguration.secret, encrypted)
                         Logger.d("UdpDiscover") {
                             "encrypted=$encrypted decrypted=$decrypted"
                         }
                         val udpDiscoverRequest = gson.fromJson(decrypted, UdpDiscoverRequest::class.java)
                         val udpDiscoverResponse = UdpDiscoverResponse(
                             clientId = udpDiscoverRequest.clientId,
-                            serverId = Alyx.getServerId(),
-                            httpPort = Alyx.getHttpPort(),
+                            serverId = ServerConfiguration.id,
+                            httpPort = ServerConfiguration.httpPort,
+                            certificate = TLS.certificate,
                         )
                         val responseBytes = UdpDiscoverProtocol.encrypt(udpDiscoverRequest.secret, gson.toJson(udpDiscoverResponse)).toByteArray(Charsets.UTF_8)
                         socket.send(DatagramPacket(responseBytes, responseBytes.size, packet.address, packet.port))

@@ -10,4 +10,5 @@ gadget {
 dependencies {
     api(project(":common"))
     api(libs.ktor.server.core)
+    implementation(libs.ktor.tls)
 }
