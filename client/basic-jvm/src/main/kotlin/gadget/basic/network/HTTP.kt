@@ -16,12 +16,14 @@ import javax.net.ssl.X509TrustManager
 
 object HTTP : Hello {
 
+    val LOCAL_SERVER_URL = "https://${LocalServer.host}:${LocalServer.port}"
+
     private val clients: ConcurrentHashMap<String, OkHttpClient> = ConcurrentHashMap()
 
     fun client(domain: String = ""): OkHttpClient {
         return clients.getOrPut(domain) {
             when (domain) {
-                ILocalServiceConfigDataStoreProvider.serverHost -> {
+                LocalServer.host -> {
                     val trustManager = object : X509TrustManager {
                         override fun checkServerTrusted(chain: Array<out X509Certificate>, authType: String) {
                             if (chain.isEmpty()) {
@@ -30,7 +32,7 @@ object HTTP : Hello {
                             val decodedCert = Base64.getEncoder().encodeToString(
                                 MessageDigest.getInstance("SHA-256").digest(chain[0].publicKey.encoded)
                             )
-                            if (decodedCert != ILocalServiceConfigDataStoreProvider.serverCert) {
+                            if (decodedCert != LocalServer.cert) {
                                 throw CertificateException("Server certificate public key pin mismatch")
                             }
                         }
@@ -46,27 +48,11 @@ object HTTP : Hello {
                         .writeTimeout(32L, TimeUnit.SECONDS)
                         .sslSocketFactory(sslContext.socketFactory, trustManager)
                         .dns { host ->
-                            if (host == ILocalServiceConfigDataStoreProvider.serverHost) {
-                                listOf(InetAddress.getByName(ILocalServiceConfigDataStoreProvider.serverIp))
+                            if (host == LocalServer.host) {
+                                listOf(InetAddress.getByName(LocalServer.ip))
                             } else {
                                 okhttp3.Dns.SYSTEM.lookup(host)
                             }
-                        }
-                        .addInterceptor { chain ->
-                            val oldRequest = chain.request()
-                            val oldUrl = oldRequest.url
-                            if (oldUrl.host != ILocalServiceConfigDataStoreProvider.serverHost) {
-                                return@addInterceptor chain.proceed(oldRequest)
-                            }
-                            val newUrl = oldUrl.newBuilder()
-                                .scheme("https")
-                                .host(ILocalServiceConfigDataStoreProvider.serverHost)
-                                .port(ILocalServiceConfigDataStoreProvider.serverPort)
-                                .build()
-                            val newRequest = oldRequest.newBuilder()
-                                .url(newUrl)
-                                .build()
-                            return@addInterceptor chain.proceed(newRequest)
                         }
                         .build()
                 }

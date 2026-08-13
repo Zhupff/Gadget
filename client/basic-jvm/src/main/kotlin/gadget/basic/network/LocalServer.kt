@@ -21,35 +21,34 @@ import java.net.SocketTimeoutException
 import java.security.SecureRandom
 import java.util.UUID
 
-interface ILocalServiceConfigDataStoreProvider : DataStoreProvider<LocalServerConfig> {
+object LocalServer {
+    lateinit var id: String
+        private set
+    lateinit var cert: String
+        private set
+    lateinit var host: String
+        private set
+    lateinit var ip: String
+        private set
+    var port: Int = 0
+        private set
 
-    companion object {
-        internal lateinit var serverId: String
-            private set
-        internal lateinit var serverCert: String
-            private set
-        internal lateinit var serverHost: String
-            private set
-        internal lateinit var serverIp: String
-            private set
-        internal var serverPort: Int = 0
-            private set
-    }
+    interface ILocalServerConfigDataStoreProvider : DataStoreProvider<LocalServerConfig>
 
     @AutoService(IApp.Task::class)
-    class InitTask : IApp.Task {
+    internal class InitTask : IApp.Task {
 
         override val priority: Int = 1
 
-        override suspend fun execute() {
+        override suspend fun post() {
             withContext(Dispatchers.IO) {
-                val localServerConfig = singleton<ILocalServiceConfigDataStoreProvider>()
+                val localServerConfig = singleton<ILocalServerConfigDataStoreProvider>()
                     .provide().data.first {
                         it.id.isNotBlank()
                     }
-                serverId = localServerConfig.id
-                serverHost = localServerConfig.host
-                serverPort = localServerConfig.httpPort
+                LocalServer.id = localServerConfig.id
+                LocalServer.host = localServerConfig.host
+                LocalServer.port = localServerConfig.httpPort
                 DatagramSocket(null).use { socket ->
                     socket.reuseAddress = true
                     socket.broadcast = true
@@ -100,8 +99,8 @@ interface ILocalServiceConfigDataStoreProvider : DataStoreProvider<LocalServerCo
                         if (udpDiscoverResponse.clientId != udpDiscoverRequest.clientId || udpDiscoverResponse.serverId != localServerConfig.id) {
                             continue
                         }
-                        serverCert = udpDiscoverResponse.certificate
-                        serverIp = packet.address.hostAddress
+                        LocalServer.cert = udpDiscoverResponse.certificate
+                        LocalServer.ip = packet.address.hostAddress
                         break
                     }
                 }
