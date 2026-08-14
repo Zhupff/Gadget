@@ -4,41 +4,40 @@ import android.content.Context
 import gadget.basic.exception.GadgetException
 import gadget.basic.exception.throws
 import gadget.basic.tool.iteration
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.TimeoutCancellationException
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withTimeout
+import kotlinx.coroutines.withTimeoutOrNull
+import java.util.concurrent.TimeoutException
 
 class RealApp : App() {
 
-    private val tasks: MutableList<Deferred<Unit>> = mutableListOf()
+    private val startups = mutableListOf<IApp.Startup>()
 
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
         Thread.setDefaultUncaughtExceptionHandler(GadgetException)
-        CoroutineScope(Dispatchers.Main).launch {
-            iteration<IApp.Task>()
-                .sortedBy { it.priority }
-                .map { async { it.execute() } }
-                .let(tasks::addAll)
-        }
+        startups.addAll(iteration<IApp.Startup>().sortedBy { it.priority })
     }
 
     override fun onCreate() {
         super.onCreate()
-        try {
-            runBlocking {
-                withTimeout(500L) {
-                    tasks.awaitAll()
+        runBlocking {
+            withTimeoutOrNull(if (debuggable) 300L else 3_000L) {
+                startups.groupBy { it.priority }.forEach { (_, group) ->
+                    channelFlow {
+                        group.forEach { startup ->
+                            launch(Dispatchers.Default) {
+                                startup.post()
+                                send(startup)
+                            }
+                        }
+                    }.collect { startup ->
+                        startup.run()
+                    }
                 }
-            }
-        } catch (exception: TimeoutCancellationException) {
-            exception.throws("App tasks execute timeout!")
+            } ?: TimeoutException("Startup timeout").throws()
         }
     }
 }

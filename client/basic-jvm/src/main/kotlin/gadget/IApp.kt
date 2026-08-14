@@ -16,8 +16,11 @@ interface IApp {
         instance = this
     }
 
-    interface Task {
+    interface Startup : Runnable {
         val priority: Int
-        suspend fun execute()
+        suspend fun post() {}
+        override fun run() {}
+
+        interface MainStartup : Startup
     }
 }

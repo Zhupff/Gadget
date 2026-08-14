@@ -8,6 +8,7 @@ import gadget.basic.tool.nextString
 import gadget.basic.tool.singleton
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
@@ -35,8 +36,8 @@ object LocalServer {
 
     interface ILocalServerConfigDataStoreProvider : DataStoreProvider<LocalServerConfig>
 
-    @AutoService(IApp.Task::class)
-    internal class InitTask : IApp.Task {
+    @AutoService(IApp.Startup.MainStartup::class)
+    internal class InitTask : IApp.Startup.MainStartup {
 
         override val priority: Int = 1
 
@@ -53,7 +54,7 @@ object LocalServer {
                     socket.reuseAddress = true
                     socket.broadcast = true
                     socket.bind(InetSocketAddress("0.0.0.0", 0))
-                    socket.soTimeout = 100
+                    socket.soTimeout = 20
 
                     val udpDiscoverRequest = UdpDiscoverRequest(
                         clientId = UUID.randomUUID().toString(),
@@ -61,8 +62,12 @@ object LocalServer {
                     )
                     val requestBytes = UdpDiscoverProtocol.encrypt(localServerConfig.secret, GSON.toJson(udpDiscoverRequest)).toByteArray(Charsets.UTF_8)
 
+                    var retry = 0
                     while (true) {
                         currentCoroutineContext().ensureActive()
+                        if (retry++ > 0) {
+                            delay(80L)
+                        }
                         buildSet {
                             add(InetAddress.getByName("255.255.255.255"))
                             val networkInterfaces = NetworkInterface.getNetworkInterfaces()
