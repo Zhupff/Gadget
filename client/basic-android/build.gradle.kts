@@ -14,5 +14,6 @@ dependencies {
     api(libs.androidx.appcompat)
     api(libs.androidx.core.ktx)
     api(libs.androidx.datastore)
-    api(libs.androidx.media3.ui)
+    compileOnly(libs.androidx.camera.view)
+    compileOnly(libs.androidx.media3.ui)
 }

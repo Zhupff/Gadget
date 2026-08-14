@@ -7,6 +7,6 @@ gadget {
 }
 
 dependencies {
-    implementation(project(":client:component-scan:external"))
+    api(project(":client:component-scan:external"))
     implementation(project(":client:component-scan:internal"))
 }
