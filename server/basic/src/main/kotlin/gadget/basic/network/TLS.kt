@@ -29,7 +29,7 @@ object TLS {
             keySizeInBits = 2048
             password = keyPassword
             daysValid = 7
-            subject = X500Principal("CN=Gadget,0=Gadget")
+            subject = X500Principal("CN=Gadget,O=Gadget")
             domains = listOf("localhost", "gadget")
             ipAddresses = emptyList()
         }
