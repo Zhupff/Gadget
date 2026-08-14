@@ -23,7 +23,7 @@ import java.security.SecureRandom
 import java.util.UUID
 
 object LocalServer {
-    lateinit var id: String
+    var id: String = ""
         private set
     lateinit var cert: String
         private set
@@ -63,7 +63,7 @@ object LocalServer {
                     val requestBytes = UdpDiscoverProtocol.encrypt(localServerConfig.secret, GSON.toJson(udpDiscoverRequest)).toByteArray(Charsets.UTF_8)
 
                     var retry = 0
-                    while (true) {
+                    while (retry < 3) {
                         currentCoroutineContext().ensureActive()
                         if (retry++ > 0) {
                             delay(30L)
