@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <shortcut
+        android:shortcutId="scan_server_config"
+        android:enabled="true"
+        android:shortcutShortLabel="@string/gadget_shortcut_scan">
+
+        <intent
+            android:action="alyx.gadget.action.SCAN"
+            android:targetPackage="alyx.gadget"
+            android:targetClass="gadget.ScanActivity" />
+    </shortcut>
+
+</shortcuts>

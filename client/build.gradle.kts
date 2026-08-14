@@ -8,6 +8,13 @@ gadget {
             versionCode = 1_000_000
             versionName = "1.0.0"
         }
+        sourceSets {
+            getByName("main") {
+                res.srcDirs(
+                    "src/main/res-language",
+                )
+            }
+        }
     }
 }
 
