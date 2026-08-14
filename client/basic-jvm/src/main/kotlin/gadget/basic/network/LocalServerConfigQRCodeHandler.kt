@@ -27,6 +27,7 @@ internal class LocalServerConfigQRCodeHandler : QRCodeHandler {
                 Logger.w("LocalServerConfigQRCodeHandler", throwable) {
                     "Failed to handle local server config QR code"
                 }
+                close()
             }
         }
     }
