@@ -24,6 +24,9 @@ include(
     ":client:component-main",
     ":client:component-main:external",
     ":client:component-main:internal",
+    ":client:component-scan",
+    ":client:component-scan:external",
+    ":client:component-scan:internal",
 )
 
 include(

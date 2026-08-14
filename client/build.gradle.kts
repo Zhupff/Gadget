@@ -21,4 +21,5 @@ gadget {
 dependencies {
     implementation(project(":client:basic-android"))
     implementation(project(":client:component-main"))
+    implementation(project(":client:component-scan"))
 }
