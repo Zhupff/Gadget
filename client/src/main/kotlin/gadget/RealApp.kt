@@ -17,7 +17,7 @@ class RealApp : App() {
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
         if (isMainProcess) {
-            startups.addAll(iteration<IApp.Startup>().sortedBy { it.priority })
+            startups.addAll(iteration<IApp.Startup.MainStartup>().sortedBy { it.priority })
         }
     }
 

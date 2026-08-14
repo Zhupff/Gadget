@@ -66,7 +66,7 @@ object LocalServer {
                     while (true) {
                         currentCoroutineContext().ensureActive()
                         if (retry++ > 0) {
-                            delay(80L)
+                            delay(30L)
                         }
                         buildSet {
                             add(InetAddress.getByName("255.255.255.255"))
