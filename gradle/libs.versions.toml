@@ -28,6 +28,7 @@ androidx-media3-ui = { group = "androidx.media3", name = "media3-ui", version.re
 autoservice-annotation = { group = "com.google.auto.service", name = "auto-service-annotations", version.ref = "autoService" }
 autoservice-processor = { group = "com.google.auto.service", name = "auto-service", version.ref = "autoService" }
 google-gson = { group = "com.google.code.gson", name = "gson", version = "2.14.0" }
+google-zxing-core = { group = "com.google.zxing", name = "core", version = "3.5.4" }
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
 ktor-server-core = { group = "io.ktor", name = "ktor-server-core-jvm", version.ref = "ktor" }
 ktor-server-netty = { group = "io.ktor", name = "ktor-server-netty-jvm", version.ref = "ktor" }

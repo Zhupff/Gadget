@@ -9,6 +9,7 @@ gadget {
 
 dependencies {
     api(project(":common"))
+    implementation(libs.google.zxing.core)
     api(libs.ktor.server.core)
     implementation(libs.ktor.tls)
 }

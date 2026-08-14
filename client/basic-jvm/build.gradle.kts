@@ -5,7 +5,6 @@ plugins {
 
 gadget {
     enableAutoService()
-    enableProtobuf()
 }
 
 dependencies {

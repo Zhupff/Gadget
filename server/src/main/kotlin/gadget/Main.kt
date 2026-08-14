@@ -25,6 +25,7 @@ fun main() {
         module = {
 
             monitor.subscribe(ServerReady) {
+                ServerConfiguration.toQRCode()
                 UdpDiscover.start()
             }
 
