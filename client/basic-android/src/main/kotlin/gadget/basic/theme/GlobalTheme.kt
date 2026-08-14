@@ -19,7 +19,7 @@ object GlobalTheme {
         light.night = night
         night.light = light
 
-        App.instance.configuration.observeForever { configuration ->
+        App.configuration.observeForever { configuration ->
             switch(Light, configuration.isNightModeActive)
         }
     }
@@ -73,7 +73,7 @@ object GlobalTheme {
         @SuppressLint("RestrictedApi")
         fun create(seed: Int, night: Night? = null): Light {
             if (seed == 0) {
-                if (App.instance.debuggable) {
+                if (App.debuggable) {
                     IllegalArgumentException("seed should not be 0!").throws()
                 } else {
                     return Light
@@ -115,7 +115,7 @@ object GlobalTheme {
         @SuppressLint("RestrictedApi")
         fun create(seed: Int, light: Light? = null): Night {
             if (seed == 0) {
-                if (App.instance.debuggable) {
+                if (App.debuggable) {
                     IllegalArgumentException("seed should not be 0!").throws()
                 } else {
                     return Night

@@ -1,7 +1,6 @@
 package gadget
 
 import android.content.Context
-import gadget.basic.exception.GadgetException
 import gadget.basic.exception.throws
 import gadget.basic.tool.iteration
 import kotlinx.coroutines.Dispatchers
@@ -17,8 +16,9 @@ class RealApp : App() {
 
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
-        Thread.setDefaultUncaughtExceptionHandler(GadgetException)
-        startups.addAll(iteration<IApp.Startup>().sortedBy { it.priority })
+        if (isMainProcess) {
+            startups.addAll(iteration<IApp.Startup>().sortedBy { it.priority })
+        }
     }
 
     override fun onCreate() {

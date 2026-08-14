@@ -8,6 +8,12 @@ interface IApp {
         private lateinit var instance: IApp
     }
 
+    val processId: Int
+
+    val processName: String
+
+    val isMainProcess: Boolean
+
     val debuggable: Boolean
 
     val configDir: File

@@ -12,7 +12,7 @@ internal class LocalServerConfigDataStoreProvider : LocalServer.ILocalServerConf
     private companion object : DataStore<LocalServerConfig> by MultiProcessDataStoreFactory.create(
         serializer = ProtoSerializer(LocalServerConfig()),
         scope = ProtoSerializer.ioScope,
-        produceFile = { App.instance.configDir.resolve("local_server_config.pb") }
+        produceFile = { App.configDir.resolve("local_server_config.pb") }
     )
 
     override fun provide(): DataStore<LocalServerConfig> = LocalServerConfigDataStoreProvider
