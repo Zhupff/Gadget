@@ -65,6 +65,7 @@ object UdpDiscover {
             socket?.close()
             socket = null
             discovering?.cancel()
+            discovering = null
         }
     }
 }

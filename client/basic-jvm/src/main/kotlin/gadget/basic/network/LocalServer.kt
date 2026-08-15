@@ -60,11 +60,11 @@ object LocalServer {
                     socket.reuseAddress = true
                     socket.broadcast = true
                     socket.bind(InetSocketAddress("0.0.0.0", 0))
-                    socket.soTimeout = 20
+                    socket.soTimeout = 100
 
                     val udpRequest = UdpDiscoverRequestProto(
                         clientId = UUID.randomUUID().toString(),
-                        clientSecret = SecureRandom().nextString("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789", 10),
+                        clientSecret = SecureRandom().nextString("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789", 16),
                     )
                     val requestBytes = Ciphering.AES256.encrypt(localServerConfig.secret, UdpDiscoverRequestProto.ADAPTER.encode(udpRequest))
 
@@ -72,7 +72,7 @@ object LocalServer {
                     while (retry < 3) {
                         currentCoroutineContext().ensureActive()
                         if (retry++ > 0) {
-                            delay(30L)
+                            delay(100L)
                         }
                         buildSet {
                             add(InetAddress.getByName("255.255.255.255"))
@@ -141,7 +141,6 @@ object LocalServer {
             val sslContext = SSLContext.getInstance("TLS").also {
                 it.init(null, arrayOf<TrustManager>(trustManager), SecureRandom())
             }
-            LocalServer.host = host
             LocalServer.client = OkHttpClient.Builder()
                 .connectTimeout(16L, TimeUnit.SECONDS)
                 .readTimeout(32L, TimeUnit.SECONDS)
@@ -159,6 +158,7 @@ object LocalServer {
                 .client(LocalServer.client)
                 .baseUrl("https://${host}:${port}")
                 .build()
+            LocalServer.host = host
         }
     }
 }
