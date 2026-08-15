@@ -16,15 +16,14 @@ import androidx.camera.core.ViewPort
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import gadget.basic.fragment.GadgetFragment
+import gadget.basic.link.GLink
+import gadget.basic.link.GLinkHandler
 import gadget.basic.permission.registerCameraPermission
-import gadget.basic.qrcode.QRCodeHandler
-import gadget.basic.qrcode.QRCodeJson
-import gadget.basic.tool.GSON
-import gadget.basic.tool.iteration
 import gadget.component.scan.ui.QRCodeCandidate
 import gadget.component.scan.ui.QRCodeScanView
-import java.util.Base64
+import kotlinx.coroutines.launch
 import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -32,7 +31,6 @@ class ComponentScanFragment : GadgetFragment() {
 
     private val mainHandler = Handler(Looper.getMainLooper())
     private val cameraExecutor = Executors.newSingleThreadExecutor()
-    private val qrCodeHandlers by lazy { iteration<QRCodeHandler>() }
     private val processing = AtomicBoolean(false)
     private val cameraPermission = registerCameraPermission { granted ->
         if (granted) {
@@ -197,44 +195,20 @@ class ComponentScanFragment : GadgetFragment() {
     }
 
     private fun handleQRCode(text: String) {
-        val qrCodeJson = runCatching {
-            GSON.fromJson(text, QRCodeJson::class.java)
-        }.getOrNull()
-        if (
-            qrCodeJson == null ||
-            qrCodeJson.header.isNullOrBlank() ||
-            qrCodeJson.content.isNullOrBlank()
-        ) {
+        val link = GLink.parse(text)
+        if (link == null) {
             toastAndClose("无法识别该二维码")
             return
         }
 
-        val handler = runCatching {
-            qrCodeHandlers.firstOrNull { it.handle(qrCodeJson.header) }
-        }.getOrNull()
-        if (handler == null) {
-            toastAndClose("不支持该二维码")
-            return
-        }
-
-        val content = runCatching {
-            Base64.getDecoder().decode(qrCodeJson.content)
-        }.getOrNull()
-        if (content == null) {
-            toastAndClose("二维码内容无效")
-            return
-        }
-
-        runCatching {
-            handler.handle(content) {
-                mainHandler.post {
-                    if (isAlive()) {
-                        toastAndClose("识别成功")
-                    }
-                }
+        lifecycleScope.launch {
+            runCatching {
+                GLinkHandler.post(link)
+            }.onSuccess {
+                toastAndClose("识别成功")
+            }.onFailure {
+                toastAndClose("二维码处理失败")
             }
-        }.onFailure {
-            toastAndClose("二维码处理失败")
         }
     }
 

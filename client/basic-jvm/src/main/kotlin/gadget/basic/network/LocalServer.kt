@@ -3,6 +3,9 @@ package gadget.basic.network
 import com.google.auto.service.AutoService
 import gadget.IApp
 import gadget.basic.kv.DataStoreProvider
+import gadget.basic.kv.ProtoSerializer
+import gadget.basic.link.GLink
+import gadget.basic.logger.Logger
 import gadget.basic.tool.Ciphering
 import gadget.basic.tool.nextString
 import gadget.basic.tool.singleton
@@ -11,6 +14,7 @@ import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -159,6 +163,32 @@ object LocalServer {
                 .baseUrl("https://${host}:${port}")
                 .build()
             LocalServer.host = host
+        }
+    }
+
+    @AutoService(gadget.basic.link.GLinkHandler::class)
+    internal class GLinkHandler : gadget.basic.link.GLinkHandler {
+        override val biz: String = "local-server"
+        override fun handle(link: GLink) {
+            if (link.path.firstOrNull() == "config") {
+                val base64 = link.params["base64"]
+                if (base64.isNullOrBlank()) {
+                    return
+                }
+                val bytes = Base64.getUrlDecoder().decode(base64)
+                val config = LocalServerConfigProto.ADAPTER.decode(bytes)
+                ProtoSerializer.ioScope.launch {
+                    runCatching {
+                        singleton<ILocalServerConfigDataStoreProvider>()
+                            .provide()
+                            .updateData { config }
+                    }.onFailure { throwable ->
+                        Logger.w("LocalServer", throwable) {
+                            "Failed to handle local server config!"
+                        }
+                    }
+                }
+            }
         }
     }
 }

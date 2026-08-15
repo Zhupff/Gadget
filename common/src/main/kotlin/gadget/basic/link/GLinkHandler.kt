@@ -13,7 +13,7 @@ interface GLinkHandler {
 
         suspend fun post(link: GLink) {
             withContext(Dispatchers.Main) {
-                val handler = handlers[biz] ?: GLinkHandler
+                val handler = handlers[link.biz] ?: GLinkHandler
                 handler.handle(link)
             }
         }
