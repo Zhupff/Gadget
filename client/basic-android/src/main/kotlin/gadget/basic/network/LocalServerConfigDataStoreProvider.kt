@@ -9,11 +9,11 @@ import gadget.basic.kv.ProtoSerializer
 @AutoService(LocalServer.ILocalServerConfigDataStoreProvider::class)
 internal class LocalServerConfigDataStoreProvider : LocalServer.ILocalServerConfigDataStoreProvider {
 
-    private companion object : DataStore<LocalServerConfig> by MultiProcessDataStoreFactory.create(
-        serializer = ProtoSerializer(LocalServerConfig()),
+    private companion object : DataStore<LocalServerConfigProto> by MultiProcessDataStoreFactory.create(
+        serializer = ProtoSerializer(LocalServerConfigProto()),
         scope = ProtoSerializer.ioScope,
         produceFile = { App.configDir.resolve("local_server_config.pb") }
     )
 
-    override fun provide(): DataStore<LocalServerConfig> = LocalServerConfigDataStoreProvider
+    override fun provide(): DataStore<LocalServerConfigProto> = LocalServerConfigDataStoreProvider
 }

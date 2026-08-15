@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package gadget.basic.network;
 
-message LocalServerConfig {
+message LocalServerConfigProto {
   string id = 1;
   string secret = 2;
   string host = 3;

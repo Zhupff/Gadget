@@ -3,7 +3,7 @@ package gadget.basic.network
 import com.google.auto.service.AutoService
 import gadget.IApp
 import gadget.basic.kv.DataStoreProvider
-import gadget.basic.tool.GSON
+import gadget.basic.tool.Ciphering
 import gadget.basic.tool.nextString
 import gadget.basic.tool.singleton
 import kotlinx.coroutines.Dispatchers
@@ -12,6 +12,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
 import java.net.DatagramPacket
 import java.net.DatagramSocket
 import java.net.Inet4Address
@@ -19,22 +21,29 @@ import java.net.InetAddress
 import java.net.InetSocketAddress
 import java.net.NetworkInterface
 import java.net.SocketTimeoutException
+import java.security.MessageDigest
 import java.security.SecureRandom
+import java.security.cert.CertificateException
+import java.security.cert.X509Certificate
+import java.util.Base64
 import java.util.UUID
+import java.util.concurrent.TimeUnit
+import javax.net.ssl.SSLContext
+import javax.net.ssl.TrustManager
+import javax.net.ssl.X509TrustManager
 
 object LocalServer {
-    var id: String = ""
-        private set
-    lateinit var cert: String
-        private set
-    lateinit var host: String
-        private set
-    lateinit var ip: String
-        private set
-    var port: Int = 0
+
+    var host: String? = null
         private set
 
-    interface ILocalServerConfigDataStoreProvider : DataStoreProvider<LocalServerConfig>
+    var client: OkHttpClient? = null
+        private set
+
+    var retrofit: Retrofit? = null
+        private set
+
+    interface ILocalServerConfigDataStoreProvider : DataStoreProvider<LocalServerConfigProto>
 
     @AutoService(IApp.Startup.MainStartup::class)
     internal class InitTask : IApp.Startup.MainStartup {
@@ -47,20 +56,17 @@ object LocalServer {
                     .provide().data.first {
                         it.id.isNotBlank()
                     }
-                LocalServer.id = localServerConfig.id
-                LocalServer.host = localServerConfig.host
-                LocalServer.port = localServerConfig.httpPort
                 DatagramSocket(null).use { socket ->
                     socket.reuseAddress = true
                     socket.broadcast = true
                     socket.bind(InetSocketAddress("0.0.0.0", 0))
                     socket.soTimeout = 20
 
-                    val udpDiscoverRequest = UdpDiscoverRequest(
+                    val udpRequest = UdpDiscoverRequestProto(
                         clientId = UUID.randomUUID().toString(),
-                        secret = SecureRandom().nextString("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789", 10),
+                        clientSecret = SecureRandom().nextString("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789", 10),
                     )
-                    val requestBytes = UdpDiscoverProtocol.encrypt(localServerConfig.secret, GSON.toJson(udpDiscoverRequest)).toByteArray(Charsets.UTF_8)
+                    val requestBytes = Ciphering.AES256.encrypt(localServerConfig.secret, UdpDiscoverRequestProto.ADAPTER.encode(udpRequest))
 
                     var retry = 0
                     while (retry < 3) {
@@ -87,8 +93,8 @@ object LocalServer {
                         }
 
                         val packet = DatagramPacket(
-                            ByteArray(UdpDiscoverProtocol.MAX_PACKET_SIZE),
-                            UdpDiscoverProtocol.MAX_PACKET_SIZE,
+                            ByteArray(UdpDiscoverContract.MAX_PACKET_SIZE),
+                            UdpDiscoverContract.MAX_PACKET_SIZE,
                         )
                         try {
                             socket.receive(packet)
@@ -98,18 +104,61 @@ object LocalServer {
                         if (packet.address !is Inet4Address) {
                             continue
                         }
-                        val encrypted = String(packet.data, packet.offset, packet.length, Charsets.UTF_8)
-                        val decrypted = UdpDiscoverProtocol.decrypt(udpDiscoverRequest.secret, encrypted)
-                        val udpDiscoverResponse = GSON.fromJson(decrypted, UdpDiscoverResponse::class.java)
-                        if (udpDiscoverResponse.clientId != udpDiscoverRequest.clientId || udpDiscoverResponse.serverId != localServerConfig.id) {
+                        val encrypted = packet.data.copyOfRange(packet.offset, packet.offset + packet.length)
+                        val decrypted = Ciphering.AES256.decrypt(udpRequest.clientSecret, encrypted)
+                        val udpResponse = UdpDiscoverResponseProto.ADAPTER.decode(decrypted)
+                        if (udpResponse.clientId != udpRequest.clientId || udpResponse.serverId != localServerConfig.id) {
                             continue
                         }
-                        LocalServer.cert = udpDiscoverResponse.certificate
-                        LocalServer.ip = packet.address.hostAddress
+                        doInit(
+                            localServerConfig.host,
+                            localServerConfig.httpPort,
+                            packet.address.hostAddress,
+                            udpResponse.certificate,
+                        )
                         break
                     }
                 }
             }
+        }
+
+        private fun doInit(host: String, port: Int, ip: String, cert: String) {
+            val trustManager = object : X509TrustManager {
+                override fun checkServerTrusted(chain: Array<out X509Certificate>, authType: String) {
+                    if (chain.isEmpty()) {
+                        throw CertificateException("Empty server certificate chain")
+                    }
+                    val decodedCert = Base64.getEncoder().encodeToString(
+                        MessageDigest.getInstance("SHA-256").digest(chain[0].publicKey.encoded)
+                    )
+                    if (decodedCert != cert) {
+                        throw CertificateException("Server certificate public key pin mismatch")
+                    }
+                }
+                override fun checkClientTrusted(chain: Array<out X509Certificate>, authType: String) = Unit
+                override fun getAcceptedIssuers(): Array<X509Certificate> = emptyArray()
+            }
+            val sslContext = SSLContext.getInstance("TLS").also {
+                it.init(null, arrayOf<TrustManager>(trustManager), SecureRandom())
+            }
+            LocalServer.host = host
+            LocalServer.client = OkHttpClient.Builder()
+                .connectTimeout(16L, TimeUnit.SECONDS)
+                .readTimeout(32L, TimeUnit.SECONDS)
+                .writeTimeout(32L, TimeUnit.SECONDS)
+                .sslSocketFactory(sslContext.socketFactory, trustManager)
+                .dns {
+                    if (it == host) {
+                        listOf(InetAddress.getByName(ip))
+                    } else {
+                        okhttp3.Dns.SYSTEM.lookup(it)
+                    }
+                }
+                .build()
+            LocalServer.retrofit = Retrofit.Builder()
+                .client(LocalServer.client)
+                .baseUrl("https://${host}:${port}")
+                .build()
         }
     }
 }

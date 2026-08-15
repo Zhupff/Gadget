@@ -1,8 +1,8 @@
 package gadget.basic.network
 
-import com.google.gson.Gson
 import gadget.basic.config.ServerConfiguration
 import gadget.basic.logger.Logger
+import gadget.basic.tool.Ciphering
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
@@ -19,8 +19,6 @@ object UdpDiscover {
 
     private var socket: DatagramSocket? = null
 
-    private val gson = Gson()
-
     fun start() {
         synchronized(this) {
             if (discovering != null) {
@@ -36,22 +34,18 @@ object UdpDiscover {
                 val socket = socket!!
                 while (discovering?.isActive == true) {
                     try {
-                        val buffer = ByteArray(UdpDiscoverProtocol.MAX_PACKET_SIZE)
+                        val buffer = ByteArray(UdpDiscoverContract.MAX_PACKET_SIZE)
                         val packet = DatagramPacket(buffer, buffer.size)
                         socket.receive(packet)
-                        val encrypted = String(packet.data, packet.offset, packet.length, Charsets.UTF_8)
-                        val decrypted = UdpDiscoverProtocol.decrypt(ServerConfiguration.secret, encrypted)
-                        Logger.d("UdpDiscover") {
-                            "encrypted=$encrypted decrypted=$decrypted"
-                        }
-                        val udpDiscoverRequest = gson.fromJson(decrypted, UdpDiscoverRequest::class.java)
-                        val udpDiscoverResponse = UdpDiscoverResponse(
-                            clientId = udpDiscoverRequest.clientId,
+                        val encrypted = packet.data.copyOfRange(packet.offset, packet.offset + packet.length)
+                        val decrypted = Ciphering.AES256.decrypt(ServerConfiguration.secret, encrypted)
+                        val udpRequest = UdpDiscoverRequestProto.ADAPTER.decode(decrypted)
+                        val udpResponse = UdpDiscoverResponseProto(
                             serverId = ServerConfiguration.id,
-                            httpPort = ServerConfiguration.httpPort,
+                            clientId = udpRequest.clientId,
                             certificate = TLS.certificate,
                         )
-                        val responseBytes = UdpDiscoverProtocol.encrypt(udpDiscoverRequest.secret, gson.toJson(udpDiscoverResponse)).toByteArray(Charsets.UTF_8)
+                        val responseBytes = Ciphering.AES256.encrypt(udpRequest.clientSecret, UdpDiscoverResponseProto.ADAPTER.encode(udpResponse))
                         socket.send(DatagramPacket(responseBytes, responseBytes.size, packet.address, packet.port))
                     } catch (_: SocketTimeoutException) {
                         // ignore

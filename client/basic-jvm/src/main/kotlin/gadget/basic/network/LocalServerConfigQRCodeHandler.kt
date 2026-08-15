@@ -17,7 +17,7 @@ internal class LocalServerConfigQRCodeHandler : QRCodeHandler {
     override fun handle(content: ByteArray, close: () -> Unit) {
         ProtoSerializer.ioScope.launch {
             runCatching {
-                val config = LocalServerConfig.ADAPTER.decode(content)
+                val config = LocalServerConfigProto.ADAPTER.decode(content)
                 singleton<LocalServer.ILocalServerConfigDataStoreProvider>()
                     .provide()
                     .updateData { config }
