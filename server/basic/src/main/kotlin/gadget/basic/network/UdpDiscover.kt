@@ -6,6 +6,8 @@ import gadget.basic.tool.Ciphering
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import java.net.DatagramPacket
 import java.net.DatagramSocket
@@ -32,7 +34,7 @@ object UdpDiscover {
             }
             discovering = GlobalScope.launch(Dispatchers.IO) {
                 val socket = socket!!
-                while (discovering?.isActive == true) {
+                while (currentCoroutineContext().isActive) {
                     try {
                         val buffer = ByteArray(UdpDiscoverContract.MAX_PACKET_SIZE)
                         val packet = DatagramPacket(buffer, buffer.size)
