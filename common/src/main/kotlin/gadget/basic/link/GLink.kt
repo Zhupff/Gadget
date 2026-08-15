@@ -1,6 +1,7 @@
 package gadget.basic.link
 
 import java.net.URLDecoder
+import java.net.URLEncoder
 
 /**
  * gadget://<biz>[:<ver>][/<path>...]?k1=v1&k2=v2
@@ -9,12 +10,25 @@ data class GLink(
     /** 所属业务 */
     val biz: String,
     /** 版本 */
-    val ver: Int,
+    val ver: Int = 0,
     /** 业务路径 */
-    val path: List<String>,
+    val path: List<String> = emptyList(),
     /** 参数 */
-    val params: Map<String, String>
+    val params: Map<String, String> = emptyMap(),
 ) {
+    override fun toString(): String = buildString {
+        append(SCHEME)
+        append(biz)
+        if (ver != 0) append(':').append(ver)
+        path.forEach { append('/').append(encode(it)) }
+        if (params.isNotEmpty()) {
+            append('?')
+            append(params.entries.joinToString("&") { (key, value) ->
+                "${encode(key)}=${encode(value)}"
+            })
+        }
+    }
+
     companion object {
         private const val SCHEME = "gadget://"
 
@@ -56,5 +70,8 @@ data class GLink(
         } catch (_: IllegalArgumentException) {
             null
         }
+
+        private fun encode(value: String): String =
+            URLEncoder.encode(value, Charsets.UTF_8.name())
     }
 }
