@@ -64,7 +64,7 @@ object LocalServer {
                     socket.reuseAddress = true
                     socket.broadcast = true
                     socket.bind(InetSocketAddress("0.0.0.0", 0))
-                    socket.soTimeout = 100
+                    socket.soTimeout = 50
 
                     val udpRequest = UdpDiscoverRequestProto(
                         clientId = UUID.randomUUID().toString(),
@@ -76,7 +76,7 @@ object LocalServer {
                     while (retry < 3) {
                         currentCoroutineContext().ensureActive()
                         if (retry++ > 0) {
-                            delay(100L)
+                            delay(50L)
                         }
                         buildSet {
                             add(InetAddress.getByName("255.255.255.255"))
