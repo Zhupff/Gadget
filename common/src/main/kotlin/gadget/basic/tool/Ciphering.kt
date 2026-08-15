@@ -17,7 +17,7 @@ interface Ciphering {
             val iv = ByteArray(IV_SIZE).also { SecureRandom().nextBytes(it) }
             val cipher = Cipher.getInstance("AES/GCM/NoPadding")
             cipher.init(Cipher.ENCRYPT_MODE, SecretKeySpec(secret.sha256(), "AES"), GCMParameterSpec(TAG_SIZE, iv))
-            return cipher.doFinal(iv + bytes)
+            return iv + cipher.doFinal(bytes)
         }
         override fun decrypt(secret: String, bytes: ByteArray): ByteArray {
             val iv = bytes.copyOfRange(0, IV_SIZE)
